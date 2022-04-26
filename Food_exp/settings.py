@@ -1,11 +1,12 @@
 from os import environ
 
 SESSION_CONFIGS = [
-    # dict(
-    #     name='public_goods',
-    #     app_sequence=['public_goods'],
-    #     num_demo_participants=3,
-    # ),
+    dict(
+    name='Food_exp',
+    display_name = 'Food Choice Experiment',
+    app_sequence=['Intro', 'Foods', 'Taste', 'Same', 'Different', 'Outro'],
+    num_demo_participants=1,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -17,7 +18,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = []
+PARTICIPANT_FIELDS = ['age', 'gender', 'field_of_study', 'categories', 'foods']
 SESSION_FIELDS = []
 
 # ISO-639 code

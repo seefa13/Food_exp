@@ -2,7 +2,7 @@ from otree.api import *
 
 
 doc = """
-Your app description
+This app contains a gernal introduction to otree and the task.
 """
 
 
@@ -21,20 +21,27 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    correct1 = models.BooleanField
+    correct2 = models.BooleanField
+    correct3 = models.BooleanField
 
 
 # PAGES
-class MyPage(Page):
+class Intro_Exp(Page):
     pass
 
 
-class ResultsWaitPage(WaitPage):
+class Intro_Task(Page):
     pass
 
 
-class Results(Page):
+class Intro_Q(Page):
     pass
 
+class Intro_General(Page):
+    pass
 
-page_sequence = [MyPage, ResultsWaitPage, Results]
+class Intro_Consent(Page):
+    pass
+
+page_sequence = [Intro_General, Intro_Consent, Intro_Exp, Intro_Task, Intro_Q]

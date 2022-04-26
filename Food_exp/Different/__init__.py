@@ -8,7 +8,7 @@ food categories.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Same'
+    NAME_IN_URL = 'Different'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 

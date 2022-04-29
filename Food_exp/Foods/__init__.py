@@ -21,19 +21,26 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    Fruits = models.BooleanField
-    Vegetables = models.BooleanField
-    Grains = models.BooleanField
-    Fish = models.BooleanField
-    Meat = models.BooleanField
-    Dairy = models.BooleanField
-    Nuts = models.BooleanField
-    Eggs = models.BooleanField
+    (
+    choices=[
+        [False, 'Defect'],
+        [True, 'Cooperate'],
+    ]
+)
+    Fruits = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Vegetables = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Grains = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Fish = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Meat = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Dairy = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Nuts = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Eggs = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
 
 
 # PAGES
 class Food_Categories(Page):
-    pass
+    form_model = 'Player'
+    form_fields = ['Fruits', 'Vegetables', 'Grains', 'Fish', 'Meat', 'Dairy', 'Nuts', 'Eggs']
 
 
 page_sequence = [Food_Categories]

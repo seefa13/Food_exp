@@ -21,20 +21,54 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    (
-    choices=[
-        [False, 'Defect'],
-        [True, 'Cooperate'],
-    ]
-)
-    Fruits = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Vegetables = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Grains = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Fish = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Meat = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Dairy = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Nuts = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
-    Eggs = models.BooleanField(choices=[[True,'I can eat that'], [False,'I cannot eat that'],])
+    Fruits = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Vegetables = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Grains = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Fish = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Meat = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Dairy = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Nuts = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
+    Eggs = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
 
 
 # PAGES

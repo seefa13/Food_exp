@@ -39,6 +39,12 @@ class Player(BasePlayer):
             [False,'I cannot eat that'],
             ]
         )
+    Beans = models.BooleanField(
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
     Fish = models.BooleanField(
         choices=[
             [True,'I can eat that'], 
@@ -51,7 +57,15 @@ class Player(BasePlayer):
             [False,'I cannot eat that'],
             ]
         )
+    Poultry = models.BooleanField(
+        label = 'Chicken',
+        choices=[
+            [True,'I can eat that'], 
+            [False,'I cannot eat that'],
+            ]
+        )
     Dairy = models.BooleanField(
+        label='Milk products',
         choices=[
             [True,'I can eat that'], 
             [False,'I cannot eat that'],
@@ -74,7 +88,8 @@ class Player(BasePlayer):
 # PAGES
 class Food_Categories(Page):
     form_model = 'player'
-    form_fields = ['Fruits', 'Vegetables', 'Grains', 'Fish', 'Meat', 'Dairy', 'Nuts', 'Eggs']
+    form_fields = ['Fruits', 'Vegetables', 'Grains', 'Fish', 'Meat', 'Dairy', 'Nuts', 'Eggs', 'Poultry', 
+    'Beans']
 
 
 page_sequence = [Food_Categories]

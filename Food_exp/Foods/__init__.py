@@ -73,7 +73,7 @@ class Player(BasePlayer):
 
 # PAGES
 class Food_Categories(Page):
-    form_model = 'Player'
+    form_model = 'player'
     form_fields = ['Fruits', 'Vegetables', 'Grains', 'Fish', 'Meat', 'Dairy', 'Nuts', 'Eggs']
 
 

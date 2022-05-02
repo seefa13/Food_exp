@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
     name='Food_exp',
     display_name = 'Food Choice Experiment',
     app_sequence=['Intro', 'Foods', 'Taste', 'Same', 'Different', 'Outro'],
-    num_demo_participants=1,
+    num_demo_participants=3,
     ),
 ]
 

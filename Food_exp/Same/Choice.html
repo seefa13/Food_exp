@@ -7,6 +7,13 @@
     Which product would you like to choose?
 </p>
 
+{{ if participant.risk_treat == 0 }} <p> You are in the baseline treatment. </p>
+{{ else }} 
+    {{ if participant.risk_treat == 1 }} <p> You are in the risk label treatment. </p>
+    {{ else }} <p> You are in the concrete risk treatment. </p>
+    {{ endif }}
+{{ endif }}
+
 <table>
     <tr>
         <th></th>
@@ -24,7 +31,9 @@
         <td>Taste 2</td>
     </tr>
     <tr>
-        <th>Health</th>
+        <th>{{ if participant.risk_treat == 0 }} Health 
+            {{ else }} Risk
+            {{ endif }}</th>
         <td>Health 1</td>
         <td>Health 2</td>
       </tr>

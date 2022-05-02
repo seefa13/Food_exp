@@ -10,23 +10,24 @@ food category.
 class C(BaseConstants):
     NAME_IN_URL = 'Same'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 9
 
 
 
 class Subsession(BaseSubsession):
-    def creating_session(subsession):
-        import itertools
-        health = itertools.cycle([0, 1, 2]) #0 is baseline, 1 is risk label, 2 is concrete risk
-        if subsession.round_number == 1:
-            for player in subsession.get_players():
-                participant = player.participant
-                participant.risk_treat = next(health)
-
+    pass
 
 class Group(BaseGroup):
     pass
 
+
+def creating_session(subsession):
+    import itertools
+    health = itertools.cycle([0, 1, 2]) #0 is baseline, 1 is risk label, 2 is concrete risk
+    if subsession.round_number == 1:
+        for player in subsession.get_players():
+            participant = player.participant
+            participant.risk_treat = next(health)
 
 class Player(BasePlayer):
     choice_unhealthy = models.BooleanField

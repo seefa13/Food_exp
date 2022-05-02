@@ -3,8 +3,24 @@
 {{ endblock }}
 
 {{ block content }}
+<header>
+    <style>
+        input[type='submit'] {
+            position: absolute;
+        }
+    </style>
+</header>
 
-    {{ next_button }}
+<form>
+    <input type="submit" id="btn" value="Press here" />
+</form>
+
+<script>
+    var btn = document.getElementById("btn");
+    btn.style.top = Math.floor((Math.random() * 230*3.255) + 1) + "px";
+    btn.style.left = Math.floor((Math.random() * 230*3.25*1.6) + 1) + "px";
+</script>
+
 {{ endblock }}
 
 

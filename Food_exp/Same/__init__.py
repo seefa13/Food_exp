@@ -15,7 +15,13 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    pass
+    def creating_session(subsession):
+        import itertools
+        health = itertools.cycle([0, 1, 2]) #0 is baseline, 1 is risk label, 2 is concrete risk
+        if subsession.round_number == 1:
+            for player in subsession.get_players():
+                participant = player.participant
+                participant.risk_treat = next(health)
 
 
 class Group(BaseGroup):
@@ -29,7 +35,9 @@ class Player(BasePlayer):
     time_health = models.IntegerField
     last_attribute = models.StringField
     resp_time = models.IntegerField
-    arousal = models.IntegerField
+    arousal = models.IntegerField(
+        choices = [1,2,3,4,5]
+    )
 
 
 # PAGES
@@ -42,7 +50,8 @@ class Choice(Page):
 
 
 class Arousal(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['arousal']
 
 
 page_sequence = [Fixation, Choice, Arousal]

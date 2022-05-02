@@ -39,6 +39,7 @@ class Player(BasePlayer):
     arousal = models.IntegerField(
         choices = [1,2,3,4,5]
     )
+    choice = models.BooleanField()
 
 
 # PAGES
@@ -47,7 +48,8 @@ class Fixation(Page):
 
 
 class Choice(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['choice']
 
 
 class Arousal(Page):

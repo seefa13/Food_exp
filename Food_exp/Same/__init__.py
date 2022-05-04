@@ -1,4 +1,6 @@
 from otree.api import *
+from numpy import random 
+import numpy as np
 
 
 doc = """
@@ -28,18 +30,18 @@ def creating_session(subsession):
         for player in subsession.get_players():
             participant = player.participant
             participant.risk_treat = next(health)
+            player.sTreat = str(participant.risk_treat)
 
 class Player(BasePlayer):
-    choice_unhealthy = models.BooleanField
-    time_price = models.IntegerField
-    time_taste = models.IntegerField
-    time_health = models.IntegerField
-    last_attribute = models.StringField
-    resp_time = models.IntegerField
-    arousal = models.IntegerField(
+    iHDec = models.BooleanField()
+    sRowsRevealed = models.LongStringField()    
+    sTimesRows = models.LongStringField()
+    slast = models.StringField()
+    dRT = models.IntegerField()
+    iArousal = models.IntegerField(
         choices = [1,2,3,4,5]
     )
-    choice = models.BooleanField()
+    sTreat = models.StringField()
 
 
 # PAGES
@@ -49,12 +51,29 @@ class Fixation(Page):
 
 class Choice(Page):
     form_model = 'player'
-    form_fields = ['choice']
+    form_fields = ['iHDec','dRT']
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        cp1 = 'Price 1'
+        cp2 = 'Price 2'
+        ct1 = 'Taste 1'
+        ct2 = 'Taste 2'
+        ch1 = 'Health 1'
+        ch2 = 'Health 2'
+
+        return dict(
+            cp1 = cp1,
+            cp2 = cp2,
+            ct1 = ct1,
+            ct2 = ct2,
+            ch1 = ch1,
+            ch2 = ch2
+        )
 
 class Arousal(Page):
     form_model = 'player'
-    form_fields = ['arousal']
+    form_fields = ['iArousal']
 
 
 page_sequence = [Fixation, Choice, Arousal]

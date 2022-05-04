@@ -7,6 +7,30 @@ SESSION_CONFIGS = [
     app_sequence=['Intro', 'Foods', 'Taste', 'Same', 'Different', 'Outro'],
     num_demo_participants=3,
     ),
+    dict(
+    name='Intro',
+    display_name = 'Intro',
+    app_sequence=['Intro'],
+    num_demo_participants=3,
+    ),
+    dict(
+    name='Main',
+    display_name = 'Main',
+    app_sequence=['Foods', 'Taste', 'Same', 'Different'],
+    num_demo_participants=3,
+    ),
+    dict(
+    name='Choices',
+    display_name = 'Choices',
+    app_sequence=['Same', 'Different'],
+    num_demo_participants=3,
+    ),
+    dict(
+    name='Outro',
+    display_name = 'Outro',
+    app_sequence=['Outro'],
+    num_demo_participants=3,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

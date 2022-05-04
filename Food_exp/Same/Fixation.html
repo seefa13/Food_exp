@@ -1,25 +1,43 @@
-{{ block title }}
+{{ block content }}
+<div class = "game-body" id = "game-body">
+    <input type="submit" id="btn" value= "Press here" />
+</div>
 
 {{ endblock }}
 
-{{ block content }}
-<header>
-    <style>
-        input[type='submit'] {
-            position: absolute;
-        }
-    </style>
-</header>
-
-<form>
-    <input type="submit" id="btn" value="Press here" />
-</form>
+{{ block script }}
 
 <script>
     var btn = document.getElementById("btn");
-    btn.style.top = Math.floor((Math.random() * 230*3.255) + 1) + "px";
-    btn.style.left = Math.floor((Math.random() * 230*3.25*1.6) + 1) + "px";
+    btn.style.top = Math.floor((Math.random() * 90) + 1) + "vh";
+    btn.style.left = Math.floor((Math.random() * 90) + 1) + "vw";
 </script>
+
+{{ endblock }}
+
+{{ block styles }}
+
+<style>
+    .debug-info{
+    top: 120vh
+}
+    .game-body{
+        width: 100vw;
+        height: 100vh;
+        background-color: lightgray;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 50vh;
+        left: 50vw;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+}
+input[type='submit'] {
+            position: absolute;
+        }
+</style>
 
 {{ endblock }}
 

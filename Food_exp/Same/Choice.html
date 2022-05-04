@@ -1,47 +1,117 @@
-{{ block title }}
-    Choices
-{{ endblock }}
 {{ block content }}
 
-<p>
-    Which product would you like to choose?
-</p>
+    <div class = "game-body" id = "game-body">
 
-{{ if participant.risk_treat == 0 }} <p> You are in the baseline treatment. </p>
-{{ else }} 
-    {{ if participant.risk_treat == 1 }} <p> You are in the risk label treatment. </p>
-    {{ else }} <p> You are in the concrete risk treatment. </p>
-    {{ endif }}
-{{ endif }}
+        <div class = text id = compare> Please compare the following two products: </div>
 
-<table>
-    <tr>
-        <th></th>
-        <th>Product 1</th>
-        <th>Product 2</th>
-    </tr>
-    <tr>
-        <th>Price</th>
-        <td>Price 1</td>
-        <td>Price 2</td>
-    </tr>
-    <tr>
-        <th>Taste</th>
-        <td>Taste 1</td>
-        <td>Taste 2</td>
-    </tr>
-    <tr>
-        <th>{{ if participant.risk_treat == 0 }} Health 
-            {{ else }} Risk
-            {{ endif }}</th>
-        <td>Health 1</td>
-        <td>Health 2</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><button name='choice' value="True">Choose 1</button></td>
-        <td><button name='choice' value="False">Choose 2</button></td>
-      </tr>
-  </table>
+        <div class = "game-table">
+            <div class = "row">
+                <div class = "cell"> </div>
+                <div class = "cell"> Product 1 </div>
+                <div class = "cell"> Product 2 </div>
+            </div>
+            <div class = "row">
+                <div class = "cell"> Price </div>
+                <div class = "cell"> {{cp1}} </div>
+                <div class = "cell"> {{cp2}} </div>
+            </div>
+            <div class = "row">
+                <div class = "cell"> Taste </div>
+                <div class = "cell"> {{ct1}} </div>
+                <div class = "cell"> {{ct2}} </div>
+            </div>
+            <div class = "row">
+                <div class = "cell"> {{ if participant.risk_treat == 0 }} Health 
+                    {{ else }} Risk
+                    {{ endif }} </div>
+                <div class = "cell"> {{ch1}} </div>
+                <div class = "cell"> {{ch2}} </div>
+            </div>
+        </div>
 
+        <div class = text id = choose> Please choose one of the two products: </div>
+
+        <div>
+            <button type="button" name="iHDec" onclick="decision(0)"> Product 1 </button>
+            <button type="button" name="iHDec" onclick="decision(1)"> Product 2 </button>
+        </div>
+
+        <input type = 'hidden' name = 'dRT' id="dRT">
+        <input type = 'hidden' name = 'iHDec' id="iHDec">
+        <button id = "nextbut" style="display: none"> </button>
+    </div>
+
+{{ endblock }}
+
+{{ block scripts }}
+
+<script>
+
+var tStart,tNow
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    tStart = new Date();
+    console.log('Starts now: $(tStart)');
+});
+
+function decision(value) {
+    tNow = new Date();
+    console.log('Ends now: $(tNow)');
+    let dRT = tNow - tStart;
+    let nextbut = document.getElementById('nextbut');
+    let inputDec = document.getElementById('iHDec');
+    let inputdRT = document.getElementById('dRT');
+
+    inputDec.value = value;
+    inputdRT.value = dRT;
+    nextbut.click();
+}
+
+
+</script>
+
+{{ endblock }}
+
+{{ block styles }}
+<style>
+    .debug-info{
+        top: 120vh
+    }
+    .game-body{
+        width: 100vw;
+        height: 100vh;
+        background-color: lightgray;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 50vh;
+        left: 50vw;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+    }
+    .game-table{
+        background-color: darkgray;
+        display: flex;
+        flex-direction: column;
+        height: 300px
+    }
+    .row{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .cell{
+        width: 100px;
+        height: 90px;
+        border: 1px solid black;
+        background-color: darkgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .text{
+        color: black;
+    }
+</style>
 {{ endblock }}

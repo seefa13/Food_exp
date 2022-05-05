@@ -4,7 +4,7 @@ SESSION_CONFIGS = [
     dict(
     name='Food_exp',
     display_name = 'Food Choice Experiment',
-    app_sequence=['Intro', 'Foods', 'Taste', 'Same', 'Different', 'Outro'],
+    app_sequence=['Intro', 'Taste', 'Same', 'Different', 'Outro'],
     num_demo_participants=3,
     ),
     dict(
@@ -16,7 +16,7 @@ SESSION_CONFIGS = [
     dict(
     name='Main',
     display_name = 'Main',
-    app_sequence=['Foods', 'Taste', 'Same', 'Different'],
+    app_sequence=['Taste', 'Same', 'Different'],
     num_demo_participants=3,
     ),
     dict(
@@ -42,7 +42,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['risk_treat']
+PARTICIPANT_FIELDS = ['iRisk_treat']
 SESSION_FIELDS = []
 
 # ISO-639 code

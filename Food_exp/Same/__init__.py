@@ -22,7 +22,6 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     pass
 
-
 def creating_session(subsession):
     import itertools
     health = itertools.cycle([0, 1, 2]) #0 is baseline, 1 is risk label, 2 is concrete risk

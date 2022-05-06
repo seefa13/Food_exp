@@ -1,14 +1,16 @@
 {{ block content }}
 
     <div class = "game-body" id = "game-body">
+        
+        <div class = text> The Food items considered are {{ Item_h }} and {{ Item_unh }} </div>
 
         <div class = text id = compare> Please compare the following two products: </div>
 
         <div class = "game-table">
             <div class = "row">
                 <div class = "cell"> </div>
-                <div class = "cell"> Product 1 </div>
-                <div class = "cell"> Product 2 </div>
+                <div class = "cell"> {{ Item_h }} </div>
+                <div class = "cell"> {{ Item_unh }} </div>
             </div>
             <div class = "row">
                 <div class = "cell"> Price </div>
@@ -21,7 +23,7 @@
                 <div class = "cell"> {{ct2}} </div>
             </div>
             <div class = "row">
-                <div class = "cell"> {{ if participant.risk_treat == 0 }} Health 
+                <div class = "cell"> {{ if Treatment == '0' }} Health 
                     {{ else }} Risk
                     {{ endif }} </div>
                 <div class = "cell"> {{ch1}} </div>

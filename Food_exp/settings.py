@@ -42,7 +42,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['iRisk_treat','lFoods_h','lTastes_h','lFoods_unh','lTastes_unh']
+PARTICIPANT_FIELDS = ['iRisk_treat','lFoods_h','lTastes_h','lFoods_unh','lTastes_unh','lPrice_h','lPrice_unh',
+'lNutri_h','lNutri_unh']
 SESSION_FIELDS = []
 
 # ISO-639 code

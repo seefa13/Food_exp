@@ -1,33 +1,51 @@
 {{ block content }}
 
     <div class = "game-body" id = "game-body">
-        
-        <div class = text> The Food items considered are {{ Item_h }} and {{ Item_unh }} </div>
 
         <div class = text id = compare> Please compare the following two products: </div>
 
         <div class = "game-table">
             <div class = "row">
-                <div class = "cell"> </div>
-                <div class = "cell"> {{ Item_h }} </div>
-                <div class = "cell"> {{ Item_unh }} </div>
+                <button type="button" class="name-btn" id="I1"> </button>
+                <button type="button" class="name-btn" id="I1"> Product 1 </button> 
+                <button type="button" class="name-btn" id="I2"> Product 2 </button> 
             </div>
             <div class = "row">
-                <div class = "cell"> Price </div>
-                <div class = "cell"> €{{cp1}} </div>
-                <div class = "cell"> €{{cp2}} </div>
+                <button type="button" class="attr-btn" id="R1"> Price </button> 
+                <button type="button" class="game-btn" id="R1I1"> 
+                    <div class="btn-content"> € {{cp1}} </div>
+                    <div class="btn-hidden" type="hidden"> </div>
+                </button>
+                <button type="button" class="game-btn" id="R1I2"> 
+                    <div class="btn-content"> € {{cp1}} </div>
+                    <div class="btn-hidden" type="hidden"> </div>
+                </button>
             </div>
             <div class = "row">
-                <div class = "cell"> Taste </div>
-                <div class = "cell"> <img class="img-rating" src="{% static ct1 %}" width="150px" height="35px" /> </div>
-                <div class = "cell"> <img class="img-rating" src="{% static ct2 %}" width="150px" height="35px" /> </div>
+                <button type="button" class="attr-btn" id="R2"> Taste </button> 
+                <button type="button" class="game-btn" id="R2I1"> 
+                    <div class="btn-content"> <img class="img-rating" src="{% static ct1 %}" width="150px" height="35px" /> </div>
+                    <div class="btn-hidden" type="hidden"> </div>
+                </button> 
+                <button type="button" class="game-btn" id="R2I2"> 
+                    <div class="btn-content"> <img class="img-rating" src="{% static ct2 %}" width="150px" height="35px" /> </div>
+                    <div class="btn-hidden" type="hidden">  </div>
+                </button>     
             </div>
-            <div class = "row">
-                <div class = "cell"> {{ if Treatment == 0 }} Health 
+            <div class = "row"> 
+                <button type="button" class="attr-btn" id="R2"> 
+                    {{ if Treatment == 0 }} Health 
                     {{ else }} Risk
-                    {{ endif }} </div>
-                <div class = "cell"> <img class="img-rating" src="{% static ch1 %}" width="150px" height="35px" /> </div>
-                <div class = "cell"> <img class="img-rating" src="{% static ch2 %}" width="150px" height="35px" /> </div>
+                    {{ endif }} 
+                </button> 
+                <button type="button" class="game-btn" id="R3I1"> 
+                    <div class="btn-content"> <img class="img-rating" src="{% static ch1 %}" width="150px" height="35px" /> </div>
+                    <div class="btn-hidden" type="hidden">  </div>
+                </button> 
+                <button type="button" class="game-btn" id="R3I2"> 
+                    <div class="btn-content"> <img class="img-rating" src="{% static ch2 %}" width="150px" height="35px" /> </div>
+                    <div class="btn-hidden" type="hidden">  </div>
+                </button>
             </div>
         </div>
 
@@ -69,7 +87,25 @@ function decision(value) {
     nextbut.click();
 }
 
+function adjustText(elem) {
+            let ratioWidth = elem.clientWidth/elem.scrollWidth;
+            let ratioHeight = elem.clientHeight/elem.scrollHeight;
+            // Set initial scale as 100%
+            if (ratioWidth<1 || ratioHeight<1) {
+                let ratio = Math.floor(100*Math.min(ratioWidth,ratioHeight))-1
+                elem.style.fontSize = `${ratio}%`;
+                console.log(`Resized ${elem.id} to ${ratio}%`);
+            };                                  
+        };
 
+function resizeButtons() {
+            lButtons = document.getElementsByClassName('game-btn');
+            for (let i=0; i<lButtons.length; i++) {
+                adjustText(lButtons[i]);
+            };
+        };
+
+resizeButtons()
 </script>
 
 {{ endblock }}
@@ -96,9 +132,10 @@ function decision(value) {
         background-color: darkgray;
         display: flex;
         flex-direction: column;
-        height: 350px
+        height: 400px;
     }
     .row{
+        width: 625px;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -114,6 +151,33 @@ function decision(value) {
     }
     .text{
         color: black;
+    }
+    .name-btn{
+        width: 200px;
+        height: 100px;
+        border: 1px solid black;
+        background-color: darkgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .attr-btn{
+        width: 200px;
+        height: 100px;
+        border: 1px solid black;
+        background-color: darkgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .game-btn{
+        width: 200px;
+        height: 100px;
+        border: 1px solid black;
+        background-color: darkgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
 {{ endblock }}

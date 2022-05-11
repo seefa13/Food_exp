@@ -1,6 +1,5 @@
 from otree.api import *
-from numpy import random 
-import numpy as np
+from numpy import random
 
 
 doc = """
@@ -23,17 +22,26 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    # Decision variables
     iHDec = models.BooleanField()
-    sRowsRevealed = models.LongStringField()    
-    sTimesRows = models.LongStringField()
-    slast = models.StringField()
     dRT = models.IntegerField()
+    # Attention variables
+    sRowsRevealed = models.LongStringField()   
+    sTimesRows = models.LongStringField()
+    dTime2First         = models.FloatField(blank=True)
+    ## Focus Variables
+    iFocusLost          = models.IntegerField(blank=True)
+    dFocusLostT         = models.FloatField(blank=True)
+    iFullscreenChange   = models.IntegerField(blank=True)
+    # Arousal
     iArousal = models.IntegerField(
         choices = [1,2,3,4,5]
     )
+    # Treatment
     iTreat = models.IntegerField()
 
 #FUNCTIONS
+# initialize Treatments
 def creating_session(subsession):
     import itertools
     health = itertools.cycle([0, 1, 2]) #0 is baseline, 1 is risk label, 2 is concrete risk
@@ -41,6 +49,7 @@ def creating_session(subsession):
         for player in subsession.get_players():
             #assignment to treatment
             participant = player.participant
+            session = subsession.session
             participant.iRisk_treat = next(health)
             player.iTreat = participant.iRisk_treat
 
@@ -51,22 +60,30 @@ class Fixation(Page):
 
 class Choice(Page):
     form_model = 'player'
-    form_fields = ['iHDec','dRT']
+    form_fields = [
+        'iHDec',
+        'dRT',
+        'sRowsRevealed',
+        'sTimesRows',
+        'iFocusLost',
+        'dFocusLostT',
+        'iFullscreenChange',
+        'dTime2First'
+    ]
 
     @staticmethod
     def vars_for_template(player: Player):
+        # load participant data
         participant = player.participant
         lFoods_h = participant.lFoods_h
         lTastes_h = participant.lTastes_h
         lPrice_h = participant.lPrice_h
         lNutri_h = participant.lNutri_h
-        lFoods_unh = participant.lFoods_unh
         lTastes_unh = participant.lTastes_unh
         lPrice_unh = participant.lPrice_unh
         lNutri_unh = participant.lNutri_unh
+        # choose randomly one food product
         iRandelem = random.randint(0,len(lFoods_h))
-        sItem_h = lFoods_h[iRandelem]
-        sItem_unh = lFoods_unh[iRandelem]
         cp1 = lPrice_h[iRandelem]
         cp2 = lPrice_unh[iRandelem]
         ct1 = C.sImagePath+'Taste_'+str(lTastes_h[iRandelem])+'.png'
@@ -82,8 +99,6 @@ class Choice(Page):
 
         return dict(
             Treatment = iTreat,
-            Item_h = sItem_h,
-            Item_unh = sItem_unh,
             cp1 = cp1,
             cp2 = cp2,
             ct1 = ct1,
@@ -91,6 +106,26 @@ class Choice(Page):
             ch1 = ch1,
             ch2 = ch2
         )
+
+    #@staticmethod
+    #def js_vars(player: Player):
+        #session = player.session
+     #   participant = player.participant
+      #  dPixelRatio = participant.dPixelRatio
+       # return dict (
+        #    'bRequireFS'        : session.config['bRequireFS'],
+         #   'bCheckFocus'       : session.config['bCheckFocus'],
+          #  'iTimeOut'          : session.config['iTimeOut'],
+        #    dPixelRatio = dPixelRatio
+        #)
+
+    #@staticmethod
+    #def before_next_page(player, timeout_happened):
+     #   participant = player.participant
+        # Add Focus variables to total if it's not practice trial
+      #  participant.iOutFocus = int(participant.iOutFocus) + player.iFocusLost
+       # participant.iFullscreenChanges = int(participant.iFullscreenChanges) + player.iFullscreenChange
+        #participant.dTimeOutFocus = float(participant.dTimeOutFocus) + player.dFocusLostT
 
 class Arousal(Page):
     form_model = 'player'

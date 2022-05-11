@@ -2,10 +2,13 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-    name='Food_exp',
+    name='Food_exp_config',
     display_name = 'Food Choice Experiment',
     app_sequence=['Intro', 'Taste', 'Same', 'Different', 'Outro'],
     num_demo_participants=3,
+    iTimeOut=0,
+    bRequireFS=True,
+    bCheckFocus=True,
     ),
     dict(
     name='Intro',
@@ -43,8 +46,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 
 PARTICIPANT_FIELDS = ['iRisk_treat','lFoods_h','lTastes_h','lFoods_unh','lTastes_unh','lPrice_h','lPrice_unh',
-'lNutri_h','lNutri_unh']
-SESSION_FIELDS = []
+'lNutri_h','lNutri_unh','dTimeOutFocus','iOutFocus','iFullscreenChanges','startTime','dPixelRatio']
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans

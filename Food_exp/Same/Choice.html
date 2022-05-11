@@ -1,116 +1,122 @@
+{{ block scripts }}
+
+<script src="{% static 'global/VT_functionality.js' %}"> </script>
+<script src="{% static 'global/FriendlyChecks.js' %}"> </script>
+
+<script>
+// initialize variables
+var tStart,tNow
+const bRequireFS    = true;
+const bCheckFocus   = true;
+const defaultPixel  = 'dPixelRatio';
+var TBlur           = new Date().getTime();
+var TFocus          = new Date().getTime();
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    tStart = new Date();
+    console.log('Starts now:', tStart);
+    let body = document.getElementById('game-table');
+    InitializeFriendlyChecks(body, bRequireFS, bCheckFocus);             // Initialize FS and focus checks
+    // Visual Tracing
+    InitializeVT(body);                                                 // Initialize visual tracing
+    hideEverything();                                                   // Hide Everything at the beginning                     
+    ConvertButtons2VT('r1', sActivation = 'mouseover', 'r1');           // Mouseover for Row1
+    ConvertButtons2VT('r2', sActivation = 'mouseover', 'r2');           // Mouseover for Row2
+    ConvertButtons2VT('r3', sActivation = 'mouseover', 'r3');           // Mouseover for Row3
+});
+
+// decision buttons and overall time
+function decision(value) {
+    tNow = new Date();
+    console.log('Ends now:', tNow);
+    let dRT = tNow - tStart;
+    let nextbut = document.getElementById('nextbut');
+    let inputDec = document.getElementById('iHDec');
+    let inputRT = document.getElementById('dRT');
+
+    inputDec.value = value;
+    inputRT.value=dRT;
+    sRowsRevealed.value = sRowsRevealed.value;
+    sTimesRows.value = sTimesRows.value;
+    nextbut.click();
+
+    console.log('Decision is',inputDec.value);
+    console.log('Time is',inputRT.value);
+}
+
+// adjust buttons to text
+resizeButtons()
+</script>
+
+{{ endblock }}
+
 {{ block content }}
 
     <div class = "game-body" id = "game-body">
 
         <div class = text id = compare> Please compare the following two products: </div>
 
-        <div class = "game-table">
+        <div class = "game-table" id = "game-table">
             <div class = "row">
-                <button type="button" class="name-btn" id="I1"> </button>
-                <button type="button" class="name-btn" id="I1"> Product 1 </button> 
-                <button type="button" class="name-btn" id="I2"> Product 2 </button> 
+                <button type="button" class="game-btn btn-attr i0" id="I0"> </button>
+                <button type="button" class="game-btn btn-attr i1" id="I1"> Product 1 </button> 
+                <button type="button" class="game-btn btn-attr i2" id="I2"> Product 2 </button> 
             </div>
             <div class = "row">
-                <button type="button" class="attr-btn" id="R1"> Price </button> 
-                <button type="button" class="game-btn" id="R1I1"> 
+                <button type="button" class="game-btn btn-attr r1" id="R1"> Price </button> 
+                <button type="button" class="game-btn btn-outcome r1 i1" id="R1I1"> 
                     <div class="btn-content"> € {{cp1}} </div>
                     <div class="btn-hidden" type="hidden"> </div>
                 </button>
-                <button type="button" class="game-btn" id="R1I2"> 
+                <button type="button" class="game-btn btn-outcome r1 i2" id="R1I2"> 
                     <div class="btn-content"> € {{cp1}} </div>
                     <div class="btn-hidden" type="hidden"> </div>
                 </button>
             </div>
             <div class = "row">
-                <button type="button" class="attr-btn" id="R2"> Taste </button> 
-                <button type="button" class="game-btn" id="R2I1"> 
+                <button type="button" class="game-btn btn-attr r2" id="R2"> Taste </button> 
+                <button type="button" class="game-btn btn-outcome r2 i1" id="R2I1"> 
                     <div class="btn-content"> <img class="img-rating" src="{% static ct1 %}" width="150px" height="35px" /> </div>
                     <div class="btn-hidden" type="hidden"> </div>
                 </button> 
-                <button type="button" class="game-btn" id="R2I2"> 
+                <button type="button" class="game-btn btn-outcome r2 i2" id="R2I2"> 
                     <div class="btn-content"> <img class="img-rating" src="{% static ct2 %}" width="150px" height="35px" /> </div>
                     <div class="btn-hidden" type="hidden">  </div>
                 </button>     
             </div>
             <div class = "row"> 
-                <button type="button" class="attr-btn" id="R2"> 
+                <button type="button" class="game-btn btn-attr r3" id="R3"> 
                     {{ if Treatment == 0 }} Health 
                     {{ else }} Risk
                     {{ endif }} 
                 </button> 
-                <button type="button" class="game-btn" id="R3I1"> 
+                <button type="button" class="game-btn btn-outcome r3 i1" id="R3I1"> 
                     <div class="btn-content"> <img class="img-rating" src="{% static ch1 %}" width="150px" height="35px" /> </div>
                     <div class="btn-hidden" type="hidden">  </div>
                 </button> 
-                <button type="button" class="game-btn" id="R3I2"> 
+                <button type="button" class="game-btn btn-outcome r3 i2" id="R3I2"> 
                     <div class="btn-content"> <img class="img-rating" src="{% static ch2 %}" width="150px" height="35px" /> </div>
                     <div class="btn-hidden" type="hidden">  </div>
                 </button>
             </div>
         </div>
-
-        <div class = text id = choose> Please choose one of the two products: </div>
-
-        <div>
-            <button type="button" name="iHDec" onclick="decision(0)"> Product 1 </button>
-            <button type="button" name="iHDec" onclick="decision(1)"> Product 2 </button>
+        <div class = "decision_area">
+            <button type="button" class="game-btn dec-btn" name="iHDec" onclick="decision(0)"> Product 1 </button>
+            <button type="button" class="game-btn dec-btn" name="iHDec" onclick="decision(1)"> Product 2 </button>
+            <input type = 'hidden' name = 'dRT' id="dRT" />
+            <input type = 'hidden' name = 'iHDec' id="iHDec" />
+            <input type = 'hidden' name = 'sRowsRevealed' id="sRowsRevealed" />
+            <input type = 'hidden' name = 'sTimesRows' id="sTimesRows" />
+            <button id = "nextbut" style="display: none"> </button>
         </div>
-
-        <input type = 'hidden' name = 'dRT' id="dRT">
-        <input type = 'hidden' name = 'iHDec' id="iHDec">
-        <button id = "nextbut" style="display: none"> </button>
+        {{ formfield_errors 'sRowsRevealed' }}
+        {{ formfield_errors 'sTimesRows' }}
     </div>
 
 {{ endblock }}
 
-{{ block scripts }}
-
-<script>
-
-var tStart,tNow
-
-window.addEventListener('DOMContentLoaded', (event) => {
-    tStart = new Date();
-    console.log('Starts now: $(tStart)');
-});
-
-function decision(value) {
-    tNow = new Date();
-    console.log('Ends now: $(tNow)');
-    let dRT = tNow - tStart;
-    let nextbut = document.getElementById('nextbut');
-    let inputDec = document.getElementById('iHDec');
-    let inputdRT = document.getElementById('dRT');
-
-    inputDec.value = value;
-    inputdRT.value = dRT;
-    nextbut.click();
-}
-
-function adjustText(elem) {
-            let ratioWidth = elem.clientWidth/elem.scrollWidth;
-            let ratioHeight = elem.clientHeight/elem.scrollHeight;
-            // Set initial scale as 100%
-            if (ratioWidth<1 || ratioHeight<1) {
-                let ratio = Math.floor(100*Math.min(ratioWidth,ratioHeight))-1
-                elem.style.fontSize = `${ratio}%`;
-                console.log(`Resized ${elem.id} to ${ratio}%`);
-            };                                  
-        };
-
-function resizeButtons() {
-            lButtons = document.getElementsByClassName('game-btn');
-            for (let i=0; i<lButtons.length; i++) {
-                adjustText(lButtons[i]);
-            };
-        };
-
-resizeButtons()
-</script>
-
-{{ endblock }}
-
 {{ block styles }}
+
 <style>
     .debug-info{
         top: 120vh
@@ -152,7 +158,7 @@ resizeButtons()
     .text{
         color: black;
     }
-    .name-btn{
+    .attr-btn{
         width: 200px;
         height: 100px;
         border: 1px solid black;
@@ -161,9 +167,9 @@ resizeButtons()
         justify-content: center;
         align-items: center;
     }
-    .attr-btn{
+    .dec-btn{
         width: 200px;
-        height: 100px;
+        height: 50px;
         border: 1px solid black;
         background-color: darkgray;
         display: flex;
@@ -178,6 +184,23 @@ resizeButtons()
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .active {
+        display: block;
+    }
+    .inactive {
+        display: none;
+    }
+    .btn-hidden{
+        width: 100%;
+    }
+    .btn-content{
+        width: 100%;
+    }
+    .decision_area{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
 {{ endblock }}

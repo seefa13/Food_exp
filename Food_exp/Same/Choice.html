@@ -38,10 +38,11 @@ function decision(value) {
     inputRT.value=dRT;
     sRowsRevealed.value = sRowsRevealed.value;
     sTimesRows.value = sTimesRows.value;
+    dTime2First.value = dTime2First.value;
     nextbut.click();
 
-    console.log('Decision is',inputDec.value);
-    console.log('Time is',inputRT.value);
+    //console.log('Decision is',inputDec.value);
+    //console.log('Time is',inputRT.value);
 }
 
 // adjust buttons to text
@@ -107,10 +108,9 @@ resizeButtons()
             <input type = 'hidden' name = 'iHDec' id="iHDec" />
             <input type = 'hidden' name = 'sRowsRevealed' id="sRowsRevealed" />
             <input type = 'hidden' name = 'sTimesRows' id="sTimesRows" />
+            <input type = 'hidden' name = 'dTime2First' id="dTime2First" />
             <button id = "nextbut" style="display: none"> </button>
         </div>
-        {{ formfield_errors 'sRowsRevealed' }}
-        {{ formfield_errors 'sTimesRows' }}
     </div>
 
 {{ endblock }}

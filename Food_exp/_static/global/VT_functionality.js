@@ -31,16 +31,13 @@ function InitializeVT(Body,sNameRowsRevealed='sRowsRevealed',sNameTimesRows='sTi
     sTimesRows.value = '';
 
     // Create hidden input (Time Buttons)
-    var dTime2First   = document.createElement("input");
-    dTime2First.type  = 'hidden';
-    dTime2First.name  = 'dTime2First';
-    dTime2First.id    = 'dTime2First';
+    let dTime2First   = document.getElementById("dTime2First");
     dTime2First.value = '';
     
     // Append Inputs
     //Body.appendChild(sRowsRevealed);
     //Body.appendChild(sTimesRows);
-    Body.appendChild(dTime2First);
+    //Body.appendChild(dTime2First);
 }
 
 

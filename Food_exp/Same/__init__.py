@@ -1,3 +1,4 @@
+from this import d
 from otree.api import *
 from numpy import random
 
@@ -13,6 +14,17 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 9
     sImagePath          = 'global/figures/'
+    #Treatment
+    iTreat = models.IntegerField
+    # Food data
+    lFoods_h = models.StringField()
+    lFoods_unh = models.StringField()
+    lTastes_h = models.IntegerField()
+    lPrice_h = models.FloatField()
+    lNutri_h = models.IntegerField()
+    lTastes_unh = models.IntegerField()
+    lPrice_unh = models.FloatField()
+    lNutri_unh = models.IntegerField()
 
 class Subsession(BaseSubsession):
     pass
@@ -37,8 +49,10 @@ class Player(BasePlayer):
     iArousal = models.IntegerField(
         choices = [1,2,3,4,5]
     )
-    # Treatment
-    iTreat = models.IntegerField()
+    # Others
+    iRandelem = models.IntegerField(blank=True)
+    practice = models.BooleanField(initial=False)
+
 
 #FUNCTIONS
 # initialize Treatments
@@ -49,11 +63,28 @@ def creating_session(subsession):
         for player in subsession.get_players():
             #assignment to treatment
             participant = player.participant
-            session = subsession.session
             participant.iRisk_treat = next(health)
-            player.iTreat = participant.iRisk_treat
+            C.iTreat = participant.iRisk_treat
+            # load participant data
+            participant = player.participant
+            C.lFoods_h = participant.lFoods_h
+            C.lTastes_h = participant.lTastes_h
+            C.lPrice_h = participant.lPrice_h
+            C.lNutri_h = participant.lNutri_h
+            C.lTastes_unh = participant.lTastes_unh
+            C.lPrice_unh = participant.lPrice_unh
+            C.lNutri_unh = participant.lNutri_unh
+    # three practice rounds
+    if subsession.round_number < 4: 
+        player.practice == True
 
 # PAGES
+class Ready(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.practice<4
+
+
 class Fixation(Page):
     pass
 
@@ -73,29 +104,20 @@ class Choice(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        # load participant data
-        participant = player.participant
-        lFoods_h = participant.lFoods_h
-        lTastes_h = participant.lTastes_h
-        lPrice_h = participant.lPrice_h
-        lNutri_h = participant.lNutri_h
-        lTastes_unh = participant.lTastes_unh
-        lPrice_unh = participant.lPrice_unh
-        lNutri_unh = participant.lNutri_unh
         # choose randomly one food product
-        iRandelem = random.randint(0,len(lFoods_h))
-        cp1 = lPrice_h[iRandelem]
-        cp2 = lPrice_unh[iRandelem]
-        ct1 = C.sImagePath+'Taste_'+str(lTastes_h[iRandelem])+'.png'
-        ct2 = C.sImagePath+'Taste_'+str(lTastes_unh[iRandelem])+'.png'
-        iTreat = participant.iRisk_treat
+        player.iRandelem = random.randint(0,len(C.lFoods_h))
+        iRandelem = player.iRandelem
+        cp1 = C.lPrice_h[iRandelem]
+        cp2 = C.lPrice_unh[iRandelem]
+        ct1 = C.sImagePath+'Taste_'+str(C.lTastes_h[iRandelem])+'.png'
+        ct2 = C.sImagePath+'Taste_'+str(C.lTastes_unh[iRandelem])+'.png'
+        iTreat = C.iTreat
         if iTreat == 0:
-            ch1 = C.sImagePath+'Nutri_'+str(lNutri_h[iRandelem])+'.png'
-            ch2 = C.sImagePath+'Nutri_'+str(lNutri_unh[iRandelem])+'.png'
+            ch1 = C.sImagePath+'Nutri_'+str(C.lNutri_h[iRandelem])+'.png'
+            ch2 = C.sImagePath+'Nutri_'+str(C.lNutri_unh[iRandelem])+'.png'
         else:
-            ch1 = C.sImagePath+'Risk_'+str(lNutri_h[iRandelem])+'.png'
-            ch2 = C.sImagePath+'Risk_'+str(lNutri_unh[iRandelem])+'.png' 
-        
+            ch1 = C.sImagePath+'Risk_'+str(C.lNutri_h[iRandelem])+'.png'
+            ch2 = C.sImagePath+'Risk_'+str(C.lNutri_unh[iRandelem])+'.png' 
 
         return dict(
             Treatment = iTreat,
@@ -119,17 +141,29 @@ class Choice(Page):
         #    dPixelRatio = dPixelRatio
         #)
 
-    #@staticmethod
-    #def before_next_page(player, timeout_happened):
-     #   participant = player.participant
-        # Add Focus variables to total if it's not practice trial
-      #  participant.iOutFocus = int(participant.iOutFocus) + player.iFocusLost
-       # participant.iFullscreenChanges = int(participant.iFullscreenChanges) + player.iFullscreenChange
-        #participant.dTimeOutFocus = float(participant.dTimeOutFocus) + player.dFocusLostT
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        if timeout_happened:
+            iRandelem = player.iRandelem
+            practice = player.practice
+            participant = player.participant
+            if practice==False:
+            # delete food product from list, if not practice trials
+                C.lFoods_h.remove(iRandelem)
+                C.lPrice_h.remove(iRandelem)
+                C.lPrice_unh.remove(iRandelem)
+                C.lTastes_h.remove(iRandelem)
+                C.lTastes_unh.remove(iRandelem)
+                C.lNutri_h.remove(iRandelem)
+                C.lNutri_unh.remove(iRandelem)
+            # add Focus variables to total if it's not practice trial
+                participant.iOutFocus = int(participant.iOutFocus) + player.iFocusLost
+                participant.iFullscreenChanges = int(participant.iFullscreenChanges) + player.iFullscreenChange
+                participant.dTimeOutFocus = float(participant.dTimeOutFocus) + player.dFocusLostT
 
 class Arousal(Page):
     form_model = 'player'
     form_fields = ['iArousal']
 
 
-page_sequence = [Fixation, Choice, Arousal]
+page_sequence = [Ready, Fixation, Choice, Arousal]

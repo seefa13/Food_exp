@@ -83,6 +83,7 @@ class Taste(Page):
     @staticmethod
     def before_next_page(self,timeout_happened):
         participant = self.participant
+        lPrevRandelem = [100]
         lFoods_h = [
         'Banana','Strawberries','Chia seeds','Cashews','Salmon','Vegetable mix','White Beans','Yogurt',
         'Whole Grain Bread','Chicken, filet','Butter, plant-based','Milk, low fat','Pork','Mueslibar, no sugar added',
@@ -138,5 +139,6 @@ class Taste(Page):
         participant.lPrice_unh=lPrice_unh
         participant.lNutri_h=lNutri_h
         participant.lNutri_unh=lNutri_unh
+        participant.lPrevRandelem=lPrevRandelem
 
 page_sequence = [Taste]

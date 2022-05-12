@@ -1,0 +1,41 @@
+{{ block content }}
+
+<div class = "game-body" id = "game-body">
+    <div class = text>
+        The next trial is a practice trial! Try to make yourself familiar with the setting, how to display 
+        information and what information you see.
+    </div>
+    {{ next_button }}
+</div>
+    
+
+{{ endblock }}
+
+{{ block script }}
+{{ endblock}}
+
+{{ block styles }}
+
+<style>
+    .debug-info{
+    top: 120vh
+    }
+    .game-body{
+        width: 100vw;
+        height: 100vh;
+        background-color: lightgray;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 50vh;
+        left: 50vw;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+    }
+    .text{
+        color: black;
+    }
+</style>
+
+{{ endblock }}

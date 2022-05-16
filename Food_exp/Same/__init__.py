@@ -42,24 +42,6 @@ class Player(BasePlayer):
         choices = [1,2,3,4,5]
     )
 
-
-#FUNCTIONS
-# initialize treatments and counter variables
-def creating_session(subsession):
-    iHealth = [0, 1, 2] # 0 is baseline, 1 is risk label, 2 is concrete risk
-    if subsession.round_number == 1:
-        for player in subsession.get_players():
-
-            # assign treatments
-            participant                     = player.participant
-            participant.iRisk_treat         = random.choice(iHealth)
-
-            # assign counter variables
-            participant.iOutFocus           = int(0)
-            participant.iFullscreenChanges  = int(0)
-            participant.dTimeOutFocus       = int(0)
-
-
 # PAGES
 class Practice(Page):
     # show only if practice round in the beginning

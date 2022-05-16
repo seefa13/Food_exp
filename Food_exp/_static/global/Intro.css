@@ -1,0 +1,14 @@
+.debug-info{
+    top: 120vh
+}
+.text-container{
+    width: 70%;
+}
+.consent-button {
+    margin-top: 1.5em;
+    justify-self: center;
+}
+li {
+    margin-top: 0.5em;
+    text-align: left;
+}

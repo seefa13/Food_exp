@@ -66,10 +66,6 @@ class Player(BasePlayer):
     # Validation Questions
     V1 = models.StringField()
     V2 = models.StringField()
-    V3 = models.StringField()
-
-    #Ala Armin question
-    AF1 = models.StringField()
 
 
 # PAGES

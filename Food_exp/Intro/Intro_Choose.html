@@ -21,7 +21,7 @@
     <div class="img-container">
         <img class="task-img" class="symbol" src="{% static C.intro_choose %}" />
     </div>
-    {{ next_button }}
+    <button id="next" class="button next-button"> Next </button>
 </div>
 
 {{ endblock }}
@@ -32,33 +32,12 @@
 <script src="{% static 'global/FriendlyChecks.js' %}"> </script>
 
 <script>
-    const bRequireFS    = true;
-    const bCheckFocus   = true;
+    const bRequireFS    = 'bRequireFS';
+    const bCheckFocus   = 'bCheckFocus';
     const defaultPixel  = 'dPixelRatio';
-    const iTimeOut      = 0;
     var TBlur           = new Date().getTime();
     var TFocus          = new Date().getTime();
-    var bClickHere      = false;
-
-    window.addEventListener('DOMContentLoaded', (event) => {
-        let body = document.getElementById('button-container');
-        // Visual Tracing
-        InitializeVT(body);                                                 // Initialize visual tracing
-        hideEverything();                                                   // Hide Everything at the beginning                     
-        ConvertButtons2VT('mouse', sActivation = 'mouseover');           // Mouseover for Row1
-    });
-
-    // adjust buttons to text
-    resizeButtons()
-
-    // Check if person did mouseover the button in slide 4. 
-    document.getElementById("b3").addEventListener("mouseover", (event) => {
-        bClickHere = true;
-        document.getElementById("txt-reveal").style.visibility = "visible";
-        document.getElementById("btn-reveal").style.visibility = "visible";
-    });
 </script>
-
 
 {{ endblock }}
 

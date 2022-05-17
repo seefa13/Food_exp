@@ -1,0 +1,30 @@
+{{ block styles }}
+
+<link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+
+{{ endblock }}
+
+{{ block content }}
+
+    <div class="practice-info" id="practice-info">
+            <p class= "practice-text"> 
+                The program is calibrated. <br>
+                You can now adjust the zoom of the screen to your desired level. 
+            </p> 
+            <button id="next" class="button next-button"> Next </button>
+    </div>
+
+
+{{ endblock }}
+
+{{ block scripts }}
+
+    <script src="{% static 'global/FriendlyChecks.js' %}"></script> 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const GameBody = document.getElementById('practice-info');
+            InitializeCalibration(GameBody);             // Initialize FS and focus checks
+        });
+    </script>
+
+{{ endblock }}

@@ -21,18 +21,18 @@ def creating_session(subsession):
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Intro'
-    PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 1
-    UvA_logo = 'global/figures/UvA_logo.png'
-    thumb_symbol = 'global/figures/thumb_symbol.png'
-    health_symbol = 'global/figures/health_symbol.png'
-    risk_symbol = 'global/figures/risk_symbol.png'
-    intro_choose = 'global/figures/intro_choose.png'
-    AvgDur = "10-15"
-    PaidParts = "20"
-    Endowment = "5"
-    NumTrials = "6"
+    NAME_IN_URL         = 'Intro'
+    PLAYERS_PER_GROUP   = None
+    NUM_ROUNDS          = 1
+    UvA_logo            = 'global/figures/UvA_logo.png'
+    thumb_symbol        = 'global/figures/thumb_symbol.png'
+    health_symbol       = 'global/figures/health_symbol.png'
+    risk_symbol         = 'global/figures/risk_symbol.png'
+    intro_choose        = 'global/figures/intro_choose.png'
+    AvgDur              = "10-15"
+    PaidParts           = "20"
+    Endowment           = "5€"
+    NumTrials           = "6"
 
 
 class Subsession(BaseSubsession):
@@ -44,9 +44,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    Q1 = models.IntegerField(
-        label = "Will every of your decision be paid out?",
-        choices=[
+    Q1          = models.IntegerField(
+        label   = "Will every of your decision be paid out?",
+        choices = [
             [1, 'Yes, I will receive every food decision of every round.'],
             [2, 'Yes, I will receive one food item from one randomly selected trial for sure.'],
             [3, 'No, I will receive one food item from one randomly selected trial if I am one of the randomly selected participants for payout.'],
@@ -54,18 +54,18 @@ class Player(BasePlayer):
     ]
 )
 
-    Q2 = models.IntegerField(
-        label = "If selected for payout, how large would your payout be?",
-        choices=[
+    Q2          = models.IntegerField(
+        label   = "If selected for payout, how large would your payout be?",
+        choices = [
             [1, '5€'],
             [2, '5€ - the price of the food item + the food item.'],
             [3, '5€ + the food item.']
     ]
 )
 
-    Q3_health = models.IntegerField(
-        label = "Please select the food item with the best health score (=healthiest food item).",
-        choices=[
+    Q3_health   = models.IntegerField(
+        label   = "Please select the food item with the best health score (=healthiest food item).",
+        choices = [
             [1, 'B'],
             [2, 'A'],
             [3, 'E'],
@@ -74,32 +74,33 @@ class Player(BasePlayer):
     ]
 )
 
-    Q3_risk = models.IntegerField(
-        label = "Please select the food item with the best risk score (=healthiest food item).",
-        choices=[
+    Q3_risk     = models.IntegerField(
+        label   = "Please select the food item with the best risk score (=healthiest food item).",
+        choices = [
             [1, '1 out of 5'],
             [2, '3 out of 5'],
             [3, '4 out of 5'],
             [4, '2 out of 5'],
             [5, '5 out of 5'],
     ]
-)
+    )
+    dPixelRatio = models.FloatField()
 
 # PAGES
 class Intro_Exp(Page):
-    form_model = "player"
-    form_fields = ["Q1","Q2","Q3_health","Q3_risk"]
+    form_model          = "player"
+    form_fields         = ["Q1","Q2","Q3_health","Q3_risk"]
 
     @staticmethod
     def vars_for_template(player: Player):
-        participant = player.participant
+        participant     = player.participant
         return dict(
-            Treatment = participant.iRisk_treat
+            Treatment   = participant.iRisk_treat
         )
     
     #@staticmethod
     def get_form_fields(player):
-        participant = player.participant
+        participant     = player.participant
         if participant.iRisk_treat == 0:
             return ["Q1","Q2","Q3_health"]
         else:
@@ -107,34 +108,60 @@ class Intro_Exp(Page):
         
     @staticmethod
     def error_message(player, values):
-        participant = player.participant
+        participant         = player.participant
         if participant.iRisk_treat == 0:
-            solutions = dict(
-                Q1=3,
-                Q2=2,
-                Q3_health=2
+            solutions       = dict(
+                Q1          = 3,
+                Q2          = 2,
+                Q3_health   = 2
             )
         else:
-            solutions = dict(
-                Q1=3,
-                Q2=2,
-                Q3_risk=1
+            solutions   = dict(
+                Q1      = 3,
+                Q2      = 2,
+                Q3_risk = 1
             )
 
-        error_messages = dict()
+        error_messages  = dict()
 
         for field_name in solutions:
             if values[field_name] != solutions[field_name]:
                 error_messages[field_name] = 'Wrong answer'
 
         return error_messages
+    
+    @staticmethod
+    def js_vars(player: Player):
+        session = player.session
+        p = player.participant
+        return {
+            'bRequireFS'        : session.config['bRequireFS'],
+            'bCheckFocus'       : session.config['bCheckFocus'],
+            'dPixelRatio'       : p.dPixelRatio,
+        }
 
 
 class Intro_Task(Page):
-    pass
+    @staticmethod
+    def js_vars(player: Player):
+        session = player.session
+        p = player.participant
+        return {
+            'bRequireFS'        : session.config['bRequireFS'],
+            'bCheckFocus'       : session.config['bCheckFocus'],
+            'dPixelRatio'       : p.dPixelRatio,
+        }
 
 class Intro_Choose(Page):
-    pass
+    @staticmethod
+    def js_vars(player: Player):
+        session = player.session
+        p = player.participant
+        return {
+            'bRequireFS'        : session.config['bRequireFS'],
+            'bCheckFocus'       : session.config['bCheckFocus'],
+            'dPixelRatio'       : p.dPixelRatio,
+        }
 
 
 class Intro_General(Page):
@@ -157,4 +184,14 @@ def before_next_page(player: Player, timeout_happened):
 class Intro_Consent(Page):
     pass
 
-page_sequence = [Intro_General, Intro_Consent, Intro_Exp, Intro_Task, Intro_Choose]
+class Calibration(Page):
+    form_model              = 'player'
+    form_fields             = [ 'dPixelRatio' ]
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        part                = player.participant
+        part.dPixelRatio    = player.dPixelRatio
+
+
+page_sequence = [Intro_General, Intro_Consent, Calibration, Intro_Exp, Intro_Task, Intro_Choose]

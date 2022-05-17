@@ -53,6 +53,20 @@
 
     {{ formfields }}
     
-    {{ next_button }}
+    <button id="next" class="button next-button"> Next </button>
 </div>
+{{ endblock }}
+
+{{ block scripts }}
+
+<script src="{% static 'global/FriendlyChecks.js' %}"> </script>
+
+<script>
+    const bRequireFS    = 'bRequireFS';
+    const bCheckFocus   = 'bCheckFocus';
+    const defaultPixel  = 'dPixelRatio';
+    var TBlur           = new Date().getTime();
+    var TFocus          = new Date().getTime();
+</script>
+
 {{ endblock }}

@@ -2,37 +2,49 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-    name='Food_exp_config',
-    display_name = 'Food Choice Experiment',
-    app_sequence=['Intro', 'Taste', 'Same', 'Different', 'Outro'],
-    num_demo_participants=3,
-    iTimeOut=0,
-    bRequireFS=True,
-    bCheckFocus=True,
+        name='Food_exp_config',
+        display_name = 'Food Choice Experiment',
+        app_sequence=['Intro', 'Taste', 'Same', 'Different', 'Outro'],
+        num_demo_participants=3,
+        iTimeOut=0,
+        bRequireFS=True,
+        bCheckFocus=True,
     ),
-    dict(
-    name='Intro',
-    display_name = 'Intro',
-    app_sequence=['Intro'],
-    num_demo_participants=3,
+        dict(
+        name='Intro',
+        display_name = 'Intro',
+        app_sequence=['Intro'],
+        num_demo_participants=3,
+        iTimeOut=0,
+        bRequireFS=True,
+        bCheckFocus=True,
     ),
-    dict(
-    name='Main',
-    display_name = 'Main',
-    app_sequence=['Taste', 'Same', 'Different'],
-    num_demo_participants=3,
+        dict(
+        name='Main',
+        display_name = 'Main',
+        app_sequence=['Taste', 'Same', 'Different'],
+        num_demo_participants=3,
+        iTimeOut=0,
+        bRequireFS=True,
+        bCheckFocus=True,
     ),
-    dict(
-    name='Choices',
-    display_name = 'Choices',
-    app_sequence=['Same', 'Different'],
-    num_demo_participants=3,
+        dict(
+        name='Choices',
+        display_name = 'Choices',
+        app_sequence=['Same', 'Different'],
+        num_demo_participants=3,
+        iTimeOut=0,
+        bRequireFS=True,
+        bCheckFocus=True,
     ),
-    dict(
-    name='Outro',
-    display_name = 'Outro',
-    app_sequence=['Outro'],
-    num_demo_participants=3,
+        dict(
+        name='Outro',
+        display_name = 'Outro',
+        app_sequence=['Outro'],
+        num_demo_participants=3,
+        iTimeOut=0,
+        bRequireFS=True,
+        bCheckFocus=True,
     ),
 ]
 
@@ -47,7 +59,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['iRisk_treat','lFoods_h','lTastes_h','lFoods_unh','lTastes_unh','lPrice_h','lPrice_unh',
 'lNutri_h','lNutri_unh','lPrevRandelem','dTimeOutFocus','iOutFocus','iFullscreenChanges','startTime','dPixelRatio',
-'validQuestionnaire']
+'validQuestionnaire','bRequireFS','bCheckFocus']
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans

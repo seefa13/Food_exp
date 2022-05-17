@@ -7,11 +7,26 @@
 .consent-button {
     margin-top: 1.5em;
     justify-self: center;
+    background-color: #2e4db4;
+    color: #2e4db4;
 }
-.reveal-button {
-    margin-top: 1.5em;
-    justify-self: center;
+.btn-reveal {
     visibility: hidden;
+}
+.button {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 3vh;
+    width: 10vw;
+    height: 6vh;
+    background-color: #2e4db4;
+    color: white;
+    border: 0px;
+    border-radius: 3px;
+    line-height: 6vh;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 li {
     margin-top: 0.5em;
@@ -22,4 +37,23 @@ li {
 }
 .img-container {
     text-align: center;
+}
+.fs-popup-text {
+    color           : black;
+}
+ 
+#cal-popup, #fs-popup {
+    background-color    : rgba(255,255,255,0.95);
+    height              : 120vh;
+    width               : 100vw;
+    display             : flex;
+    flex-direction      : column;
+    text-align          : center;
+    justify-content     : center;
+    position            : absolute;
+    left                : 50vw;
+    top                 : 50vh;
+    transform           : translate(-50%,-50%);
+    visibility          : hidden;
+    z-index             : -1;
 }

@@ -1,12 +1,17 @@
+{{ block styles }}
+
+<link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+
+{{ endblock }}
+
 {{ block content }}
 
     <p>
-        In the following list, on a scale from 1 to 5, please indicate 
-        how tasty you think the following food items are. Food items with
-        the rating "1" are items that you would never eat. They will be 
-        excluded from the experiment. 
+        In the following list, on a scale from "I would never like eat that due to various reasons" to 5 "I would 
+        definately like to eat that", please indicate how tasty you think the following food items are. Food items 
+        with the rating "I would never like eat that due to various reasons" will be excluded from the experiment. 
     </p>
     {{ formfields }}
-    {{ next_button }}
+    <button id="next" class="button next-button"> Next </button>
 
 {{ endblock }}

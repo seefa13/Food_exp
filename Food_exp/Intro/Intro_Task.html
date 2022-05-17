@@ -30,7 +30,7 @@
         <p class="text-reveal" id="txt-reveal">
             You can now move to the next page.
         </p>
-        <button id="btn-reveal" class="button reveal-button"> Next </button>
+        <button id="btn-reveal" class="button btn-reveal"> Next </button>
 
         <input type = 'hidden' name = 'sRowsRevealed' id="sRowsRevealed" />
         <input type = 'hidden' name = 'sTimesRows' id="sTimesRows" />
@@ -45,10 +45,9 @@
 <script src="{% static 'global/FriendlyChecks.js' %}"> </script>
 
 <script>
-    const bRequireFS    = true;
-    const bCheckFocus   = true;
+    const bRequireFS    = 'bRequireFS';
+    const bCheckFocus   = 'bCheckFocus';
     const defaultPixel  = 'dPixelRatio';
-    const iTimeOut      = 0;
     var TBlur           = new Date().getTime();
     var TFocus          = new Date().getTime();
     var bClickHere      = false;

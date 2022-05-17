@@ -6,37 +6,24 @@
 {{ endblock }}
 
 {{ block content }}
+
 <div class="double-container">
     <div class="text-container">
-        <p>
-            The product characteristics (Price, Quality and Sustainability) for each product will be
-            behind
-            <i>‘boxes’.</i>
-        </p>
-        <p>
-            To reveal the information, all you need to do is to move your mouse on top of the
-            <i>‘box’</i> and the
-            information will be revealed. Here is an example.
-        </p>
-        <p>
-            <b>Try moving your mouse on top of the box.</b>
-        </p>
+        <ul>
+            <li> Once you have compared the product characteristics and thus decided, choose the product you want 
+                by clicking on the buttons below. </li>
+            <li> If you didn't quite get it yet, don't worry! There will be <b>3 practice rounds</b>
+                before the real experiment starts. </li>
+            <li> Practice rounds will never be selected for payout. </li>
+            <li> You will never pay more than what you get, so don't worry, you can't lose money! </li>
+        </ul>
     </div>
-    <div class="button-container">       
-        <button type="button" class="game-btn btn-outcome mouse" id="b3"> 
-            <div class="btn-content"> Good job! </div>
-            <div class="btn-hidden"> Hover me! </div>
-        </button> 
-        <p class="text-reveal" id="txt-reveal">
-            You can now move to the next page.
-        </p>
-        <button id="btn-reveal" class="button reveal-button"> Next </button>
-
-        <input type = 'hidden' name = 'sRowsRevealed' id="sRowsRevealed" />
-        <input type = 'hidden' name = 'sTimesRows' id="sTimesRows" />
-        <input type = 'hidden' name = 'dTime2First' id="dTime2First" />
+    <div class="img-container">
+        <img class="task-img" class="symbol" src="{% static C.intro_choose %}" />
     </div>
+    {{ next_button }}
 </div>
+
 {{ endblock }}
 
 {{ block scripts }}

@@ -1,11 +1,19 @@
-{{ block title }}
-    Outro
+{{ block styles }}
+
+<link rel="stylesheet" href="{% static 'global/Q.css' %}">
+
 {{ endblock }}
+
+{{ block app_scripts }}
+<script src="{% static 'global/Q.js' %}"></script>
+{{ endblock }}
+
+{% load otree static %}
 {{ block content }}
 
-    <p>
-        Please answer the following questions.
-    </p>
-    {{ next_button }}
-
+<div id="final-answers">  </div>
+ <!-- Slide container -->
+ <div class="element-container">  </div>
+ 
+ <button class="next_button btn btn-primary btn-large" id="final-button" style="visibility: hidden;" > </button>
 {{ endblock }}

@@ -22,17 +22,18 @@ function InitializeVT(Body,sNameRowsRevealed='sRowsRevealed',sNameTimesRows='sTi
     if (isEmpty(Body)) {
         Body = document.getElementsByTagName('body')[0];
     }
+
     // Create hidden input (Revealed Rows)
     let sRowsRevealed        = document.getElementById("sRowsRevealed");
-    sRowsRevealed.value      = '';
+    sRowsRevealed.value      = ' ';
 
     // Create hidden input (Time Buttons)
     let sTimesRows   = document.getElementById("sTimesRows");
-    sTimesRows.value = '';
+    sTimesRows.value = ' ';
 
     // Create hidden input (Time Buttons)
     let dTime2First   = document.getElementById("dTime2First");
-    dTime2First.value = '';
+    dTime2First.value = ' ';
     
     // Append Inputs
     //Body.appendChild(sRowsRevealed);

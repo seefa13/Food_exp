@@ -28,6 +28,7 @@ class C(BaseConstants):
     thumb_symbol = 'global/figures/thumb_symbol.png'
     health_symbol = 'global/figures/health_symbol.png'
     risk_symbol = 'global/figures/risk_symbol.png'
+    intro_choose = 'global/figures/intro_choose.png'
     AvgDur = "10-15"
     PaidParts = "20"
     Endowment = "5"
@@ -132,9 +133,9 @@ class Intro_Exp(Page):
 class Intro_Task(Page):
     pass
 
-
-class Intro_Q(Page):
+class Intro_Choose(Page):
     pass
+
 
 class Intro_General(Page):
     @staticmethod
@@ -156,4 +157,4 @@ def before_next_page(player: Player, timeout_happened):
 class Intro_Consent(Page):
     pass
 
-page_sequence = [Intro_General, Intro_Consent, Intro_Exp, Intro_Task, Intro_Q]
+page_sequence = [Intro_General, Intro_Consent, Intro_Exp, Intro_Task, Intro_Choose]

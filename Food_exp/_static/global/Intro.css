@@ -8,7 +8,18 @@
     margin-top: 1.5em;
     justify-self: center;
 }
+.reveal-button {
+    margin-top: 1.5em;
+    justify-self: center;
+    visibility: hidden;
+}
 li {
     margin-top: 0.5em;
     text-align: left;
+}
+.text-reveal {
+    visibility: hidden;
+}
+.img-container {
+    text-align: center;
 }

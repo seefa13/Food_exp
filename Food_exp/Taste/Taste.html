@@ -1,11 +1,11 @@
 {{ block styles }}
 
-<link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'global/Q.css' %}">
 
 {{ endblock }}
 
 {{ block content }}
-
+<!--
     <p>
         In the following list, on a scale from "I would never like eat that due to various reasons" to 5 "I would 
         definately like to eat that", please indicate how tasty you think the following food items are. Food items 
@@ -13,5 +13,18 @@
     </p>
     {{ formfields }}
     <button id="next" class="button next-button"> Next </button>
+-->
+
+<div id="final-answers">  </div>
+ <!-- Slide container -->
+ <div class="element-container">  </div>
+ 
+ <button class="next_button btn btn-primary btn-large" id="final-button" style="visibility: hidden;" > </button>
+
+{{ endblock }}
+
+{{ block scripts }}
+
+<script src="{% static 'global/Taste.js' %}"></script>
 
 {{ endblock }}

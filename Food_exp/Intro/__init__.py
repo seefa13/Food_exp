@@ -95,7 +95,8 @@ class Intro_Exp(Page):
     def vars_for_template(player: Player):
         participant     = player.participant
         return dict(
-            Treatment   = participant.iRisk_treat
+            Treatment   = participant.iRisk_treat,
+            OutFocus = participant.iOutFocus
         )
     
     #@staticmethod
@@ -172,14 +173,14 @@ class Intro_General(Page):
             UvA_logo = C.UvA_logo
         )
 
-@staticmethod
-def before_next_page(player: Player, timeout_happened):
-    part = player.participant
-    # Initialize Focus variables#        
-    part.startTime          = time.time()
-    part.iOutFocus          = 0
-    part.iFullscreenChanges = 0
-    part.dTimeOutFocus      = 0
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        part = player.participant
+        # Initialize Focus variables        
+        part.startTime          = time.time()
+        part.iOutFocus          = 0
+        part.iFullscreenChanges = 0
+        part.dTimeOutFocus      = 0
         
 class Intro_Consent(Page):
     pass

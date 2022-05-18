@@ -13,47 +13,49 @@
 {{ endblock }}
 
 {{ block content }}
-<div class="text-container">
-    <ul>
-        <li>In this study you will make multiple purchasing decisions (<b>{{ C.NumTrials }} rounds</b>) between two real food items.</li>
-        <li>Depending on your <u>decisions</u> and on whether you are one of the selected participants for payout, 
-            you will obtain <b>the chosen food item.</b></li>
-        <li>
-            In each round, you will see <b>2 products</b> and their characteristics.
-            <ul>
-                <li>
-                    <b>Price:</b> This is the cost you need to pay for the product. The price is in <b> Euro/100g </b>.
-                    A higher price leads naturally to a lower payout in money.
-                </li>
-                <li>
-                    <b>Taste:</b> 1-5 (<img class="symbol" src="{% static C.thumb_symbol %}"/>) rating, which you will be 
-                    asked for. Since you will in later decisions not see the name or image of a food item, but only your 
-                    self-reported taste rating, the best action you can take is to <b>report your true preferences</b> towards a 
-                    certain food product.
-                </li>
-                <li>
-                    <b>{{ if Treatment == 0 }} Health 
-                        {{ else }} Risk
-                        {{ endif }}-Label:</b> 
-                        5-point 
-                        {{ if Treatment == 0 }} (<img class="symbol" src="{% static C.health_symbol %}" />) 
-                        {{ else }} (<img class="symbol" src="{% static C.risk_symbol %}" />)
-                        {{ endif }} rating.
-                    Products 
-                    {{ if Treatment == 0 }} with a higher health score (A is best, E is worst) are healthier than thos with a lower health score. We use the Nutri-Score as a measure of healthiness of a food product, which is used in several countries including the Netherlands and thoroughly researched. 
-                        {{ else }} with a lower risk score (one <img class="symbol" src="{% static C.risk_symbol %}" /> is best, five <img class="symbol" src="{% static C.risk_symbol %}" /> are worst) are less healthy than those with a higher risk score. As an indication for health risk, we use the Nutri-Score, which is used in several countries including the Netherlands and thoroughly researched.
-                        {{ endif }}
-                </li>
-            </ul>
-        </li>
-        <li> 
-            Please answer the following questions with regard to the information provided above. To continue, you have to correctly answer all questions and then press <b>next</b>
-        </li>
-    </ul>
+<div class = "game-body">
+    <div class="text-container">
+        <ul>
+            <li>In this study you will make multiple purchasing decisions (<b>{{ C.NumTrials }} rounds</b>) between two real food items.</li>
+            <li>Depending on your <u>decisions</u> and on whether you are one of the selected participants for payout, 
+                you will obtain <b>the chosen food item.</b></li>
+            <li>
+                In each round, you will see <b>2 products</b> and their characteristics.
+                <ul>
+                    <li>
+                        <b>Price:</b> This is the cost you need to pay for the product. The price is in <b> Euro/100g </b>.
+                        A higher price leads naturally to a lower payout in money.
+                    </li>
+                    <li>
+                        <b>Taste:</b> 1-5 (<img class="symbol" src="{% static C.thumb_symbol %}"/>) rating, which you will be 
+                        asked for. Since you will in later decisions not see the name or image of a food item, but only your 
+                        self-reported taste rating, the best action you can take is to <b>report your true preferences</b> towards a 
+                        certain food product.
+                    </li>
+                    <li>
+                        <b>{{ if Treatment == 0 }} Health 
+                            {{ else }} Risk
+                            {{ endif }}-Label:</b> 
+                            5-point 
+                            {{ if Treatment == 0 }} (<img class="symbol" src="{% static C.health_symbol %}" />) 
+                            {{ else }} (<img class="symbol" src="{% static C.risk_symbol %}" />)
+                            {{ endif }} rating.
+                        Products 
+                        {{ if Treatment == 0 }} with a higher health score (A is best, E is worst) are healthier than thos with a lower health score. We use the Nutri-Score as a measure of healthiness of a food product, which is used in several countries including the Netherlands and thoroughly researched. 
+                            {{ else }} with a lower risk score (one <img class="symbol" src="{% static C.risk_symbol %}" /> is best, five <img class="symbol" src="{% static C.risk_symbol %}" /> are worst) are less healthy than those with a higher risk score. As an indication for health risk, we use the Nutri-Score, which is used in several countries including the Netherlands and thoroughly researched.
+                            {{ endif }}
+                    </li>
+                </ul>
+            </li>
+            <li> 
+                Please answer the following questions with regard to the information provided above. To continue, you have to correctly answer all questions and then press <b>next</b>
+            </li>
+        </ul>
 
-    {{ formfields }}
-    
-    <button id="next" class="button next-button"> Next </button>
+        {{ formfields }}
+        
+        <button id="next" class="button next-button"> Next </button>
+    </div>
 </div>
 {{ endblock }}
 

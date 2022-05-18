@@ -1,9 +1,6 @@
 .debug-info{
     top: 120vh
 }
-.text-container{
-    width: 70%;
-}
 .consent-button {
     margin-top: 1.5em;
     justify-self: center;
@@ -47,7 +44,7 @@ li {
     height              : 120vh;
     width               : 100vw;
     display             : flex;
-    flex-direction      : column;
+    flex-direction      : column; 
     text-align          : center;
     justify-content     : center;
     position            : absolute;
@@ -56,4 +53,21 @@ li {
     transform           : translate(-50%,-50%);
     visibility          : hidden;
     z-index             : -1;
+}
+.text-container{
+    width: 70%;
+    background-color: darkgrey;
+}
+.game-body{
+    width: 100vw;
+    height: 100vh;
+    background-color: lightgray;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50vh;
+    left: 50vw;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
 }

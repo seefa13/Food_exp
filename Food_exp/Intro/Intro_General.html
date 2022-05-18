@@ -1,30 +1,35 @@
 {{ block styles }}
 
 <link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+<style>
+    
+</style>
 
 {{ endblock }}
 
 {{ block content }}
-<div class="text-container">
-    <p> Welcome! </p>
-    <ul>
-        <li>You are participating in a study conducted by: <img class="UvA-logo" src="{% static UvA_logo %}" /> </li>
-        <li>
-            Your decisions and information provided will be recorded <b>anonymously</b> (Your response in this experiment cannot be traced back to you.).
-        </li>
-        <li>Your data will <u>only</u> be used for <b>academic research</b>. </li>
-        <li>You can choose at any point during the experiment to stop your participation and your data will be discarded.</li>
-        <li>
-            If you choose to participate, you will have to make <u> multiple decisions between food items </u> that can lead to <b> different kinds of payments </b>. 
-        </li>
-        <li>
-            {{ C.PaidParts }} participants will be chosen for an actual payout. This means there is a chance for you to actually receive one of your choices.
-            Those participants will receive {{ C.Endowment }} - the price of the food product chosen + the food item. 
-            The payout will be managed by you buying the food item and then being reimbursed for it.
-        </li>
-        <li>The study will last about <b>{{ C.AvgDur }} minutes</b>.</li>
-    </ul>
-    <button id="next" class="button next-button"> Next </button>
+<div class = "game-body">
+    <div class="text-container"> 
+        <p> Welcome! </p>
+        <ul>
+            <li>You are participating in a study conducted by: <img class="UvA-logo" src="{% static UvA_logo %}" /> </li>
+            <li>
+                Your decisions and information provided will be recorded <b>anonymously</b> (Your response in this experiment cannot be traced back to you.).
+            </li>
+            <li>Your data will <u>only</u> be used for <b>academic research</b>. </li>
+            <li>You can choose at any point during the experiment to stop your participation and your data will be discarded.</li>
+            <li>
+                If you choose to participate, you will have to make <u> multiple decisions between food items </u> that can lead to <b> different kinds of payments </b>. 
+            </li>
+            <li>
+                {{ C.PaidParts }} participants will be chosen for an actual payout. This means there is a chance for you to actually receive one of your choices.
+                Those participants will receive {{ C.Endowment }} - the price of the food product chosen + the food item. 
+                The payout will be managed by you buying the food item and then being reimbursed for it.
+            </li>
+            <li>The study will last about <b>{{ C.AvgDur }} minutes</b>.</li>
+        </ul>
+        <button id="next" class="button next-button"> Next </button>
+    </div>
 </div>
  
 {{ endblock }}

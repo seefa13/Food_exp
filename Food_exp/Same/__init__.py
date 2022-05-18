@@ -121,6 +121,17 @@ class Choice(Page):
         )
 
     @staticmethod
+    def js_vars(player: Player):
+        session = player.session
+        p = player.participant
+        return {
+            'bRequireFS'        : session.config['bRequireFS'],
+            'bCheckFocus'       : session.config['bCheckFocus'],
+            'iTimeOut'          : session.config['iTimeOut'],
+            'dPixelRatio'       : p.dPixelRatio,
+        }
+        
+    @staticmethod
     def before_next_page(player, timeout_happened):
         if player.round_number>C.NUM_PROUNDS:
 

@@ -35,13 +35,38 @@ function validAge(str) {
     num = parseInt(str);
     return (num>=18 && num<= 122);
 };
-const countries = ["My country is not listed", "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
-const likertScale = [ 'Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
+function labels() {
+    var indexL = indexl;
+    var label = Labellist.at(indexL);
+    indexl = indexl + 1;
+    return label;
+};
+function tasteQ() {
+    var indexQ = indexF;
+    var Fooditem = Foodlist.at(indexQ);
+    indexF = indexF + 1;
+    var Q = "On a scale from 1 to 5, how much would you like to eat "+Fooditem+". Remember that, 1s will be excluded.";
+    return Q;
+};
+
+const likertScale = [ 'Would never like to eat', 'Would most likely not like to eat', 'Neutral', 'Would most likely not like to eat', 'Would definitely like to eat'];
 const likertValues = [1,2,3,4,5];
 const warningAutocomplete = 'Please select one item from the list';
 const warningEmpty = 'Please do not leave this question unanswered';
-const warningAge = 'Please provide a valid answer (number from 18 to 122)';
-const likertLimits = ['Strongly Disagree','Strongly Agree'];
+const likertLimits = ['Would never like to eat','Would definitely like to eat'];
+const Foodlist = ['Bananas','Strawberries','Chia seeds','Cashews','Salmon','a Vegetable mix','White Beans','a Yogurt', 
+'a Whole Grain Bread','a Chicken, filet','Butter, plant-based','Milk, low fat','Pork','a Mueslibar, no sugar added',
+'Water','Cottage Cheese','a Boiled Egg', 'Banana chips','Strawberries, Smoothie','Sunflower seeds','Cashews, salted','Salmon, smoked',
+'Vegetables, breaded','Baked Beans','a Yogurt, sweetened','a White Bread','a Chicken, breaded filet','Butter',
+'Milk, whole fat','Pork, sausage','a Mueslibar, sweetened','a Lemonade','Cheese','an Egg', 'salad'
+];
+const Labellist = ['iFruit','iFruit_unh','iBerries','iBerries_unh','iSeeds','iSeeds_unh','iNuts','iNuts_unh','iFish','iFish_unh',
+'iVeg','iVeg_unh','iBeans','iBeans_unh','iYog','iYog_unh','iBread','iBread_unh','iChicken','iChicken_unh',
+'iButter_unh','iButter','iMilk','iMilk_unh','iRedmeat','iRedmeat_unh','iBar_unh','iBar','iDrink','iDrink_unh',
+'iCheese','iCheese_unh','iEggs','iEggs_unh'];
+var indexl = 0;
+var indexF = 0;
+
 
 // *********************************************************************
 // Add Your Questions here
@@ -49,55 +74,7 @@ const likertLimits = ['Strongly Disagree','Strongly Agree'];
 
 const firstQuestions = [
     {
-        question: "What is your age?",
-        name: "D1",
-        type: "shortOpen",
-        validate: validAge ,
-        invalidMessage: warningAge,
-    },   
-    {
-        question: "Which gender do you identify the most with?",
-        name: "D2",
-        type: "radio",
-        values: [1,2,3,4],
-        labels: [
-            "Female",
-            "Male",
-            "Other",
-            "Prefer not to say"
-        ]    
-    },    
-    {
-        question: "What country do you live in?",
-        name: "D3",
-        type: "autocomplete",
-        list: countries,
-    },    
-    {
-        question: "What is your nationality?",
-        name: "D4",
-        type: "autocomplete",
-        list: countries,
-    },
-    {
-        question: "Have you ever participated in an incentivized economic experiment (such as this one) before?",
-        name: "D5",
-        type: "radio",
-        values: [1,2,3],
-        labels: ['Yes','No',"Not sure / don't remember"]
-    },
-    {
-        question: "What do you think is the purpose of this study? Describe shortly in your own words.",
-        name: "D6",
-        type: "longOpen",
-    },
-    {
-        question: "During the experiment, did you use any specific strategy or rule of thumb when deciding which of the two products to purchase? If so, describe it shortly.",
-        name: "D7",
-        type: "longOpen",
-    },
-    {
-        question: "For the following questions, please answer each of these questions in terms of the way you generally feel. For each question simply state as honestly and candidly as you can what you are presently experiencing. Please Select '2' to show that you read these instructions.",
+        question: "For the following questions, please answer each of these questions in terms of the way you generally feel. For each question simply state as honestly and candidly as you can what you are presently experiencing. Note that you have an incentive to state your true preference for a food product, since there is a chance that you actually get it and since you will not see the names of the food products. Taste ratings do not influence your monetary payments. Food items with the rating I would never like eat that due to moral, allergy or taste reasons will be excluded from the experiment. Please Select '2' to show that you read these instructions.",
         name: "V1",
         type: "scale",
     },
@@ -106,73 +83,173 @@ const firstQuestions = [
 // Add questionnaire questions in different orders
 const shuffleQuestions = [ 
     {
-        question: "Q1",
-        name: "QT1",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q2",
-        name: "QT2",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q3",
-        name: "QT3",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q4",
-        name: "QT4",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q5",
-        name: "QT5",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q6",
-        name: "QT6",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q7",
-        name: "QT7",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q8",
-        name: "QT8",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q9",
-        name: "QT9",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q10",
-        name: "QT10",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q11",
-        name: "QT11",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q12",
-        name: "QT12",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q13",
-        name: "QT13",
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {
-        question: "Q14",
-        name: "QT14",
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
         type: "scale",
     },
     {

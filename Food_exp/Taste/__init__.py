@@ -6,22 +6,26 @@ In this app, participants will rate food items.
 """
 
 #FUNCTIONS
-def make_ifield(label):
-    return models.IntegerField(
-        label = label,
-        choices=[
-            [1,'I do not want to or cannot eat that due to taste, diet, moral, allergy or other reasons'], 
-            [2,'I would most likely not like to eat that'],
-            [3,'I would sometimes like to eat that'],
-            [4,'I would most likely like to eat that'],
-            [5,'I would definitely like to eat that'],
-            ]
-    )
+#def make_ifield(label):
+ #   return models.IntegerField(
+  #      label = label,
+   #     choices=[
+    #        [1,'I do not want to or cannot eat that due to taste, diet, moral, allergy or other reasons'], 
+     #       [2,'I would most likely not like to eat that'],
+      #      [3,'I would sometimes like to eat that'],
+       #     [4,'I would most likely like to eat that'],
+        #    [5,'I would definitely like to eat that'],
+         #   ]
+    #)
 
 class C(BaseConstants):
     NAME_IN_URL = 'Taste'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    lPrice_h = [0.2,0.9,1.5,1.2,2.8,0.7,0.4,1.3,0.2,1.3,0.2,0.1,0.7,0.1,0.1,0.8,0.4]
+    lPrice_unh = [1.1,0.7,1,1.1,3.5,1.3,0.3,1.5,0.2,1.5,0.8,0.1,0.8,0.1,0.1,1.5,0.6]
+    lNutri_h = [1,1,1,2,1,1,1,1,1,1,3,1,2,1,1,2,1]
+    lNutri_unh = [4,5,3,3,4,2,3,3,2,3,5,2,4,3,3,4,3]
 
 
 
@@ -34,40 +38,42 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    iFruit = make_ifield('Banana') 
-    iFruit_unh = make_ifield('Banana chips')
-    iBerries = make_ifield('Strawberries')
-    iBerries_unh = make_ifield('Strawberries, Smoothie')
-    iSeeds = make_ifield('Chia seeds')
-    iSeeds_unh = make_ifield('Sunflower seeds')
-    iNuts = make_ifield('Cashews')
-    iNuts_unh = make_ifield('Cashews, salted')
-    iFish = make_ifield('Salmon')
-    iFish_unh = make_ifield('Salmon, smoked')
-    iVeg = make_ifield('Vegetable mix')
-    iVeg_unh = make_ifield('Vegetables, breaded')
-    iBeans = make_ifield('White Beans')
-    iBeans_unh = make_ifield('Baked Beans')
-    iYog = make_ifield('Yogurt, natural')
-    iYog_unh = make_ifield('Yogurt, sweetened')
-    iBread = make_ifield('Whole Grain Bread')
-    iBread_unh = make_ifield('White Bread')
-    iChicken = make_ifield('Chicken, filet')
-    iChicken_unh = make_ifield('Chicken, breaded filet')
-    iButter_unh = make_ifield('Butter')
-    iButter = make_ifield('Butter, plant-based')
-    iMilk = make_ifield('Milk, low fat')
-    iMilk_unh = make_ifield('Milk, whole fat')
-    iRedmeat = make_ifield('Pork')
-    iRedmeat_unh = make_ifield('Pork, sausage')    
-    iBar_unh = make_ifield('Mueslibar, no sugar added')
-    iBar = make_ifield('Mueslibar, sweetened')
-    iDrink = make_ifield('Water')
-    iDrink_unh = make_ifield('Lemonade')
-    iCheese = make_ifield('Cottage Cheese')
-    iCheese_unh = make_ifield('Cheese')
-    iEggs = make_ifield('Boiled Egg')
-    iEggs_unh = make_ifield('Egg, salad')
+    iFruit = models.StringField(blank=True)
+    iFruit_unh = models.StringField(blank=True)
+    iBerries = models.StringField(blank=True)
+    iBerries_unh = models.StringField(blank=True)
+    iSeeds = models.StringField(blank=True)
+    iSeeds_unh = models.StringField(blank=True)
+    iNuts = models.StringField(blank=True)
+    iNuts_unh = models.StringField(blank=True)
+    iFish = models.StringField(blank=True)
+    iFish_unh = models.StringField(blank=True)
+    iVeg = models.StringField(blank=True)
+    iVeg_unh = models.StringField(blank=True)
+    iBeans = models.StringField(blank=True)
+    iBeans_unh = models.StringField(blank=True)
+    iYog = models.StringField(blank=True)
+    iYog_unh = models.StringField(blank=True)
+    iBread = models.StringField(blank=True)
+    iBread_unh = models.StringField(blank=True)
+    iChicken = models.StringField(blank=True)
+    iChicken_unh = models.StringField(blank=True)
+    iButter_unh = models.StringField(blank=True)
+    iButter = models.StringField(blank=True)
+    iMilk = models.StringField(blank=True)
+    iMilk_unh = models.StringField(blank=True)
+    iRedmeat = models.StringField(blank=True)
+    iRedmeat_unh = models.StringField(blank=True)   
+    iBar_unh = models.StringField(blank=True)
+    iBar = models.StringField(blank=True)
+    iDrink = models.StringField(blank=True)
+    iDrink_unh = models.StringField(blank=True)
+    iCheese = models.StringField(blank=True)
+    iCheese_unh = models.StringField(blank=True)
+    iEggs = models.StringField(blank=True)
+    iEggs_unh = models.StringField(blank=True)
+    V1 = models.StringField(blank=True)
+    V2 = models.StringField(blank=True)
 
 
 # PAGES
@@ -77,7 +83,7 @@ class Taste(Page):
         'iFruit','iFruit_unh','iBerries','iBerries_unh','iSeeds','iSeeds_unh','iNuts','iNuts_unh','iFish','iFish_unh',
         'iVeg','iVeg_unh','iBeans','iBeans_unh','iYog','iYog_unh','iBread','iBread_unh','iChicken','iChicken_unh',
         'iButter_unh','iButter','iMilk','iMilk_unh','iRedmeat','iRedmeat_unh','iBar_unh','iBar','iDrink','iDrink_unh',
-        'iCheese','iCheese_unh','iEggs','iEggs_unh'
+        'iCheese','iCheese_unh','iEggs','iEggs_unh','V1','V2'
     ]
     
     @staticmethod
@@ -95,18 +101,20 @@ class Taste(Page):
         'Milk, whole fat','Pork, sausage','Mueslibar, sweetened','Lemonade','Cheese','Egg, salad'
         ]
         lTastes_h = [
-        self.iFruit,self.iBerries,self.iSeeds,self.iNuts,self.iFish,self.iVeg,self.iBeans,self.iYog,self.iBread,
-        self.iChicken,self.iButter,self.iMilk,self.iRedmeat,self.iBar,self.iDrink,self.iCheese,self.iEggs
+        int(self.iFruit),int(self.iBerries),int(self.iSeeds),int(self.iNuts),int(self.iFish),int(self.iVeg),
+        int(self.iBeans),int(self.iYog),int(self.iBread),int(self.iChicken),int(self.iButter),int(self.iMilk),
+        int(self.iRedmeat),int(self.iBar),int(self.iDrink),int(self.iCheese),int(self.iEggs)
         ]
         lTastes_unh = [
-        self.iFruit_unh,self.iBerries_unh,self.iSeeds_unh,self.iNuts_unh,self.iFish_unh,self.iVeg_unh,self.iBeans_unh,self.iYog_unh,
-        self.iBread_unh,self.iChicken_unh,self.iButter_unh,self.iMilk_unh,
-        self.iRedmeat_unh,self.iBar_unh,self.iDrink_unh,self.iCheese_unh,self.iEggs_unh
+        int(self.iFruit_unh),int(self.iBerries_unh),int(self.iSeeds_unh),int(self.iNuts_unh),int(self.iFish_unh),
+        int(self.iVeg_unh),int(self.iBeans_unh),int(self.iYog_unh),int(self.iBread_unh),int(self.iChicken_unh),
+        int(self.iButter_unh),int(self.iMilk_unh),int(self.iRedmeat_unh),int(self.iBar_unh),int(self.iDrink_unh),
+        int(self.iCheese_unh),int(self.iEggs_unh)
         ]
-        lPrice_h = [0.2,0.9,1.5,1.2,2.8,0.7,0.4,1.3,0.2,1.3,0.2,0.1,0.7,0.1,0.1,0.8,0.4]
-        lPrice_unh = [1.1,0.7,1,1.1,3.5,1.3,0.3,1.5,0.2,1.5,0.8,0.1,0.8,0.1,0.1,1.5,0.6]
-        lNutri_h = [1,1,1,2,1,1,1,1,1,1,3,1,2,1,1,2,1]
-        lNutri_unh = [4,5,3,3,4,2,3,3,2,3,5,2,4,3,3,4,3]
+        lPrice_h = list(C.lPrice_h)
+        lPrice_unh = list(C.lPrice_unh)
+        lNutri_h = list(C.lNutri_h)
+        lNutri_unh = list(C.lNutri_unh)
         counter = 0
         for value in lTastes_h:
             if value == 1:
@@ -140,5 +148,10 @@ class Taste(Page):
         participant.lNutri_h=lNutri_h
         participant.lNutri_unh=lNutri_unh
         participant.lPrevRandelem=lPrevRandelem
+        # Validate Taste ratings
+        valid1 = int(int(self.V1)==2)
+        valid2 = int(int(self.V2)==1)
+        self.participant.validTasteQ = valid1 + valid2
+        
 
 page_sequence = [Taste]

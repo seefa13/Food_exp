@@ -18,6 +18,10 @@ def creating_session(subsession):
             participant                     = player.participant
             participant.iRisk_treat         = random.choice(iHealth)
 
+            # select the payout trial
+            Num_Prounds                     = 1
+            participant.SelectedTrial       = random.choice(range(Num_Prounds+1,int(C.NumTrials)))
+
 
 
 class C(BaseConstants):

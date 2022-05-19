@@ -133,13 +133,23 @@ class Choice(Page):
         
     @staticmethod
     def before_next_page(player, timeout_happened):
+        participant                     = player.participant
         if player.round_number>C.NUM_PROUNDS:
 
         # add Focus variables to total if it's not practice trial
-            participant                     = player.participant
             participant.iOutFocus           = int(participant.iOutFocus) + player.iFocusLost
             participant.iFullscreenChanges  = int(participant.iFullscreenChanges) + player.iFullscreenChange
             participant.dTimeOutFocus       = float(participant.dTimeOutFocus) + player.dFocusLostT
+        
+        # if this is the selected trial, save it
+        if (participant.SelectedTrial==player.round_number):
+            CurrRandelem                    = participant.lPrevRandelem(-1)
+            lFoods_h                        = participant.lFoods_h 
+            lFoods_unh                      = participant.lFoods_unh
+            if (player.iHDec==0):
+                participant.Sel_Item        = lFoods_h[CurrRandelem]
+            else:
+                participant.Sel_Item        = lFoods_unh[CurrRandelem]
 
 class Arousal(Page):
     form_model = 'player'

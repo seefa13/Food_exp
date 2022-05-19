@@ -59,7 +59,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['iRisk_treat','lFoods_h','lTastes_h','lFoods_unh','lTastes_unh','lPrice_h','lPrice_unh',
 'lNutri_h','lNutri_unh','lPrevRandelem','dTimeOutFocus','iOutFocus','iFullscreenChanges','startTime','dPixelRatio',
-'validQuestionnaire','bRequireFS','bCheckFocus','validTasteQ']
+'validQuestionnaire','bRequireFS','bCheckFocus','validTasteQ','SelectedTrial','Sel_Item']
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans

@@ -24,15 +24,16 @@ class C(BaseConstants):
     NAME_IN_URL         = 'Intro'
     PLAYERS_PER_GROUP   = None
     NUM_ROUNDS          = 1
+    # image paths
     UvA_logo            = 'global/figures/UvA_logo.png'
     thumb_symbol        = 'global/figures/thumb_symbol.png'
     health_symbol       = 'global/figures/health_symbol.png'
     risk_symbol         = 'global/figures/risk_symbol.png'
     intro_choose        = 'global/figures/intro_choose.png'
-    AvgDur              = "10-15"
-    PaidParts           = "20"
-    Endowment           = "5€"
-    NumTrials           = "6"
+    AvgDur              = "10-15"                               # average duration
+    PaidParts           = "20"                                  # how many participants are being paid out
+    Endowment           = "5€"                                  # endowment
+    NumTrials           = "18"                                  # number of trials
 
 
 class Subsession(BaseSubsession):
@@ -44,6 +45,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    # control questions
     Q1          = models.IntegerField(
         label   = "Will every of your decision be paid out?",
         choices = [
@@ -57,9 +59,9 @@ class Player(BasePlayer):
     Q2          = models.IntegerField(
         label   = "If selected for payout, how large would your payout be?",
         choices = [
-            [1, '5€'],
-            [2, '5€ - the price of the food item + the food item.'],
-            [3, '5€ + the food item.']
+            [1, (C.Endowment)],
+            [2, (C.Endowment+' - the price of the food item + the food item.')],
+            [3, (C.Endowment+' 5€ + the food item.')]
     ]
 )
 
@@ -75,7 +77,7 @@ class Player(BasePlayer):
 )
 
     Q3_risk     = models.IntegerField(
-        label   = "Please select the food item with the best risk score (=healthiest food item).",
+        label   = "Please select the food item with the best risk score (=food item with the least health risks).",
         choices = [
             [1, '1 out of 5'],
             [2, '3 out of 5'],
@@ -99,7 +101,7 @@ class Intro_Exp(Page):
             OutFocus = participant.iOutFocus
         )
     
-    #@staticmethod
+    @staticmethod                               # different control question depending on treatment status
     def get_form_fields(player):
         participant     = player.participant
         if participant.iRisk_treat == 0:
@@ -107,7 +109,7 @@ class Intro_Exp(Page):
         else:
             return ["Q1","Q2","Q3_risk"]
         
-    @staticmethod
+    @staticmethod                               # error message if question is wrong
     def error_message(player, values):
         participant         = player.participant
         if participant.iRisk_treat == 0:

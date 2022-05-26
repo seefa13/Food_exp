@@ -1,11 +1,27 @@
-{{ block title }}
-    Outro
+{{ block styles }}
+
+<link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+<link href="{% static 'global/Choice.css' %}" rel="stylesheet">
+
+<style>
+    img {
+    width: 3%;
+    height: auto;
+    }
+</style>
+
 {{ endblock }}
 
 {{ block content }}
-    <p>
-        Thank you for participating in our experiment. Goodbye.
-    </p>
+<div class = "game-body">
+    <div class="text-container">
+        <p> Thank you for participating in our experment. </p>
+        <p> In order to participate in the random draw of the actual payout of the experiment, you need to state your e-mail address below. </p>
+        <p> It is important to note that you <b> do not have to state your e-mail address, if you do not wish to do so. </b></p>
+        {{ mail }}
+        <p> Goodbye. </p>
+    </div>
+</div>
     {{ next_button }}
 {{ endblock }}
 

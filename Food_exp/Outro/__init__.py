@@ -67,6 +67,9 @@ class Player(BasePlayer):
     V1 = models.StringField()
     V2 = models.StringField()
 
+    # E-Mail address
+    mail = models.StringField
+
 
 # PAGES
 class Outro_Q(Page):
@@ -83,7 +86,8 @@ class Outro_Q(Page):
         player.participant.validQuestionnaire = valid1 + valid2
 
 class Goodbye(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['mail']
 
 
 page_sequence = [Outro_Q, Goodbye]

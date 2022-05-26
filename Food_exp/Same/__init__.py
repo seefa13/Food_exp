@@ -259,14 +259,12 @@ class Choice(Page):
             participant.iFullscreenChanges  = int(participant.iFullscreenChanges) + player.iFullscreenChange
             participant.dTimeOutFocus       = float(participant.dTimeOutFocus) + player.dFocusLostT
         
-        # if this is the selected trial, save it
-        if (participant.SelectedTrial==player.round_number):
+        # save decision
             Items_sel                       = participant.Foods_sel
-            lFoods                          = participant.lFoods
             if (player.iHDec==0):
-                participant.Sel_Item        = lFoods[Items_sel[0]]
+                participant.lSel_Items        = Items_sel[0]
             else:
-                participant.Sel_Item        = lFoods[Items_sel[1]]
+                participant.lSel_Items        = Items_sel[1]
 
 
 page_sequence = [Practice, Fixation, Choice]

@@ -65,9 +65,9 @@ PARTICIPANT_FIELDS = [
     # friendly checks
     'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
     # selected trial
-    'SelectedTrial','Sel_Item',
+    'SelectedTrial','lSel_Items',
     # validations and controls
-    'validQuestionnaire','validTasteQ','CR_score','EE_score','CR_score'
+    'bFilled','validQuestionnaire','validTasteQ','CR_score','EE_score','CR_score'
     ]
 
 # ISO-639 code

@@ -1,0 +1,54 @@
+{{ block styles }}
+
+<link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+<link href="{% static 'global/Choice.css' %}" rel="stylesheet">
+
+{{ endblock }}
+
+{{ block content }}
+<div class = "game-body">
+    <div class="text-container">
+        <p> One of the food products you chose was {{ item1 }}. </p>
+        <!-- INSERT IMAGE -->
+
+        <!-- INFORMATION -->
+        <p> 
+            The level of 
+            {{ if Treatment == 0 }} Health 
+            {{ else }} Risk
+            {{ endif }} 
+            was
+        </p>
+        <img class="img-rating" src="{% static item1 %}" width="150px" height="35px" />
+        <p> 
+            Consider the level of 
+            {{ if Treatment == 0 }} Health 
+            {{ else }} Risk
+            {{ endif }}. 
+            How do you feel? Select <b>all</b> that apply. 
+        </p>
+        {{ for field in C.Shuffled_Emotions }}
+        <label>
+            <input type="checkbox" name="{{ field.name }}" value="1">
+            {{ field.label }}
+        </label><br>
+        {{ endfor }}
+        
+        <button id="next" class="button next-button"> Next </button>
+    </div>
+</div>
+{{ endblock }}
+
+{{ block scripts }}
+
+<script src="{% static 'global/FriendlyChecks.js' %}"> </script>
+
+<script>
+    const bRequireFS    = 'bRequireFS';
+    const bCheckFocus   = 'bCheckFocus';
+    const defaultPixel  = 'dPixelRatio';
+    var TBlur           = new Date().getTime();
+    var TFocus          = new Date().getTime();
+</script>
+
+{{ endblock }}

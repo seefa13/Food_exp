@@ -14,20 +14,20 @@ class C(BaseConstants):
     # image path for taste and health/risk attribute
     sImagePath          = 'global/figures/'
     # Create list of shuffled emotions for form fields
-    Emotions = ['Dull','Happy','Active','Unhappy','Energetic','Nervous','Calm','Secure','Passive','Blue','Enthusiastic','Tense'],
-    Shuffled_Emotions = ['E1','E2','E3','E4','E5','E6','E7','E8','E9','E10','E11','E12']
-    Shuffle_List = []
-    shuffle_count = 0
+    Emotions            = ['Dull','Happy','Active','Unhappy','Energetic','Nervous','Calm','Secure','Passive','Blue','Enthusiastic','Tense'],
+    Shuffled_Emotions   = ['E1','E2','E3','E4','E5','E6','E7','E8','E9','E10','E11','E12']
+    Shuffle_List        = []
+    shuffle_count       = 0
     while shuffle_count<len(Emotions):
-        randindex = random.randint(0,len(Emotions)-1)
+        randindex       = random.randint(0,len(Emotions)-1)
         while randindex in Shuffle_List:
-            randindex = random.randint(0,len(Emotions)-1)
+            randindex   = random.randint(0,len(Emotions)-1)
         Shuffle_List.append(randindex)
-        shuffle_count = shuffle_count + 1
+        shuffle_count   = shuffle_count + 1
     emo_count = 0
     for index in Shuffle_List:
         Shuffled_Emotions = Shuffled_Emotions[:index]+[Emotions[emo_count]]+Shuffled_Emotions[index+1:]
-        emo_count = emo_count + 1
+        emo_count       = emo_count + 1
 
 
 class Subsession(BaseSubsession):
@@ -62,8 +62,8 @@ class Player(BasePlayer):
     QT8 = models.StringField()
     QT9 = models.StringField()
     QT10 = models.StringField()
-    QT11= models.StringField()
-    QT12= models.StringField()
+    QT11 = models.StringField()
+    QT12 = models.StringField()
     QT13 = models.StringField()
     QT14 = models.StringField()
     # QT15 = models.StringField()
@@ -144,30 +144,30 @@ class EQ_Intro(Page):
 class EQ_1(Page):
     @staticmethod
     def is_displayed(player):
-        participant = player.participant
+        participant         = player.participant
         # import low and high risk food list
-        lNutri            = participant.lNutri
-        lSel_Items = participant.lSel_Items
-        lLow = []
-        score_count = 0
+        lNutri              = participant.lNutri
+        lSel_Items          = participant.lSel_Items
+        lLow                = []
+        score_count         = 0
         for score in lNutri:
             if score == 1:
                 lLow.append(score_count)
-            score_count = score_count + 1
+            score_count     = score_count + 1
         lHigh = []
-        score_count = 0
+        score_count         = 0
         for score in lNutri:
             if score == 4 or score == 5:
                 lHigh.append(score_count)
-            score_count = score_count + 1
-        filled = False
+            score_count     = score_count + 1
+        filled              = False
         for item in lSel_Items:
             for highitem in lHigh:
                 if item == highitem:
-                    filled = True
+                    filled  = True
             for lowitem in lLow:
                 if item == lowitem:
-                    filled = True
+                    filled  = True
         participant.bFilled = True
         return filled
 
@@ -175,132 +175,134 @@ class EQ_1(Page):
     form_fields = C.Shuffled_Emotions
 
     def vars_for_template(player):
-        participant = player.participant
-        lSel_Items = participant.lSel_Items
+        participant         = player.participant
+        lSel_Items          = participant.lSel_Items
         iTreat              = participant.iRisk_treat
         # choose randomly whether low (0) or high (1) risk item shown first
-        EQ_order = random.choice(0,1)
+        EQ_order            = random.choice(0,1)
         participant.EQ_order = EQ_order
         # import low and high risk food list
-        lNutri            = participant.lNutri
-        lLow = []
-        score_count = 0
+        lNutri              = participant.lNutri
+        lLow                = []
+        score_count         = 0
         for score in lNutri:
             if score == 1:
                 lLow.append(score_count)
-            score_count = score_count + 1
-        lHigh = []
-        score_count = 0
+            score_count     = score_count + 1
+        lHigh               = []
+        score_count         = 0
         for score in lNutri:
             if score == 4 or score == 5:
                 lHigh.append(score_count)
-            score_count = score_count + 1
+            score_count     = score_count + 1
         # choose one item randomly and check whether it applies to the order condition
-        item1 = 0
+        item1               = 0
         if EQ_order == 0:
-            randsel = random.randint(0,len(lSel_Items)-1)
-            randItem = lSel_Items[randsel]
+            randsel         = random.randint(0,len(lSel_Items)-1)
+            randItem        = lSel_Items[randsel]
             while randItem not in lLow:
-                randsel = random.randint(0,len(lSel_Items)-1)
-                randItem = lSel_Items[randsel]
-            item1 = lSel_Items[randItem]
+                randsel     = random.randint(0,len(lSel_Items)-1)
+                randItem    = lSel_Items[randsel]
+            item1           = lSel_Items[randItem]
         else:
-            randsel = random.randint(0,len(lSel_Items)-1)
-            randItem = lSel_Items[randsel]
+            randsel         = random.randint(0,len(lSel_Items)-1)
+            randItem        = lSel_Items[randsel]
             while randItem not in lHigh:
-                randsel = random.randint(0,len(lSel_Items)-1)
-                randItem = lSel_Items[randsel]            
-            item1 = lSel_Items[randItem]
-        info1 = 0
+                randsel     = random.randint(0,len(lSel_Items)-1)
+                randItem    = lSel_Items[randsel]            
+            item1           = lSel_Items[randItem]
+        info1               = 0
         if iTreat == 0:
             info1             = C.sImagePath+'Nutri_'+str(lNutri[item1])+'.png'
         else:
             info1             = C.sImagePath+'Risk_'+str(lNutri[item1])+'.png'
         return dict(
-            item1 = item1,
-            info1 = info1,
-            Treatment = iTreat
+            item1           = item1,
+            info1           = info1,
+            Treatment       = iTreat
         )
 
 
 class EQ_2(Page):
     @staticmethod
     def is_displayed(player):
-        participant = player.participant
-        filled = participant.bFilled
+        participant         = player.participant
+        filled              = participant.bFilled
         return filled
 
-    form_model = 'player'
-    form_fields = C.Shuffled_Emotions
+    form_model              = 'player'
+    form_fields             = C.Shuffled_Emotions
 
     def vars_for_template(player):
-        participant = player.participant
-        lSel_Items = participant.lSel_Items
-        EQ_order = participant.EQ_order
+        participant         = player.participant
+        lSel_Items          = participant.lSel_Items
+        EQ_order            = participant.EQ_order
         iTreat              = participant.iRisk_treat
         # import low and high risk food list
-        lNutri            = participant.lNutri
-        lLow = []
-        score_count = 0
+        lNutri              = participant.lNutri
+        lLow                = []
+        score_count         = 0
         for score in lNutri:
             if score == 1:
                 lLow.append(score_count)
-            score_count = score_count + 1
-        lHigh = []
-        score_count = 0
+            score_count     = score_count + 1
+        lHigh               = []
+        score_count         = 0
         for score in lNutri:
             if score == 4 or score == 5:
                 lHigh.append(score_count)
-            score_count = score_count + 1
+            score_count     = score_count + 1
         # choose one item randomly and check whether it applies to the order condition
-        item1 = 0
+        item1               = 0
         if EQ_order == 1:
-            randsel = random.randint(0,len(lSel_Items)-1)
-            randItem = lSel_Items[randsel]
+            randsel         = random.randint(0,len(lSel_Items)-1)
+            randItem        = lSel_Items[randsel]
             while randItem not in lLow:
-                randsel = random.randint(0,len(lSel_Items)-1)
-                randItem = lSel_Items[randsel]
-            item2 = lSel_Items[randItem]
+                randsel     = random.randint(0,len(lSel_Items)-1)
+                randItem    = lSel_Items[randsel]
+            item2           = lSel_Items[randItem]
         else:
-            randsel = random.randint(0,len(lSel_Items)-1)
-            randItem = lSel_Items[randsel]
+            randsel         = random.randint(0,len(lSel_Items)-1)
+            randItem        = lSel_Items[randsel]
             while randItem not in lHigh:
-                randsel = random.randint(0,len(lSel_Items)-1)
-                randItem = lSel_Items[randsel]            
-            item2 = lSel_Items[randItem]
-        info2 = 0
+                randsel     = random.randint(0,len(lSel_Items)-1)
+                randItem    = lSel_Items[randsel]            
+            item2           = lSel_Items[randItem]
+        info2               = 0
         if iTreat == 0:
-            info2             = C.sImagePath+'Nutri_'+str(lNutri[item1])+'.png'
+            info2           = C.sImagePath+'Nutri_'+str(lNutri[item1])+'.png'
         else:
-            info2             = C.sImagePath+'Risk_'+str(lNutri[item1])+'.png'
+            info2           = C.sImagePath+'Risk_'+str(lNutri[item1])+'.png'
         return dict(
-            item2 = item2,
-            info2 = info2,
-            Treatment = iTreat
+            item2           = item2,
+            info2           = info2,
+            Treatment       = iTreat
         )
 
 class Outro_Q(Page):
-    form_model = 'player'
-    form_fields = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 
-    'QT1', 'QT2', 'QT3', 'QT4', 'QT5', 'QT6', 'QT7','QT8', 'QT9', 'QT10', 'QT11', 'QT12','QT13', 'QT14', 
-    'V1','V2']
+    form_model              = 'player'
+    form_fields             = [
+        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 
+        'QT1', 'QT2', 'QT3', 'QT4', 'QT5', 'QT6', 'QT7','QT8', 'QT9', 'QT10', 'QT11', 'QT12','QT13', 'QT14', 
+        'V1','V2'
+        ]
 
     @staticmethod
     def before_next_page(player, timeout_happened):
-        participant = player.participant
+        participant         = player.participant
         # validate questionnaire
-        valid1 = int(int(player.V1)==2)
-        valid2 = int(int(player.V2)==1)
+        valid1              = int(int(player.V1)==2)
+        valid2              = int(int(player.V2)==1)
         participant.validQuestionnaire = valid1 + valid2
         # calculate CR, EE and PA score if nothing went wrong, save NA otherwise
         try:
-            CR_score = (int(player.QT1)+int(player.QT2)+int(player.QT3)+int(player.QT4)+int(player.QT5)+int(player.QT6))/6
-            EE_score = (int(player.QT7)+int(player.QT8)+int(player.QT9))/3
-            PA_score = (int(player.QT10)+int(player.QT11)+int(player.QT12)+int(player.QT13))/4
+            CR_score        = (int(player.QT1)+int(player.QT2)+int(player.QT3)+int(player.QT4)+int(player.QT5)+int(player.QT6))/6
+            EE_score        = (int(player.QT7)+int(player.QT8)+int(player.QT9))/3
+            PA_score        = (int(player.QT10)+int(player.QT11)+int(player.QT12)+int(player.QT13))/4
         except: 
-            CR_score = 'NA'
-            EE_score = 'NA'
-            PA_score = 'NA'
+            CR_score        = 'NA'
+            EE_score        = 'NA'
+            PA_score        = 'NA'
         participant.CR_score = CR_score
         participant.EE_score = EE_score
         participant.PA_score = PA_score
@@ -308,8 +310,8 @@ class Outro_Q(Page):
 
 
 class Goodbye(Page):
-    form_model = 'player'
-    form_fields = ['mail']
+    form_model              = 'player'
+    form_fields             = ['mail']
 
 
-page_sequence = [Emotion_Q, Outro_Q, Goodbye]
+page_sequence = [EQ_Intro, EQ_1, EQ_2, Outro_Q, Goodbye]

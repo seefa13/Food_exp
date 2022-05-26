@@ -17,11 +17,11 @@ class C(BaseConstants):
     sImagePath          = 'global/figures/'
 
     # make cominations
-    comparisons = ['AvBC','BCvDE','AvDE']
-    pricetypes = ['lowhigh','highlow','eq']
-    prices = [1,2,3]
-    types = ['largeal','largenal','small'] 
-    combinations = []
+    comparisons         = ['AvBC','BCvDE','AvDE']
+    pricetypes          = ['lowhigh','highlow','eq']
+    prices              = [1,2,3]
+    types               = ['largeal','largenal','small'] 
+    combinations        = []
     for comp in comparisons:
         for pricetype in pricetypes:
             for type in types:
@@ -80,57 +80,57 @@ class Choice(Page):
         iTreat              = participant.iRisk_treat
 
         # load participant data
-        lFoods            = participant.lFoods
-        lTastes           = participant.lTastes
-        lNutri            = participant.lNutri
+        lFoods              = participant.lFoods
+        lTastes             = participant.lTastes
+        lNutri              = participant.lNutri
 
         # aggregating items in A, BC and DE
-        lFoods_A = []
-        score_count = 0
+        lFoods_A            = []
+        score_count         = 0
         for score in lNutri:
             if score == 1:
                 lFoods_A.append(score_count)
-            score_count = score_count + 1
-        lFoods_BC = []
-        score_count = 0
+            score_count     = score_count + 1
+        lFoods_BC           = []
+        score_count         = 0
         for itemBC in lNutri:
             if itemBC == 2 or itemBC == 3:
                 lFoods_BC.append(score_count)
-            score_count = score_count + 1
-        lFoods_DE = []
-        score_count = 0
+            score_count     = score_count + 1
+        lFoods_DE           = []
+        score_count         = 0
         for itemDE in lNutri:
             if itemDE == 4 or itemDE == 5:
                 lFoods_DE.append(score_count)
-            score_count = score_count + 1
+            score_count     = score_count + 1
 
         # find product, price and taste combinations and add to participant field
-        combinations = list(C.combinations)
-        curcomb = []
-        randcomb = random.randint(0,len(combinations)-1)
-        curcomb = combinations[randcomb]
-        lPrevcomb_copy = list(participant.lPrevcomb)
+        combinations        = list(C.combinations)
+        curcomb             = []
+        randcomb            = random.randint(0,len(combinations)-1)
+        curcomb             = combinations[randcomb]
+        lPrevcomb_copy      = list(participant.lPrevcomb)
         lPrevcomb_copy.append(curcomb)
         participant.lPrevcomb = lPrevcomb_copy
 
         #assign type of taste (iType) and food comparison
         health_comb = curcomb[0]
         if health_comb == 'AvsBC':
-            lFoods1 = lFoods_A
-            lFoods2 = lFoods_BC
+            lFoods1         = lFoods_A
+            lFoods2         = lFoods_BC
         elif health_comb == 'AvsDE':
-            lFoods1 = lFoods_A
-            lFoods2 = lFoods_DE
+            lFoods1         = lFoods_A
+            lFoods2         = lFoods_DE
         else:
-            lFoods1 = lFoods_BC
-            lFoods2 = lFoods_DE
-        iType = curcomb[2]
+            lFoods1         = lFoods_BC
+            lFoods2         = lFoods_DE
+        iType               = curcomb[2]
 
-        # choose food products as indeces
-        lTaste1 = []
-        lTaste2 = []
-        lTaste1_ind = []
-        lTaste2_ind = []
+        # separate taste lists and combine with original indeces
+        lTaste1             = []
+        lTaste2             = []
+        lTaste1_ind         = []
+        lTaste2_ind         = []
         for food1 in lFoods1:
             lTaste1.append(lTastes[food1])
             lTaste1_ind.append(food1)
@@ -141,43 +141,48 @@ class Choice(Page):
         print('Taste list 1 indeces are ',lTaste1_ind)
         print('Taste list 2 is ',lTaste2)
         print('Taste list 2 indeces are ',lTaste2_ind)
-        lIndeces_out = []
-        index_out1 = 0
-        index_out2 = 0
-        difindex_count = 0
-        taste1_ind_count = 0
-        taste2_ind_count = 0
-        taste1_ind_count = 0
-        taste2_ind_count = 0
-        dif = 0
-        lDifs = []
-        index1 = 0
-        index2 = 0
-        lIndeces = []
+        
+        # initialize variables and counters
+        lIndeces_out        = []
+        index_out1          = 0
+        index_out2          = 0
+        difindex_count      = 0
+        taste1_ind_count    = 0
+        taste2_ind_count    = 0
+        taste1_ind_count    = 0
+        taste2_ind_count    = 0
+        dif                 = 0
+        lDifs               = []
+        index1              = 0
+        index2              = 0
+        lIndeces            = []
+        # find find largest difference aligned and not aligned with health rating and smallest difference
         for taste1 in lTaste1:
             taste2_ind_count=0
             for taste2 in lTaste2:
-                dif = taste1-taste2
+                dif         = taste1-taste2
                 if iType == 'small':
                     lDifs.append(abs(dif))
                 else:
                     lDifs.append(dif)
-                index1 = lTaste1_ind[taste1_ind_count]
-                index2 = lTaste2_ind[taste2_ind_count]
+                index1      = lTaste1_ind[taste1_ind_count]
+                index2      = lTaste2_ind[taste2_ind_count]
                 lIndeces.append([index1,index2])
                 taste2_ind_count = taste2_ind_count +1
             taste1_ind_count = taste1_ind_count +1
         if iType == 'largeal':
-            finaldif = max(lDifs)
+            finaldif        = max(lDifs)
         elif iType == 'largenal':
-            finaldif = min(lDifs)
+            finaldif        = min(lDifs)
         elif iType == 'small':
-            finaldif = min(lDifs)
+            finaldif        = min(lDifs)
         else:
             print("You selected the wrong type.")
         print('The difference list for ',iType,' is ',lDifs)
         print('The index list is ',lIndeces)        
         print('The difference is ',finaldif)
+        
+        # find indeces for the differences
         for d in lDifs:
             if iType == 'smalldif':
                 running_dif = abs(d)
@@ -187,14 +192,15 @@ class Choice(Page):
                 index_out1, index_out2 = lIndeces[difindex_count]
                 if [index_out1,index_out2] not in lIndeces_out:
                     lIndeces_out.append([index_out1,index_out2])
-            difindex_count = difindex_count + 1
+            difindex_count  = difindex_count + 1
         print('The final index list is ',lIndeces_out)
 
+        # choose one product combination randomly
         if len(lIndeces_out) == 1:
-            randinds = 0
+            randinds        = 0
         else:
             randinds = random.randint(0,len(lIndeces_out)-1)
-        Finalinds = lIndeces_out[randinds]
+        Finalinds           = lIndeces_out[randinds]
         participant.Foods_sel = Finalinds
         item1 = lFoods[Finalinds[0]]
         item2 = lFoods[Finalinds[1]]
@@ -202,17 +208,17 @@ class Choice(Page):
 
         ## assign cells for template
         # price
-        prices = list(C.prices)
+        prices              = list(C.prices)
         print('The price list is',prices)
         if curcomb[1] == 'lowhigh':
-            cp1         = prices[0]
-            cp2         = prices[2]
+            cp1             = prices[0]
+            cp2             = prices[2]
         elif curcomb[1] == 'highlow':
-            cp1         = prices[2]
-            cp2         = prices[0]
+            cp1             = prices[2]
+            cp2             = prices[0]
         else: 
-            cp1         = prices[1]
-            cp2         = prices[1]        
+            cp1             = prices[1]
+            cp2             = prices[1]        
         print('The selected prices are ',cp1,' and ',cp2,' for the combination ',curcomb[1])
 
         # taste
@@ -240,8 +246,8 @@ class Choice(Page):
 
     @staticmethod
     def js_vars(player: Player):
-        session = player.session
-        p = player.participant
+        session         = player.session
+        p               = player.participant
         return {
             'bRequireFS'        : session.config['bRequireFS'],
             'bCheckFocus'       : session.config['bCheckFocus'],
@@ -251,7 +257,7 @@ class Choice(Page):
         
     @staticmethod
     def before_next_page(player, timeout_happened):
-        participant                     = player.participant
+        participant     = player.participant
         if player.round_number>C.NUM_PROUNDS:
 
         # add Focus variables to total if it's not practice trial
@@ -262,9 +268,9 @@ class Choice(Page):
         # save decision
             Items_sel                       = participant.Foods_sel
             if (player.iHDec==0):
-                participant.lSel_Items        = Items_sel[0]
+                participant.lSel_Items      = Items_sel[0]
             else:
-                participant.lSel_Items        = Items_sel[1]
+                participant.lSel_Items      = Items_sel[1]
 
 
 page_sequence = [Practice, Fixation, Choice]

@@ -80,10 +80,25 @@ class Outro_Q(Page):
 
     @staticmethod
     def before_next_page(player, timeout_happened):
-        # Validate questionnaire
+        participant = player.participant
+        # validate questionnaire
         valid1 = int(int(player.V1)==2)
         valid2 = int(int(player.V2)==1)
-        player.participant.validQuestionnaire = valid1 + valid2
+        participant.validQuestionnaire = valid1 + valid2
+        # calculate CR, EE and PA score if nothing went wrong, save NA otherwise
+        try:
+            CR_score = (int(player.QT1)+int(player.QT2)+int(player.QT3)+int(player.QT4)+int(player.QT5)+int(player.QT6))/6
+            EE_score = (int(player.QT7)+int(player.QT8)+int(player.QT9))/3
+            PA_score = (int(player.QT10)+int(player.QT11)+int(player.QT12)+int(player.QT13))/4
+        except: 
+            CR_score = 'NA'
+            EE_score = 'NA'
+            PA_score = 'NA'
+        participant.CR_score = CR_score
+        participant.EE_score = EE_score
+        participant.PA_score = PA_score
+
+
 
 class Goodbye(Page):
     form_model = 'player'

@@ -35,12 +35,17 @@ function validAge(str) {
     num = parseInt(str);
     return (num>=18 && num<= 122);
 };
+function validActivity(str) {
+    num = parseInt(str);
+    return (num>=0 && num<= 100);
+};
 const countries = ["My country is not listed", "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
 const likertScale = [ 'Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
 const likertValues = [1,2,3,4,5];
 const warningAutocomplete = 'Please select one item from the list';
 const warningEmpty = 'Please do not leave this question unanswered';
 const warningAge = 'Please provide a valid answer (number from 18 to 122)';
+const warningActivity = 'Please provide a valid answer (number from 0 to 100)';
 const likertLimits = ['Strongly Disagree','Strongly Agree'];
 
 // *********************************************************************
@@ -151,24 +156,32 @@ const shuffleQuestions = [
         type: "scale",
     },
     {
-        question: "During the last 7 days, on how many days did you do vigorous physical activities like heavy lifting, digging, aerobics, or fast bicycling for at least 10 minutes at a time? ",
+        question: "During the last 7 days, how often did you do vigorous physical activities like heavy lifting, digging, aerobics, or fast bicycling for at least 10 minutes at a time? ",
         name: "QT10",
-        type: "autocomplete",
+        type: "shortopen",
+        validate: validActivity ,
+        invalidMessage: warningActivity,
     },
     {
-        question: "During the last 7 days, on how many days did you do moderate physical activities like carrying light loads, bicycling at a regular pace, or doubles tennis for at least 10 minutes at a time? Do not include walking.",
+        question: "During the last 7 days, how often did you do moderate physical activities like carrying light loads, bicycling at a regular pace, or doubles tennis for at least 10 minutes at a time? Do not include walking.",
         name: "QT11",
-        type: "autocomplete",
+        type: "shortopen",
+        validate: validActivity ,
+        invalidMessage: warningActivity,
     },
     {
-        question: "During the last 7 days, on how many days did you walk for at least 10 minutes at a time?",
+        question: "During the last 7 days, how often did you walk for at least 10 minutes at a time?",
         name: "QT12",
-        type: "autocomplete",
+        type: "shortopen",
+        validate: validActivity ,
+        invalidMessage: warningActivity,
     },
     {
         question: "During the last 7 days, how much time did you spend sitting on a week day?",
         name: "QT13",
-        type: "autocomplete",
+        type: "shortopen",
+        validate: validActivity ,
+        invalidMessage: warningActivity,
     },
     {
         question: "Please indicate whether you agree with the following statement: I feel very hungry right now.",

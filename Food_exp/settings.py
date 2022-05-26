@@ -58,9 +58,16 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 
 PARTICIPANT_FIELDS = [
-    'iRisk_treat','lFoods','lTastes','lNutri','lPrevcomb','Foods_sel','dTimeOutFocus','iOutFocus','iFullscreenChanges',
-    'startTime','dPixelRatio','validQuestionnaire','bRequireFS','bCheckFocus','validTasteQ','SelectedTrial',
-    'Sel_Item'
+    # treatment
+    'iRisk_treat',
+    # working data
+    'lFoods','lTastes','lNutri','lPrevcomb','Foods_sel',
+    # friendly checks
+    'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
+    # selected trial
+    'SelectedTrial','Sel_Item',
+    # validations and controls
+    'validQuestionnaire','validTasteQ','CR_score','EE_score','CR_score'
     ]
 
 # ISO-639 code

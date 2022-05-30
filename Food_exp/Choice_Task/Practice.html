@@ -1,0 +1,22 @@
+{{ block content }}
+
+<div class = "game-body" id = "game-body">
+    <div class = text-container>
+        The next trial is a practice trial! Try to make yourself familiar with the setting, how to display 
+        information and what information you see.
+    </div>
+    <button id="next" class="button next-button"> Next </button>
+</div>
+    
+
+{{ endblock }}
+
+{{ block script }}
+{{ endblock}}
+
+{{ block styles }}
+
+<link href="{% static 'global/Intro.css' %}" rel="stylesheet">
+<link href="{% static 'global/Choice.css' %}" rel="stylesheet">
+
+{{ endblock }}

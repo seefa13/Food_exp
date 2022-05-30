@@ -148,13 +148,23 @@ class Taste(Page):
         lNutri      = list(C.lNutri)
 
         # delete items with rating "1" in both lists
-        counter     = 0
-        for value in lTastes:
+        # note: 'for value in lTastes' does not work since it takes the original position of the item and not from modified list
+        ind_counter   = 0
+        taste_counter = 0
+        for taste_num in range(len(lTastes)):
+            value = lTastes[taste_counter]
+            print('The item under investigation is ',lFoods[taste_counter],' with index ',ind_counter,' Taste ',lTastes[taste_counter],' and the Nutri-Score ',lNutri[taste_counter],'.')
             if value == 1:
-                lTastes.remove(counter)
-                lFoods.remove(counter)
-                lNutri.remove(counter)
-            counter=counter+1
+                print('The item ',lFoods[taste_counter],' (Index ',ind_counter,') with the Taste ',lTastes[taste_counter],' and the Nutri-Score ',lNutri[taste_counter],' will be removed.')
+                lTastes.remove(lTastes[taste_counter])
+                lFoods.remove(lFoods[taste_counter])
+                lNutri.remove(lNutri[taste_counter])
+                print('Removing done.')
+                taste_counter = taste_counter - 1
+            else:
+                print('Item not removed.')
+            ind_counter = ind_counter+1
+            taste_counter = taste_counter + 1
 
         # save final lists to participant fields
         participant.lTastes=lTastes

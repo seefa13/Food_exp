@@ -4,7 +4,7 @@ SESSION_CONFIGS = [
     dict(
         name='Food_exp_config',
         display_name = 'Food Choice Experiment',
-        app_sequence=['Intro', 'Taste', 'Same', 'Different', 'Outro'],
+        app_sequence=['Intro', 'Taste', 'Choice_Task', 'Outro'],
         num_demo_participants=3,
         iTimeOut=0,
         bRequireFS=True,
@@ -22,7 +22,7 @@ SESSION_CONFIGS = [
         dict(
         name='Main',
         display_name = 'Main',
-        app_sequence=['Taste', 'Same', 'Different'],
+        app_sequence=['Taste', 'Choice_Task'],
         num_demo_participants=3,
         iTimeOut=0,
         bRequireFS=True,
@@ -31,7 +31,7 @@ SESSION_CONFIGS = [
         dict(
         name='Choices',
         display_name = 'Choices',
-        app_sequence=['Same', 'Different'],
+        app_sequence=['Choice_Task'],
         num_demo_participants=3,
         iTimeOut=0,
         bRequireFS=True,
@@ -61,13 +61,13 @@ PARTICIPANT_FIELDS = [
     # treatment
     'iRisk_treat',
     # working data
-    'lFoods','lTastes','lNutri','lPrevcomb','Foods_sel',
+    'lFoods','lTastes','lNutri','lPrevcomb','Foods_sel','practice_item','practice_price1','practice_price2','practice_price','EQ_order',
     # friendly checks
     'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
     # selected trial
     'SelectedTrial','lSel_Items',
     # validations and controls
-    'bFilled','validQuestionnaire','validTasteQ','CR_score','EE_score','CR_score'
+    'validQuestionnaire','validTasteQ','CR_score','EE_score','PA_score'
     ]
 
 # ISO-639 code

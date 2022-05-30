@@ -44,8 +44,13 @@ function labels() {
 function tasteQ() {
     var indexQ = indexF;
     var Fooditem = Foodlist.at(indexQ);
+    var Fooditem_b = Foodlist.at(indexQ).bold();
     indexF = indexF + 1;
-    var Q = "On a scale from 1 to 5, how much would you like to eat "+Fooditem+". Remember that, 1s will be excluded.";
+    if (Fooditem == 'Water' || Fooditem == 'Milk' || Fooditem == 'a Soja-Drink' || Fooditem == 'Lemonade' || Fooditem == 'a Berrysmoothie (vegan)') {
+        var Q = "On a scale from 1 to 5, how much would you like to drink "+Fooditem_b+". Remember that, 1s will be excluded.";
+    } else {
+        var Q = "On a scale from 1 to 5, how much would you like to eat "+Fooditem_b+". Remember that, 1s will be excluded.";   
+    };
     return Q;
 };
 
@@ -54,18 +59,35 @@ const likertValues = [1,2,3,4,5];
 const warningAutocomplete = 'Please select one item from the list';
 const warningEmpty = 'Please do not leave this question unanswered';
 const likertLimits = ['Would never like to eat','Would definitely like to eat'];
-const Foodlist = ['Bananas','Strawberries','Chia seeds','Cashews','Salmon','a Vegetable mix','White Beans','a Yogurt', 
-'a Whole Grain Bread','a Chicken, filet','Butter, plant-based','Milk, low fat','Pork','a Mueslibar, no sugar added',
-'Water','Cottage Cheese','a Boiled Egg', 'Banana chips','Strawberries, Smoothie','Sunflower seeds','Cashews, salted','Salmon, smoked',
-'Vegetables, breaded','Baked Beans','a Yogurt, sweetened','a White Bread','a Chicken, breaded filet','Butter',
-'Milk, whole fat','Pork, sausage','a Mueslibar, sweetened','a Lemonade','Cheese','an Egg', 'salad'
+const Foodlist = [
+    'a Banana',             'Strawberries',         'Chia seeds',       'Chips',                    'Salmon',
+    'a Vegetable mix',      'White Beans',          'Yogurt',           'Whole Grain Bread (vegan)','a Chickenfilet',
+    'Chocolate (vegan)',    'a Croissant (vegan)',  'Pork',             'a sugarfree Mueslibar',    'Water',
+    'Cheese (vegan)',       'a Boiled Egg',         'Banana chips',     'a Berrysmoothie (vegan)',  'Vanilla Ice Cream (vegan)',
+    'salted Cashews',       'smoked Salmon',        'Hummus',           'sweetened Cranberries',    'sweetened Yogurt (Soja)',
+    'White Bread (vegan)',  'a breaded Chicken filet','Butter (vegan)', 'Milk',                     'a Sausage (Pork)',        
+    'a sweetened Mueslibar','Lemonade',             'Cheese',           'Crackers',                 'a Soja-Drink',
+    'Ravioli Funghi',       'salted Popcorn'
 ];
-const Labellist = ['iFruit','iFruit_unh','iBerries','iBerries_unh','iSeeds','iSeeds_unh','iNuts','iNuts_unh','iFish','iFish_unh',
-'iVeg','iVeg_unh','iBeans','iBeans_unh','iYog','iYog_unh','iBread','iBread_unh','iChicken','iChicken_unh',
-'iButter_unh','iButter','iMilk','iMilk_unh','iRedmeat','iRedmeat_unh','iBar_unh','iBar','iDrink','iDrink_unh',
-'iCheese','iCheese_unh','iEggs','iEggs_unh'];
+const Labellist = [
+    'iFruit',               'iBerries',             'iSeeds',           'iChips',                   'iFish', 
+    'iVeg',                 'iBeans',               'iYog',             'iBread',                   'iChicken', 
+    'iChoco',               'iCroissant',           'iRedmeat',         'iBar',                     'iDrink', 
+    'iCheese_h',            'iEggs',                'iFruit_unh',       'iBerries_unh',             'iIce', 
+    'iNuts_unh',            'iFish_unh',            'iHummus',          'iCran',                    'iYog_unh', 
+    'iBread_unh',           'iChicken_unh',         'iButter_unh',      'iMilk',                    'iRedmeat_unh', 
+    'iBar_unh',             'iDrink_unh',           'iCheese_unh',      'iCracker',                 'iSoja', 
+    'iRavioli',             'iPopcorn',             'V1',               'V2'
+];
 var indexl = 0;
 var indexF = 0;
+// bold text
+introtxt1 = "honestly and candidly as you can";
+introtxt1_b = introtxt1.bold();
+introtxt2 = "incentive to state your true preference for a food product";
+introtxt2_b = introtxt2.bold();
+introtxt3 = "excluded from the experiment";
+introtxt3_b = introtxt3.bold();
 
 
 // *********************************************************************
@@ -74,7 +96,7 @@ var indexF = 0;
 
 const firstQuestions = [
     {
-        question: "For the following questions, please answer each of these questions in terms of the way you generally feel. For each question simply state as honestly and candidly as you can what you are presently experiencing. Note that you have an incentive to state your true preference for a food product, since there is a chance that you actually get it and since you will not see the names of the food products. Taste ratings do not influence your monetary payments. Food items with the rating I would never like eat that due to moral, allergy or taste reasons will be excluded from the experiment. Please Select '2' to show that you read these instructions.",
+        question: "For the following questions, please answer each of these questions in terms of the way you generally feel. For each question simply state as "+introtxt1_b+" what you are presently experiencing. Note that you have an "+introtxt2_b+", since you will not see the names of the food products in later decisions. Taste ratings do not influence your monetary payments. Food items with the rating I would never like eat that due to moral, allergy or taste reasons will be "+introtxt3_b+". Please Select '2' to show that you read these instructions.",
         name: "V1",
         type: "scale",
     },
@@ -82,6 +104,21 @@ const firstQuestions = [
 
 // Add questionnaire questions in different orders
 const shuffleQuestions = [ 
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
+    {
+        question: tasteQ(),
+        name: labels(),
+        type: "scale",
+    },
     {
         question: tasteQ(),
         name: labels(),

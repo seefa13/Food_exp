@@ -10,7 +10,7 @@ This app contains a gernal introduction to otree and the task.
 #FUNCTIONS
 # initialize treatments and counter variables
 def creating_session(subsession):
-    iHealth = [0, 1, 2] # 0 is baseline, 1 is risk label, 2 is concrete risk
+    iHealth = [0, 1] # 0 is baseline, 1 is risk label, 2 is concrete risk
     if subsession.round_number == 1:
         for player in subsession.get_players():
 
@@ -37,7 +37,7 @@ class C(BaseConstants):
     AvgDur              = "10-15"                               # average duration
     PaidParts           = "20"                                  # how many participants are being paid out
     Endowment           = "5€"                                  # endowment
-    NumTrials           = "18"                                  # number of trials
+    NumTrials           = "27"                                  # number of trials
 
 
 class Subsession(BaseSubsession):

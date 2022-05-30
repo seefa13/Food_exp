@@ -27,7 +27,7 @@
             {{ endif }}. 
             How do you feel? Select <b>all</b> that apply. 
         </p>
-        {{ for field in C.Shuffled_Emotions }}
+        {{ for field in formfields }}
         <label>
             <input type="checkbox" name="{{ field.name }}" value="1">
             {{ field.label }}

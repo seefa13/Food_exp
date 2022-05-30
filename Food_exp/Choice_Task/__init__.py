@@ -8,11 +8,11 @@ food category.
 """
 
 class C(BaseConstants):
-    NAME_IN_URL         = 'Same'
+    NAME_IN_URL         = 'Choices'
     PLAYERS_PER_GROUP   = None
     # number of rounds
-    NUM_ROUNDS          = 10
-    NUM_PROUNDS         = 1
+    NUM_ROUNDS          = 30
+    NUM_PROUNDS         = 3
     # image path for taste and health/risk attribute
     sImagePath          = 'global/figures/'
 
@@ -55,6 +55,30 @@ class Practice(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number < (C.NUM_PROUNDS+1)
+
+
+class Ready(Page):
+    # show only if practice round in the beginning
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == (C.NUM_PROUNDS+1)
+
+
+class Practice_FB(Page):
+    # show only if practice round 
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number < (C.NUM_PROUNDS+1)
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lFoods = participant.lFoods
+        practice_item = lFoods[participant.practice_item]
+        practice_price = participant.practice_price
+        return dict(
+            practice_item = practice_item,
+            practice_price = practice_price
+        )
 
 
 class Fixation(Page):
@@ -218,7 +242,12 @@ class Choice(Page):
             cp2             = prices[0]
         else: 
             cp1             = prices[1]
-            cp2             = prices[1]        
+            cp2             = prices[1]   
+        if player.round_number<=C.NUM_PROUNDS:
+        # if practice trial, save for feedback
+            participant.practice_price1             = cp1
+            participant.practice_price2             = cp2
+            print('Prices have been recorded.')    
         print('The selected prices are ',cp1,' and ',cp2,' for the combination ',curcomb[1])
 
         # taste
@@ -246,8 +275,8 @@ class Choice(Page):
 
     @staticmethod
     def js_vars(player: Player):
-        session         = player.session
-        p               = player.participant
+        session             = player.session
+        p                   = player.participant
         return {
             'bRequireFS'        : session.config['bRequireFS'],
             'bCheckFocus'       : session.config['bCheckFocus'],
@@ -257,7 +286,15 @@ class Choice(Page):
         
     @staticmethod
     def before_next_page(player, timeout_happened):
-        participant     = player.participant
+        participant                     = player.participant
+        Items_sel                       = participant.Foods_sel
+        Price1                          = participant.practice_price1
+        Price2                          = participant.practice_price2
+        try: 
+            lSel_Items                  = participant.lSel_Items
+        except:
+            lSel_Items                  = []
+
         if player.round_number>C.NUM_PROUNDS:
 
         # add Focus variables to total if it's not practice trial
@@ -266,11 +303,25 @@ class Choice(Page):
             participant.dTimeOutFocus       = float(participant.dTimeOutFocus) + player.dFocusLostT
         
         # save decision
-            Items_sel                       = participant.Foods_sel
             if (player.iHDec==0):
-                participant.lSel_Items      = Items_sel[0]
+                try:
+                    lSel_Items.append(Items_sel[0])
+                except:
+                    lSel_Items = [Items_sel[0]]
             else:
-                participant.lSel_Items      = Items_sel[1]
+                try:
+                    lSel_Items.append(Items_sel[1])
+                except:
+                    lSel_Items = [Items_sel[1]]
+            participant.lSel_Items = lSel_Items
+            print('lSel_Items is now ',lSel_Items,'.')
+        else:
+            if (player.iHDec==0):
+                participant.practice_item   = Items_sel[0]
+                participant.practice_price  = Price1
+            else:
+                participant.practice_item   = Items_sel[1]
+                participant.practice_price  = Price2
 
 
-page_sequence = [Practice, Fixation, Choice]
+page_sequence = [Practice, Ready, Fixation, Choice, Practice_FB]

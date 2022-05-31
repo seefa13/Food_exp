@@ -112,25 +112,13 @@ class Choice(Page):
         lTastes             = participant.lTastes
         lNutri              = participant.lNutri
 
-        # aggregating items in A, BC and DE
-        lFoods_A            = []
-        score_count         = 0
-        for score in lNutri:
-            if score == 1:
-                lFoods_A.append(score_count)
-            score_count     = score_count + 1
-        lFoods_BC           = []
-        score_count         = 0
-        for itemBC in lNutri:
-            if itemBC == 2 or itemBC == 3:
-                lFoods_BC.append(score_count)
-            score_count     = score_count + 1
-        lFoods_DE           = []
-        score_count         = 0
-        for itemDE in lNutri:
-            if itemDE == 4 or itemDE == 5:
-                lFoods_DE.append(score_count)
-            score_count     = score_count + 1
+        # adding aggregated taste and index lists
+        lTaste_A            = participant.lTaste_A
+        lTaste_A_ind        = participant.lTaste_A_ind
+        lTaste_BC            = participant.lTaste_BC
+        lTaste_BC_ind        = participant.lTaste_BC_ind
+        lTaste_DE            = participant.lTaste_DE
+        lTaste_DE_ind        = participant.lTaste_DE_ind
 
         # find product, price and taste combinations and add to participant field
         combinations        = list(C.combinations)
@@ -143,32 +131,26 @@ class Choice(Page):
 
         #assign type of taste (iType) and food comparison
         health_comb = curcomb[0]
-        if health_comb == 'AvsBC':
-            lFoods1         = lFoods_A
-            lFoods2         = lFoods_BC
-        elif health_comb == 'AvsDE':
-            lFoods1         = lFoods_A
-            lFoods2         = lFoods_DE
-        else:
-            lFoods1         = lFoods_BC
-            lFoods2         = lFoods_DE
-        iType               = curcomb[2]
-
-        # separate taste lists and combine with original indeces
         lTaste1             = []
         lTaste2             = []
         lTaste1_ind         = []
         lTaste2_ind         = []
-        for food1 in lFoods1:
-            lTaste1.append(lTastes[food1])
-            lTaste1_ind.append(food1)
-        for food2 in lFoods2:
-            lTaste2.append(lTastes[food2])
-            lTaste2_ind.append(food2)
-        print('Taste list 1 is ',lTaste1)
-        print('Taste list 1 indeces are ',lTaste1_ind)
-        print('Taste list 2 is ',lTaste2)
-        print('Taste list 2 indeces are ',lTaste2_ind)
+        if health_comb == 'AvsBC':
+            lTaste1         = lTaste_A
+            lTaste2         = lTaste_BC
+            lTaste1_ind     = lTaste_A_ind
+            lTaste2_ind     = lTaste_BC_ind
+        elif health_comb == 'AvsDE':
+            lTaste1         = lTaste_A
+            lTaste2         = lTaste_DE
+            lTaste1_ind     = lTaste_A_ind
+            lTaste2_ind     = lTaste_DE_ind
+        else:
+            lTaste1         = lTaste_BC
+            lTaste2         = lTaste_DE
+            lTaste1_ind     = lTaste_BC_ind
+            lTaste2_ind     = lTaste_DE_ind
+        iType               = curcomb[2]
         
         # initialize variables and counters
         lIndeces_out        = []
@@ -177,13 +159,12 @@ class Choice(Page):
         difindex_count      = 0
         taste1_ind_count    = 0
         taste2_ind_count    = 0
-        taste1_ind_count    = 0
-        taste2_ind_count    = 0
         dif                 = 0
         lDifs               = []
         index1              = 0
         index2              = 0
         lIndeces            = []
+        
         # find find largest difference aligned and not aligned with health rating and smallest difference
         for taste1 in lTaste1:
             taste2_ind_count=0

@@ -1,3 +1,4 @@
+from ast import ListComp
 from otree.api import *
 
 
@@ -112,6 +113,7 @@ class Player(BasePlayer):
 
     V1 = models.StringField(blank=True)
     V2 = models.StringField(blank=True)
+    V3 = models.StringField(blank=True)
 
 
 # PAGES
@@ -125,7 +127,7 @@ class Taste(Page):
         'iNuts_unh', 'iFish_unh', 'iHummus', 'iCran', 'iYog_unh', 
         'iBread_unh', 'iChicken_unh', 'iButter_unh', 'iMilk', 'iRedmeat_unh', 
         'iBar_unh', 'iDrink_unh', 'iCheese_unh', 'iCracker', 'iSoja', 
-        'iRavioli', 'iPopcorn', 'V1','V2'
+        'iRavioli', 'iPopcorn', 'V1','V2','V3'
     ]
     
     @staticmethod
@@ -165,17 +167,92 @@ class Taste(Page):
                 print('Item not removed.')
             ind_counter = ind_counter+1
             taste_counter = taste_counter + 1
+        
+        # aggregating items in A, BC and DE
+        lFoods_A            = []
+        score_count         = 0
+        for score in lNutri:
+            if score == 1:
+                lFoods_A.append(score_count)
+            score_count     = score_count + 1
+        lFoods_BC           = []
+        score_count         = 0
+        for itemBC in lNutri:
+            if itemBC == 2 or itemBC == 3:
+                lFoods_BC.append(score_count)
+            score_count     = score_count + 1
+        lFoods_DE           = []
+        score_count         = 0
+        for itemDE in lNutri:
+            if itemDE == 4 or itemDE == 5:
+                lFoods_DE.append(score_count)
+            score_count     = score_count + 1
+        
+        # separate taste lists and combine with original indeces
+        lTaste_A            = []
+        lTaste_BC           = []
+        lTaste_DE           = []
+        lTaste_A_ind        = []
+        lTaste_BC_ind       = []
+        lTaste_DE_ind       = []
+        for foodA in lFoods_A:
+            lTaste_A.append(lTastes[foodA])
+            lTaste_A_ind.append(foodA)
+        for foodBC in lFoods_BC:
+            lTaste_BC.append(lTastes[foodBC])
+            lTaste_BC_ind.append(foodBC)
+        for foodDE in lFoods_DE:
+            lTaste_DE.append(lTastes[foodDE])
+            lTaste_DE_ind.append(foodDE)
+        print('Taste list A is ',lTaste_A)
+        print('Taste list A indeces are ',lTaste_A_ind)
+        print('Taste list BC is ',lTaste_BC)
+        print('Taste list BC indeces are ',lTaste_BC_ind)
+        print('Taste list DE is ',lTaste_DE)
+        print('Taste list DE indeces are ',lTaste_DE_ind)
 
         # save final lists to participant fields
         participant.lTastes=lTastes
         participant.lFoods=lFoods
         participant.lNutri=lNutri
         participant.lPrevcomb=lPrevcomb
+        participant.lFoods_A = lFoods_A
+        participant.lFoods_BC = lFoods_BC
+        participant.lFoods_DE = lFoods_DE
+        participant.lTaste_A = lTaste_A
+        participant.lTaste_A_ind = lTaste_A_ind
+        participant.lTaste_BC = lTaste_BC
+        participant.lTaste_BC_ind = lTaste_BC_ind
+        participant.lTaste_DE = lTaste_DE
+        participant.lTaste_DE_ind = lTaste_DE_ind
         
         # Validate Taste ratings
         valid1 = int(int(self.V1)==2)
         valid2 = int(int(self.V2)==1)
-        self.participant.validTasteQ = valid1 + valid2
-        
+        valid3 = int(int(self.V3)==3)
+        self.participant.validTasteQ = valid1 + valid2 + valid3
+    
+class Exclude(Page):
+    def is_displayed(player):
+        participant     = player.participant
+        lFoods_A        = participant.lFoods_A
+        lFoods_BC       = participant.lFoods_BC
+        lFoods_DE       = participant.lFoods_DE
 
-page_sequence = [Taste]
+        # validate food lists
+        invalidlen = True
+        if len(lFoods_A) > 17 or len(lFoods_BC) > 17 or len(lFoods_DE) > 17:
+            invalidlen = False
+        else:
+            print("Foodlist is not valid.")
+        participant.invalidlen = invalidlen
+        return invalidlen
+    
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        participant = player.participant
+        invalidlen = participant.invalidlen
+        if invalidlen == True:
+            return upcoming_apps[0]
+        
+page_sequence = [Taste,Exclude]

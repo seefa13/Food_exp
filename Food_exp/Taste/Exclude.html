@@ -1,0 +1,31 @@
+{{ block styles }}
+
+<link rel="stylesheet" href="{% static 'global/Intro.css' %}">
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class = "game-body">
+    <div class="text-container">
+        <p> You excluded too many items and can therefore not participate in the experiment. </p>
+        <p> Thank you for your efforts. Goodbye. </p>
+    </div>
+    <button id="next" class="button next-button"> Next </button>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+
+<script src="{% static 'global/FriendlyChecks.js' %}"> </script>
+
+<script>
+    const bRequireFS    = 'bRequireFS';
+    const bCheckFocus   = 'bCheckFocus';
+    const defaultPixel  = 'dPixelRatio';
+    var TBlur           = new Date().getTime();
+    var TFocus          = new Date().getTime();
+</script>
+
+{{ endblock }}

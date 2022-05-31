@@ -8,9 +8,20 @@
 {{ block script }}
 
 <script>
-    var btn = document.getElementById("btn");
-    btn.style.top = Math.floor((Math.random() * 90) + 1) + "vh";
-    btn.style.left = Math.floor((Math.random() * 90) + 1) + "vw";
+    function Startleft() {
+        let startleft = js_vars.Startleft;
+        console.log('Startleft is '+startleft)
+        var btn = document.getElementById("btn");
+        btn.style.top = Math.floor((Math.random() * 90) + 1) + "vh";
+        if (startleft === 1) {
+            console.log('The program should start left.')
+            btn.style.left = Math.floor((Math.random() * 20) + 1) + "vw";
+        } else {
+            console.log('The program should start right.')
+            btn.style.left = Math.floor((Math.random() * 20) + 70) + "vw";
+        }
+    }
+    Startleft()
 </script>
 
 {{ endblock }}

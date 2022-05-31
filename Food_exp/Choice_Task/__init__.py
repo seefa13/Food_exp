@@ -82,7 +82,11 @@ class Practice_FB(Page):
 
 
 class Fixation(Page):
-    pass
+    def js_vars(player):
+        bStartleft = int(random.choice([0,1]))
+        return dict(
+            Startleft = bStartleft
+        )
 
 
 class Choice(Page):

@@ -9,7 +9,11 @@
 <div class="game-body">
     <div class="text-container">
         <p>
-            The product characteristics (Price, Quality and Sustainability) for each product will be
+            The product characteristics (Price, Quality and 
+            {{ if Treatment == 0 }} Health 
+                            {{ else }} Risk
+                            {{ endif }}
+            ) for each product will be
             behind
             <i>‘boxes’.</i>
         </p>

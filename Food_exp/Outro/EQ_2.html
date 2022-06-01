@@ -19,7 +19,7 @@
             {{ endif }} 
             was
         </p>
-        <img class="img-rating" src="{% static item2 %}" width="150px" height="35px" />
+        <img class="img-rating" src="{% static info2 %}" width="150px" height="35px" />
         <p> 
             Consider the level of 
             {{ if Treatment == 0 }} Health 
@@ -27,11 +27,11 @@
             {{ endif }}. 
             How do you feel? Select <b>all</b> that apply. 
         </p>
-        {{ for field in C.Shuffled_Emotions }}
-        <label>
-            <input type="checkbox" name="{{ field.name }}" value="1">
-            {{ field.label }}
-        </label><br>
+        {{ for field in form }}
+            <label>
+                <input type="checkbox" name="{{ field.name }}" value="1">
+                {{ field.label }}
+            </label><br>
         {{ endfor }}
         
         <button id="next" class="button next-button"> Next </button>

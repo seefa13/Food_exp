@@ -158,6 +158,13 @@ class Intro_Task(Page):
             'bCheckFocus'       : session.config['bCheckFocus'],
             'dPixelRatio'       : p.dPixelRatio,
         }
+    
+    def vars_for_template(player: Player):
+        participant = player.participant
+        Treatment = participant.iRisk_treat
+        return dict(
+            Treatment = Treatment
+        )
 
 class Intro_Choose(Page):
     @staticmethod

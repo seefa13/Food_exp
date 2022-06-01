@@ -232,27 +232,26 @@ class Taste(Page):
         valid3 = int(int(self.V3)==3)
         self.participant.validTasteQ = valid1 + valid2 + valid3
     
-class Exclude(Page):
-    def is_displayed(player):
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        participant = player.participant
         participant     = player.participant
         lFoods_A        = participant.lFoods_A
         lFoods_BC       = participant.lFoods_BC
         lFoods_DE       = participant.lFoods_DE
 
+        iLenAvBC = len(lFoods_A)*len(lFoods_BC)
+        iLenAvDE = len(lFoods_A)*len(lFoods_DE)
+        iLenBCvDE = len(lFoods_BC)*len(lFoods_DE)
+
         # validate food lists
-        invalidlen = True
-        if len(lFoods_A) > 17 or len(lFoods_BC) > 17 or len(lFoods_DE) > 17:
-            invalidlen = False
+        bInvalidlen = False
+        if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9:
+            bInvalidlen = True
         else:
-            print("Foodlist is not valid.")
-        participant.invalidlen = invalidlen
-        return invalidlen
-    
-    @staticmethod
-    def app_after_this_page(player: Player, upcoming_apps):
-        participant = player.participant
-        invalidlen = participant.invalidlen
-        if invalidlen == True:
-            return upcoming_apps[0]
+            print("Foodlist is valid.")
+        participant.bInvalidlen = bInvalidlen
+        if bInvalidlen == True:
+            return upcoming_apps[-1]
         
-page_sequence = [Taste,Exclude]
+page_sequence = [Taste]

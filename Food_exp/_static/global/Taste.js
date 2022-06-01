@@ -101,7 +101,7 @@ const firstQuestions = [
         type: "scale",
     },
     {
-        question: "Taste ratings do not influence your monetary payments. You can rate food items from 1 (I would never like eat that due to moral, allergy or taste reasons) to 5 (I would definitely like to eat that). Food items with the rating 1 will be "+introtxt3_b+". Please not that we have to exclude you from the experiment if you rate too many items with 1. Please select 3 to show that you read these instructions.",
+        question: "Taste ratings do not influence your monetary payments. You can rate food items from 1 (I would never like eat that due to moral, allergy or taste reasons) to 5 (I would definitely like to eat that). Food items with the rating 1 will be "+introtxt3_b+". Please note that we have to exclude you from the experiment if you rate too many items with 1. Please select 3 to show that you read these instructions.",
         name: "V3",
         type: "scale",
     },

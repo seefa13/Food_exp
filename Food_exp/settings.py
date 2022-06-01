@@ -63,7 +63,7 @@ PARTICIPANT_FIELDS = [
     # working data
     'lFoods','lTastes','lNutri','lPrevcomb','Foods_sel','practice_item','practice_price1','practice_price2',
     'practice_price','EQ_order','lTaste_A','lTaste_BC','lTaste_DE','lTaste_A_ind','lTaste_BC_ind','lTaste_DE_ind',
-    'lFoods_A','lFoods_BC','lFoods_DE','invalidlen',
+    'lFoods_A','lFoods_BC','lFoods_DE','bInvalidlen',
     # friendly checks
     'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
     # selected trial

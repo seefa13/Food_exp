@@ -28,8 +28,6 @@ class C(BaseConstants):
     for index in Shuffle_List:
         Shuffled_Emotions = Shuffled_Emotions[:index]+[Emotions[emo_count]]+Shuffled_Emotions[index+1:]
         emo_count       = emo_count + 1
-    print('The shuffled emotion list is: ',Shuffled_Emotions)
-
 
 class Subsession(BaseSubsession):
     pass
@@ -140,43 +138,49 @@ class Player(BasePlayer):
 
 # PAGES
 class EQ_Intro(Page):
-    pass
+    def is_displayed(player):
+        participant = player.participant
+        bInvalidlen = participant.bInvalidlen
+        return not bInvalidlen
 
 class EQ_1(Page):
     @staticmethod
     def is_displayed(player):
         participant             = player.participant
         # choose randomly whether low (0) or high (1) risk item shown first
-        EQ_order                = random.choice([0,1])
-        participant.EQ_order    = EQ_order
-        # import low and high risk food list
-        lNutri                  = participant.lNutri
-        lSel_Items              = participant.lSel_Items
-        filled                  = False
-        score_count             = 0
-        if EQ_order == 0:
-            lLow                = []
-            score_count         = 0
-            for score in lNutri:
-                if score == 1:
-                    lLow.append(score_count)
-                score_count     = score_count + 1
-            for item in lSel_Items:
-                for lowitem in lLow:
-                    if item == lowitem:
-                        filled  = True
-        else:
-            lHigh = []
-            score_count         = 0
-            for score in lNutri:
-                if score == 4 or score == 5:
-                    lHigh.append(score_count)
-                score_count     = score_count + 1
-            for item in lSel_Items:
-                for highitem in lHigh:
-                    if item == highitem:
-                        filled  = True
-        return filled
+        bInvalidlen             = participant.bInvalidlen
+        # import low and high risk food list if length of taste array is valid
+        if not bInvalidlen:
+            lNutri                  = participant.lNutri
+            lSel_Items              = participant.lSel_Items
+            EQ_order                = random.choice([0,1])
+            participant.EQ_order    = EQ_order
+            bShow                   = False
+            score_count             = 0
+            if EQ_order == 0:
+                lLow                = []
+                score_count         = 0
+                for score in lNutri:
+                    if score == 1:
+                        lLow.append(score_count)
+                    score_count     = score_count + 1
+                for item in lSel_Items:
+                    for lowitem in lLow:
+                        if item == lowitem:
+                            bShow  = True
+            else:
+                lHigh = []
+                score_count         = 0
+                for score in lNutri:
+                    if score == 4 or score == 5:
+                        lHigh.append(score_count)
+                    score_count     = score_count + 1
+                for item in lSel_Items:
+                    for highitem in lHigh:
+                        if item == highitem:
+                            bShow  = True
+        
+        return bShow
 
     form_model = 'player'
     form_fields = C.Shuffled_Emotions
@@ -186,8 +190,9 @@ class EQ_1(Page):
         lSel_Items          = participant.lSel_Items
         iTreat              = participant.iRisk_treat
         EQ_order            = participant.EQ_order
+        lFoods              = participant.lFoods
         # import low and high risk food list
-        lNutri              = participant.lNutri
+        lNutri                  = participant.lNutri
         lLow                = []
         score_count         = 0
         for score in lNutri:
@@ -201,26 +206,23 @@ class EQ_1(Page):
                 lHigh.append(score_count)
             score_count     = score_count + 1
         # choose one item randomly and check whether it applies to the order condition
-        item1               = 0
         if EQ_order == 0:
             randsel         = random.randint(0,len(lSel_Items)-1)
             randItem        = lSel_Items[randsel]
             while randItem not in lLow:
                 randsel     = random.randint(0,len(lSel_Items)-1)
                 randItem    = lSel_Items[randsel]
-            item1           = lSel_Items[randItem]
         else:
             randsel         = random.randint(0,len(lSel_Items)-1)
             randItem        = lSel_Items[randsel]
             while randItem not in lHigh:
                 randsel     = random.randint(0,len(lSel_Items)-1)
                 randItem    = lSel_Items[randsel]            
-            item1           = lSel_Items[randItem]
-        info1               = 0
+        item1           = lFoods[randItem]
         if iTreat == 0:
-            info1             = C.sImagePath+'Nutri_'+str(lNutri[item1])+'.png'
+            info1             = C.sImagePath+'Nutri_'+str(lNutri[randItem])+'.png'
         else:
-            info1             = C.sImagePath+'Risk_'+str(lNutri[item1])+'.png'
+            info1             = C.sImagePath+'Risk_'+str(lNutri[randItem])+'.png'
         return dict(
             item1           = item1,
             info1           = info1,
@@ -232,34 +234,37 @@ class EQ_2(Page):
     @staticmethod
     def is_displayed(player):
         participant         = player.participant
-        EQ_order              = participant.EQ_order
-                # import low and high risk food list
-        lNutri              = participant.lNutri
-        lSel_Items          = participant.lSel_Items
-        filled              = False
-        score_count         = 0
-        if EQ_order == 1:
-            lLow                = []
+        bInvalidlen         = participant.bInvalidlen
+        # import low and high risk food list if length of taste array is valid
+        if not bInvalidlen:
+            lNutri                  = participant.lNutri
+            lSel_Items              = participant.lSel_Items
+            EQ_order            = participant.EQ_order
+            bShow               = False
             score_count         = 0
-            for score in lNutri:
-                if score == 1:
-                    lLow.append(score_count)
-                score_count     = score_count + 1
-            for item in lSel_Items:
-                for lowitem in lLow:
-                    if item == lowitem:
-                        filled  = True
-        else:
-            lHigh = []
-            for score in lNutri:
-                if score == 4 or score == 5:
-                    lHigh.append(score_count)
-                score_count     = score_count + 1
-            for item in lSel_Items:
-                for highitem in lHigh:
-                    if item == highitem:
-                        filled  = True
-        return filled
+            if EQ_order == 1:
+                lLow                = []
+                score_count         = 0
+                for score in lNutri:
+                    if score == 1:
+                        lLow.append(score_count)
+                    score_count     = score_count + 1
+                for item in lSel_Items:
+                    for lowitem in lLow:
+                        if item == lowitem:
+                            bShow  = True
+            else:
+                lHigh = []
+                for score in lNutri:
+                    if score == 4 or score == 5:
+                        lHigh.append(score_count)
+                    score_count     = score_count + 1
+                for item in lSel_Items:
+                    for highitem in lHigh:
+                        if item == highitem:
+                            bShow  = True
+
+        return bShow
 
     form_model              = 'player'
     form_fields             = C.Shuffled_Emotions
@@ -269,8 +274,9 @@ class EQ_2(Page):
         lSel_Items          = participant.lSel_Items
         EQ_order            = participant.EQ_order
         iTreat              = participant.iRisk_treat
+        lFoods              = participant.lFoods
         # import low and high risk food list
-        lNutri              = participant.lNutri
+        lNutri                  = participant.lNutri
         lLow                = []
         score_count         = 0
         for score in lNutri:
@@ -284,26 +290,24 @@ class EQ_2(Page):
                 lHigh.append(score_count)
             score_count     = score_count + 1
         # choose one item randomly and check whether it applies to the order condition
-        item1               = 0
         if EQ_order == 1:
             randsel         = random.randint(0,len(lSel_Items)-1)
             randItem        = lSel_Items[randsel]
             while randItem not in lLow:
                 randsel     = random.randint(0,len(lSel_Items)-1)
                 randItem    = lSel_Items[randsel]
-            item2           = lSel_Items[randItem]
+            item2           = lFoods[randItem]
         else:
             randsel         = random.randint(0,len(lSel_Items)-1)
             randItem        = lSel_Items[randsel]
             while randItem not in lHigh:
                 randsel     = random.randint(0,len(lSel_Items)-1)
                 randItem    = lSel_Items[randsel]            
-            item2           = lSel_Items[randItem]
-        info2               = 0
+            item2           = lFoods[randItem]
         if iTreat == 0:
-            info2           = C.sImagePath+'Nutri_'+str(lNutri[item1])+'.png'
+            info2           = C.sImagePath+'Nutri_'+str(lNutri[randItem])+'.png'
         else:
-            info2           = C.sImagePath+'Risk_'+str(lNutri[item1])+'.png'
+            info2           = C.sImagePath+'Risk_'+str(lNutri[randItem])+'.png'
         return dict(
             item2           = item2,
             info2           = info2,
@@ -311,6 +315,11 @@ class EQ_2(Page):
         )
 
 class Outro_Q(Page):
+    def is_displayed(player):
+        participant = player.participant
+        bInvalidlen = participant.bInvalidlen
+        return not bInvalidlen
+
     form_model              = 'player'
     form_fields             = [
         'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 
@@ -339,10 +348,20 @@ class Outro_Q(Page):
         participant.PA_score = PA_score
 
 
-
 class Goodbye(Page):
+    def is_displayed(player):
+        participant = player.participant
+        bInvalidlen = participant.bInvalidlen
+        return not bInvalidlen
+
     form_model              = 'player'
     form_fields             = ['mail']
 
 
-page_sequence = [EQ_Intro, EQ_1, EQ_2, Outro_Q, Goodbye]
+class Exclude(Page):
+    def is_displayed(player):
+        participant = player.participant
+        bInvalidlen = participant.bInvalidlen
+        return bInvalidlen
+
+page_sequence = [EQ_Intro, EQ_1, EQ_2, Outro_Q, Goodbye, Exclude]

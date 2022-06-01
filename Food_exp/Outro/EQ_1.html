@@ -19,7 +19,7 @@
             {{ endif }} 
             was
         </p>
-        <img class="img-rating" src="{% static item1 %}" width="150px" height="35px" />
+        <img class="img-rating" src="{% static info1 %}" width="150px" height="35px" />
         <p> 
             Consider the level of 
             {{ if Treatment == 0 }} Health 
@@ -27,7 +27,7 @@
             {{ endif }}. 
             How do you feel? Select <b>all</b> that apply. 
         </p>
-        {{ for field in formfields }}
+        {{ for field in form }}
         <label>
             <input type="checkbox" name="{{ field.name }}" value="1">
             {{ field.label }}

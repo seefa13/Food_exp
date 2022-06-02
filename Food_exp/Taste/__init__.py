@@ -1,4 +1,5 @@
 from ast import ListComp
+from itertools import combinations
 from otree.api import *
 
 
@@ -36,7 +37,7 @@ class C(BaseConstants):
         'Ravioli Funghi',       'salted Popcorn'
     ]
 
-    # prices health scores
+    # health scores
     lNutri = [
         1,1,1,4,1,
         1,1,1,1,1,
@@ -55,6 +56,10 @@ class C(BaseConstants):
     ##          DE: 13 (v: 9)
     # D: 9
     # E: 4
+
+    # combinations and types of comparison
+    lComparions = ['AvBC','AvDE','BCvDE']
+    lTypes = ['largeal','largenal','small']
 
 
 class Subsession(BaseSubsession):
@@ -133,7 +138,6 @@ class Taste(Page):
     @staticmethod
     def before_next_page(self,timeout_happened):
         participant = self.participant
-        lPrevcomb = [100]
 
         # initialize lists of healthy and unhealthy food items, taste ratings, prices and health scores
         lFoods      = list(C.lFoods)
@@ -150,22 +154,20 @@ class Taste(Page):
         lNutri      = list(C.lNutri)
 
         # delete items with rating "1" in both lists
-        # note: 'for value in lTastes' does not work since it takes the original position of the item and not from modified list
-        ind_counter   = 0
+        # note: 'for value in lTastes' does not work since it takes the original position of the item and not from 
+        # modified list
+        
+        # go through every element (taste_num) in lTastes and remove it if the value is 1
+        # taste counter tracks the counter of the updated taste list (if no item removed, taste_counter and taste_num 
+        # are equal)
         taste_counter = 0
         for taste_num in range(len(lTastes)):
             value = lTastes[taste_counter]
-            print('The item under investigation is ',lFoods[taste_counter],' with index ',ind_counter,' Taste ',lTastes[taste_counter],' and the Nutri-Score ',lNutri[taste_counter],'.')
             if value == 1:
-                print('The item ',lFoods[taste_counter],' (Index ',ind_counter,') with the Taste ',lTastes[taste_counter],' and the Nutri-Score ',lNutri[taste_counter],' will be removed.')
                 lTastes.remove(lTastes[taste_counter])
                 lFoods.remove(lFoods[taste_counter])
                 lNutri.remove(lNutri[taste_counter])
-                print('Removing done.')
                 taste_counter = taste_counter - 1
-            else:
-                print('Item not removed.')
-            ind_counter = ind_counter+1
             taste_counter = taste_counter + 1
         
         # aggregating items in A, BC and DE
@@ -187,6 +189,10 @@ class Taste(Page):
             if itemDE == 4 or itemDE == 5:
                 lFoods_DE.append(score_count)
             score_count     = score_count + 1
+        
+        participant.lFoods_A = lFoods_A
+        participant.lFoods_BC = lFoods_BC
+        participant.lFoods_DE = lFoods_DE
         
         # separate taste lists and combine with original indeces
         lTaste_A            = []
@@ -211,26 +217,109 @@ class Taste(Page):
         print('Taste list DE is ',lTaste_DE)
         print('Taste list DE indeces are ',lTaste_DE_ind)
 
+        for comp in C.lComparions:
+            for iType in C.lTypes:
+                if comp == 'AvBC':
+                    lTaste1 = lTaste_A
+                    lTaste2 = lTaste_BC
+                    lTaste1_ind = lTaste_A_ind
+                    lTaste2_ind = lTaste_BC_ind
+                elif comp == 'AvDE':
+                    lTaste1 = lTaste_A
+                    lTaste2 = lTaste_DE
+                    lTaste1_ind = lTaste_A_ind
+                    lTaste2_ind = lTaste_DE_ind
+                else:
+                    lTaste1 = lTaste_BC
+                    lTaste2 = lTaste_DE
+                    lTaste1_ind = lTaste_BC_ind
+                    lTaste2_ind = lTaste_DE_ind
+
+                # initialize variables and counters
+                lIndeces_out        = []
+                index_out1          = 0
+                index_out2          = 0
+                difindex_count      = 0
+                taste1_ind_count    = 0
+                taste2_ind_count    = 0
+                dif                 = 0
+                lDifs               = []
+                index1              = 0
+                index2              = 0
+                lIndeces            = []
+
+                # find largest difference aligned and not aligned with health rating and smallest difference
+                for taste1 in lTaste1:
+                    taste2_ind_count=0
+                    for taste2 in lTaste2:
+                        dif         = taste1-taste2
+                        if iType == 'small':
+                            lDifs.append(abs(dif))
+                        else:
+                            lDifs.append(dif)
+                        index1      = lTaste1_ind[taste1_ind_count]
+                        index2      = lTaste2_ind[taste2_ind_count]
+                        lIndeces.append([index1,index2])
+                        taste2_ind_count = taste2_ind_count +1
+                    taste1_ind_count = taste1_ind_count +1
+                if iType == 'largeal':
+                    finaldif        = max(lDifs)
+                elif iType == 'largenal':
+                    finaldif        = min(lDifs)
+                elif iType == 'small':
+                    finaldif        = min(lDifs)
+                else:
+                    print("You selected the wrong type.")
+                print('The difference list for ',iType,' is ',lDifs)
+                print('The index list is ',lIndeces)        
+                print('The difference is ',finaldif)
+
+                # find (pairs of) indeces for the differences
+                for d in lDifs:
+                    if iType == 'smalldif':
+                        running_dif = abs(d)
+                    else:
+                        running_dif = d
+                    if running_dif == finaldif:
+                        index_out1, index_out2 = lIndeces[difindex_count]
+                        if [index_out1,index_out2] not in lIndeces_out:
+                            lIndeces_out.append([index_out1,index_out2])
+                    difindex_count  = difindex_count + 1
+                print('The final index list is ',lIndeces_out)
+                
+        # save final index list for every one of the 9 combinations
+                if comp == 'AvBC':
+                    if iType == 'small':
+                        participant.lInds_AvBC_small = lIndeces_out
+                    elif iType == 'largeal':
+                        participant.lInds_AvBC_largeal = lIndeces_out
+                    else:
+                        participant.lInds_AvBC_largenal = lIndeces_out
+                elif comp == 'AvDE':
+                    if iType == 'small':
+                        participant.lInds_AvDE_small = lIndeces_out
+                    elif iType == 'largeal':
+                        participant.lInds_AvDE_largeal = lIndeces_out
+                    else:
+                        participant.lInds_AvDE_largenal = lIndeces_out
+                else:
+                    if iType == 'small':
+                        participant.lInds_BCvDE_small = lIndeces_out
+                    elif iType == 'largeal':
+                        participant.lInds_BCvDE_largeal = lIndeces_out
+                    else:
+                        participant.lInds_BCvDE_largenal = lIndeces_out
+
         # save final lists to participant fields
         participant.lTastes=lTastes
         participant.lFoods=lFoods
         participant.lNutri=lNutri
-        participant.lPrevcomb=lPrevcomb
-        participant.lFoods_A = lFoods_A
-        participant.lFoods_BC = lFoods_BC
-        participant.lFoods_DE = lFoods_DE
-        participant.lTaste_A = lTaste_A
-        participant.lTaste_A_ind = lTaste_A_ind
-        participant.lTaste_BC = lTaste_BC
-        participant.lTaste_BC_ind = lTaste_BC_ind
-        participant.lTaste_DE = lTaste_DE
-        participant.lTaste_DE_ind = lTaste_DE_ind
         
         # Validate Taste ratings
         valid1 = int(int(self.V1)==2)
         valid2 = int(int(self.V2)==1)
         valid3 = int(int(self.V3)==3)
-        self.participant.validTasteQ = valid1 + valid2 + valid3
+        participant.validTasteQ = valid1 + valid2 + valid3
     
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
@@ -244,7 +333,7 @@ class Taste(Page):
         iLenAvDE = len(lFoods_A)*len(lFoods_DE)
         iLenBCvDE = len(lFoods_BC)*len(lFoods_DE)
 
-        # validate food lists
+        # validate food lists and skip to last page if invalid length is true
         bInvalidlen = False
         if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9:
             bInvalidlen = True

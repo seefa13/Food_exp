@@ -1,5 +1,5 @@
 from otree.api import *
-from numpy import random
+import random
 
 
 doc = """
@@ -10,6 +10,7 @@ food category.
 class C(BaseConstants):
     NAME_IN_URL         = 'Choices'
     PLAYERS_PER_GROUP   = None
+    Endowment = 5
     # number of rounds
     NUM_ROUNDS          = 30
     NUM_PROUNDS         = 3
@@ -17,17 +18,16 @@ class C(BaseConstants):
     sImagePath          = 'global/figures/'
 
     # make cominations
-    comparisons         = ['AvBC','BCvDE','AvDE']
-    pricetypes          = ['lowhigh','highlow','eq']
-    prices              = [1,2,3]
-    types               = ['largeal','largenal','small'] 
-    combinations        = []
-    for comp in comparisons:
-        for pricetype in pricetypes:
-            for type in types:
-                combinations.append([comp,pricetype,type])
+    lComparisons         = ['AvBC','BCvDE','AvDE']
+    lPricetypes          = ['lowhigh','highlow','eq']
+    lPrices              = [1,2,3]
+    lTypes               = ['largeal','largenal','small'] 
+    lCombinations        = []
+    for comp in lComparisons:
+        for pricetype in lPricetypes:
+            for type in lTypes:
+                lCombinations.append([comp,pricetype,type])
     #print('The combinations are ',combinations)
-
 
 class Subsession(BaseSubsession):
     pass
@@ -51,14 +51,14 @@ class Player(BasePlayer):
 
 # PAGES
 class Practice(Page):
-    # show only if practice round in the beginning
+    # show only if practice round 
     @staticmethod
     def is_displayed(player):
         return player.round_number < (C.NUM_PROUNDS+1)
 
 
 class Ready(Page):
-    # show only if practice round in the beginning
+    # show only if practice round 
     @staticmethod
     def is_displayed(player):
         return player.round_number == (C.NUM_PROUNDS+1)
@@ -75,9 +75,10 @@ class Practice_FB(Page):
         lFoods = participant.lFoods
         practice_item = lFoods[participant.practice_item]
         practice_price = participant.practice_price
+        practice_payout = C.Endowment - practice_price
         return dict(
             practice_item = practice_item,
-            practice_price = practice_price
+            practice_payout = practice_payout
         )
 
 
@@ -112,104 +113,67 @@ class Choice(Page):
         lTastes             = participant.lTastes
         lNutri              = participant.lNutri
 
-        # adding aggregated taste and index lists
-        lTaste_A            = participant.lTaste_A
-        lTaste_A_ind        = participant.lTaste_A_ind
-        lTaste_BC            = participant.lTaste_BC
-        lTaste_BC_ind        = participant.lTaste_BC_ind
-        lTaste_DE            = participant.lTaste_DE
-        lTaste_DE_ind        = participant.lTaste_DE_ind
-
-        # find product, price and taste combinations and add to participant field
-        combinations        = list(C.combinations)
-        curcomb             = []
-        randcomb            = random.randint(0,len(combinations)-1)
-        curcomb             = combinations[randcomb]
-        lPrevcomb_copy      = list(participant.lPrevcomb)
-        lPrevcomb_copy.append(curcomb)
-        participant.lPrevcomb = lPrevcomb_copy
-
-        #assign type of taste (iType) and food comparison
-        health_comb = curcomb[0]
-        lTaste1             = []
-        lTaste2             = []
-        lTaste1_ind         = []
-        lTaste2_ind         = []
-        if health_comb == 'AvsBC':
-            lTaste1         = lTaste_A
-            lTaste2         = lTaste_BC
-            lTaste1_ind     = lTaste_A_ind
-            lTaste2_ind     = lTaste_BC_ind
-        elif health_comb == 'AvsDE':
-            lTaste1         = lTaste_A
-            lTaste2         = lTaste_DE
-            lTaste1_ind     = lTaste_A_ind
-            lTaste2_ind     = lTaste_DE_ind
+        # find product, price and taste combinations, check whether previously used and add to participant field
+        rn = player.round_number
+        prn = C.NUM_PROUNDS
+        # randomize
+        if rn == 1:
+            combinations    = list(C.lCombinations)
+            randCombs       = random.sample(combinations,len(combinations))
+            participant.randCombs = randCombs
         else:
-            lTaste1         = lTaste_BC
-            lTaste2         = lTaste_DE
-            lTaste1_ind     = lTaste_BC_ind
-            lTaste2_ind     = lTaste_DE_ind
-        iType               = curcomb[2]
+            randCombs = participant.randCombs
         
-        # initialize variables and counters
-        lIndeces_out        = []
-        index_out1          = 0
-        index_out2          = 0
-        difindex_count      = 0
-        taste1_ind_count    = 0
-        taste2_ind_count    = 0
-        dif                 = 0
-        lDifs               = []
-        index1              = 0
-        index2              = 0
-        lIndeces            = []
-        
-        # find find largest difference aligned and not aligned with health rating and smallest difference
-        for taste1 in lTaste1:
-            taste2_ind_count=0
-            for taste2 in lTaste2:
-                dif         = taste1-taste2
-                if iType == 'small':
-                    lDifs.append(abs(dif))
-                else:
-                    lDifs.append(dif)
-                index1      = lTaste1_ind[taste1_ind_count]
-                index2      = lTaste2_ind[taste2_ind_count]
-                lIndeces.append([index1,index2])
-                taste2_ind_count = taste2_ind_count +1
-            taste1_ind_count = taste1_ind_count +1
-        if iType == 'largeal':
-            finaldif        = max(lDifs)
-        elif iType == 'largenal':
-            finaldif        = min(lDifs)
-        elif iType == 'small':
-            finaldif        = min(lDifs)
+        # take one element after the other
+        if rn < prn+1:
+            curcomb = random.choice(randCombs)
         else:
-            print("You selected the wrong type.")
-        print('The difference list for ',iType,' is ',lDifs)
-        print('The index list is ',lIndeces)        
-        print('The difference is ',finaldif)
-        
-        # find indeces for the differences
-        for d in lDifs:
-            if iType == 'smalldif':
-                running_dif = abs(d)
+            curcomb             = randCombs[rn-1-prn]
+        print('The chosen combination is ',curcomb)
+
+        # import all index lists
+        lInds_AvBC_small = participant.lInds_AvBC_small 
+        lInds_AvBC_largeal = participant.lInds_AvBC_largeal
+        lInds_AvBC_largenal = participant.lInds_AvBC_largenal
+
+        lInds_AvDE_small = participant.lInds_AvDE_small 
+        lInds_AvDE_largeal = participant.lInds_AvDE_largeal
+        lInds_AvDE_largenal = participant.lInds_AvDE_largenal
+
+        lInds_BCvDE_small = participant.lInds_BCvDE_small 
+        lInds_BCvDE_largeal = participant.lInds_BCvDE_largeal
+        lInds_BCvDE_largenal = participant.lInds_BCvDE_largenal
+
+        # Choose a list for current indeces
+
+        if curcomb[0] == 'AvBC':
+            if curcomb[2] == 'small':
+                lCurInds = lInds_AvBC_small 
+            elif curcomb[2] == 'largeal':
+                lCurInds = lInds_AvBC_largeal 
             else:
-                running_dif = d
-            if running_dif == finaldif:
-                index_out1, index_out2 = lIndeces[difindex_count]
-                if [index_out1,index_out2] not in lIndeces_out:
-                    lIndeces_out.append([index_out1,index_out2])
-            difindex_count  = difindex_count + 1
-        print('The final index list is ',lIndeces_out)
+                lCurInds = lInds_AvBC_largenal
+        elif curcomb[0] == 'AvDe':
+            if curcomb[2] == 'small':
+                lCurInds = lInds_AvDE_small 
+            elif curcomb[2] == 'largeal':
+                lCurInds = lInds_AvDE_largeal
+            else:
+                lCurInds = lInds_AvDE_largenal
+        else:
+            if curcomb[2] == 'small':
+                lCurInds = lInds_BCvDE_small
+            elif curcomb[2] == 'largeal':
+                lCurInds = lInds_BCvDE_largeal
+            else:
+                lCurInds = lInds_BCvDE_largenal
 
-        # choose one product combination randomly
-        if len(lIndeces_out) == 1:
+        # choose one product combination randomly out of the final index list
+        if len(lCurInds) == 1:
             randinds        = 0
         else:
-            randinds = random.randint(0,len(lIndeces_out)-1)
-        Finalinds           = lIndeces_out[randinds]
+            randinds = random.randint(0,len(lCurInds)-1)
+        Finalinds           = lCurInds[randinds]
         participant.Foods_sel = Finalinds
         item1 = lFoods[Finalinds[0]]
         item2 = lFoods[Finalinds[1]]
@@ -217,7 +181,7 @@ class Choice(Page):
 
         ## assign cells for template
         # price
-        prices              = list(C.prices)
+        prices              = list(C.lPrices)
         print('The price list is',prices)
         if curcomb[1] == 'lowhigh':
             cp1             = prices[0]
@@ -232,7 +196,6 @@ class Choice(Page):
         # if practice trial, save for feedback
             participant.practice_price1             = cp1
             participant.practice_price2             = cp2
-            print('Prices have been recorded.')    
         print('The selected prices are ',cp1,' and ',cp2,' for the combination ',curcomb[1])
 
         # taste
@@ -258,6 +221,7 @@ class Choice(Page):
             ch2             = ch2
         )
 
+    # friendly checks
     @staticmethod
     def js_vars(player: Player):
         session             = player.session
@@ -268,7 +232,7 @@ class Choice(Page):
             'iTimeOut'          : session.config['iTimeOut'],
             'dPixelRatio'       : p.dPixelRatio,
         }
-        
+    
     @staticmethod
     def before_next_page(player, timeout_happened):
         participant                     = player.participant
@@ -287,7 +251,7 @@ class Choice(Page):
             participant.iFullscreenChanges  = int(participant.iFullscreenChanges) + player.iFullscreenChange
             participant.dTimeOutFocus       = float(participant.dTimeOutFocus) + player.dFocusLostT
         
-        # save decision
+        # save decision price and item in participant field for emotion elicitation later
             if (player.iHDec==0):
                 try:
                     lSel_Items.append(Items_sel[0])

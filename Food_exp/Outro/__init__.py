@@ -14,20 +14,9 @@ class C(BaseConstants):
     # image path for taste and health/risk attribute
     sImagePath          = 'global/figures/'
     # Create list of shuffled emotions for form fields
-    Emotions            = ['Dull','Happy','Active','Unhappy','Energetic','Nervous','Calm','Secure','Passive','Blue','Enthusiastic','Tense']
-    Shuffled_Emotions   = ['E1','E2','E3','E4','E5','E6','E7','E8','E9','E10','E11','E12']
-    Shuffle_List        = []
-    shuffle_count       = 0
-    while shuffle_count<len(Emotions):
-        randindex       = random.randint(0,len(Emotions)-1)
-        while randindex in Shuffle_List:
-            randindex   = random.randint(0,len(Emotions)-1)
-        Shuffle_List.append(randindex)
-        shuffle_count   = shuffle_count + 1
-    emo_count = 0
-    for index in Shuffle_List:
-        Shuffled_Emotions = Shuffled_Emotions[:index]+[Emotions[emo_count]]+Shuffled_Emotions[index+1:]
-        emo_count       = emo_count + 1
+    Emotions_1            = ['Dull1','Happy1','Active1','Unhappy1','Energetic1','Nervous1','Calm1','Secure1','Passive1','Blue1','Enthusiastic1','Tense1']
+    Emotions_2            = ['Dull2','Happy2','Active2','Unhappy2','Energetic2','Nervous2','Calm2','Secure2','Passive2','Blue2','Enthusiastic2','Tense2']    
+
 
 class Subsession(BaseSubsession):
     pass
@@ -86,52 +75,102 @@ class Player(BasePlayer):
     # E-Mail address
     mail = models.StringField()
 
-    # EQ
-    Dull = models.BooleanField(
+    # EQ_1
+    Dull1 = models.BooleanField(
         blank = True,
         label = "Dull, Bored" 
     )
-    Happy = models.BooleanField(
+    Happy1 = models.BooleanField(
         blank = True,
         label = "Happy, Satisfied"
     )
-    Active = models.BooleanField(
+    Active1 = models.BooleanField(
         blank = True,
         label = "Active, Alert"
     )
-    Unhappy = models.BooleanField(
+    Unhappy1 = models.BooleanField(
         blank = True,
         label = "Unhappy, Dissatisfied"
     )
-    Energetic = models.BooleanField(
+    Energetic1 = models.BooleanField(
         blank = True,
         label = "Energetic, Excited"
     )
-    Nervous = models.BooleanField(
+    Nervous1 = models.BooleanField(
         blank = True,
         label = "Jittered, Nervous"
     )
-    Calm = models.BooleanField(
+    Calm1 = models.BooleanField(
         blank = True,
         label = "Relaxed, Calm"
     )
-    Secure = models.BooleanField(
+    Secure1 = models.BooleanField(
         blank = True,
         label = "Secure, At ease"
     )
-    Passive = models.BooleanField(
+    Passive1 = models.BooleanField(
         blank = True,
         label = "Passive, Quiet"
     )
-    Blue = models.BooleanField(
+    Blue1 = models.BooleanField(
         blank = True,
         label = "Blue, Uninspired"
     )
-    Enthusiastic = models.BooleanField(
+    Enthusiastic1 = models.BooleanField(
         blank = True,
         label = "Enthusiastic, Inspired"
     )
-    Tense = models.BooleanField(
+    Tense1 = models.BooleanField(
+        blank = True,
+        label = "Tense, Bothered"
+    )
+
+    # EQ_2
+    Dull2 = models.BooleanField(
+        blank = True,
+        label = "Dull, Bored" 
+    )
+    Happy2 = models.BooleanField(
+        blank = True,
+        label = "Happy, Satisfied"
+    )
+    Active2 = models.BooleanField(
+        blank = True,
+        label = "Active, Alert"
+    )
+    Unhappy2 = models.BooleanField(
+        blank = True,
+        label = "Unhappy, Dissatisfied"
+    )
+    Energetic2 = models.BooleanField(
+        blank = True,
+        label = "Energetic, Excited"
+    )
+    Nervous2 = models.BooleanField(
+        blank = True,
+        label = "Jittered, Nervous"
+    )
+    Calm2 = models.BooleanField(
+        blank = True,
+        label = "Relaxed, Calm"
+    )
+    Secure2 = models.BooleanField(
+        blank = True,
+        label = "Secure, At ease"
+    )
+    Passive2 = models.BooleanField(
+        blank = True,
+        label = "Passive, Quiet"
+    )
+    Blue2 = models.BooleanField(
+        blank = True,
+        label = "Blue, Uninspired"
+    )
+    Enthusiastic2 = models.BooleanField(
+        blank = True,
+        label = "Enthusiastic, Inspired"
+    )
+    Tense2 = models.BooleanField(
         blank = True,
         label = "Tense, Bothered"
     )
@@ -146,44 +185,56 @@ class EQ_Intro(Page):
 class EQ_1(Page):
     @staticmethod
     def is_displayed(player):
-        participant             = player.participant
+        participant                 = player.participant
         # choose randomly whether low (0) or high (1) risk item shown first
-        bInvalidlen             = participant.bInvalidlen
+        bInvalidlen                 = participant.bInvalidlen
         # import low and high risk food list if length of taste array is valid
         if not bInvalidlen:
             lNutri                  = participant.lNutri
             lSel_Items              = participant.lSel_Items
             EQ_order                = random.choice([0,1])
+            print('The order is ',EQ_order)
             participant.EQ_order    = EQ_order
             bShow                   = False
             score_count             = 0
+
+            # aggregate decisions in low (Nutri = 1) and high (Nutri = 4 || Nutri = 5) risk food lists
+            lLow                = []
+            score_count         = 0
+            for score in lNutri:
+                if score == 1:
+                    lLow.append(score_count)
+                score_count     = score_count + 1
+            for item in lSel_Items:
+                for lowitem in lLow:
+                    if item == lowitem:
+                        bShow_low  = True
+            participant.bShow_low = bShow_low
+            participant.lLow            = lLow
+            
+            lHigh = []
+            score_count         = 0
+            for score in lNutri:
+                if score == 4 or score == 5:
+                    lHigh.append(score_count)
+                score_count     = score_count + 1
+            for item in lSel_Items:
+                for highitem in lHigh:
+                    if item == highitem:
+                            bShow_high   = True
+            participant.bShow_high      = bShow_high
+            participant.lHigh           = lHigh
             if EQ_order == 0:
-                lLow                = []
-                score_count         = 0
-                for score in lNutri:
-                    if score == 1:
-                        lLow.append(score_count)
-                    score_count     = score_count + 1
-                for item in lSel_Items:
-                    for lowitem in lLow:
-                        if item == lowitem:
-                            bShow  = True
+                bShow = bShow_low
             else:
-                lHigh = []
-                score_count         = 0
-                for score in lNutri:
-                    if score == 4 or score == 5:
-                        lHigh.append(score_count)
-                    score_count     = score_count + 1
-                for item in lSel_Items:
-                    for highitem in lHigh:
-                        if item == highitem:
-                            bShow  = True
+               bShow = bShow_high
         
         return bShow
 
+    Shuffled_Emotions_1   = random.sample(C.Emotions_1,len(C.Emotions_1))
+
     form_model = 'player'
-    form_fields = C.Shuffled_Emotions
+    form_fields = Shuffled_Emotions_1
 
     def vars_for_template(player):
         participant         = player.participant
@@ -191,20 +242,10 @@ class EQ_1(Page):
         iTreat              = participant.iRisk_treat
         EQ_order            = participant.EQ_order
         lFoods              = participant.lFoods
-        # import low and high risk food list
-        lNutri                  = participant.lNutri
-        lLow                = []
-        score_count         = 0
-        for score in lNutri:
-            if score == 1:
-                lLow.append(score_count)
-            score_count     = score_count + 1
-        lHigh               = []
-        score_count         = 0
-        for score in lNutri:
-            if score == 4 or score == 5:
-                lHigh.append(score_count)
-            score_count     = score_count + 1
+        lLow                = participant.lLow
+        lHigh               = participant.lHigh
+        lNutri              = participant.lNutri
+        
         # choose one item randomly and check whether it applies to the order condition
         if EQ_order == 0:
             randsel         = random.randint(0,len(lSel_Items)-1)
@@ -237,37 +278,18 @@ class EQ_2(Page):
         bInvalidlen         = participant.bInvalidlen
         # import low and high risk food list if length of taste array is valid
         if not bInvalidlen:
-            lNutri                  = participant.lNutri
-            lSel_Items              = participant.lSel_Items
-            EQ_order            = participant.EQ_order
-            bShow               = False
-            score_count         = 0
+            EQ_order = participant.EQ_order
             if EQ_order == 1:
-                lLow                = []
-                score_count         = 0
-                for score in lNutri:
-                    if score == 1:
-                        lLow.append(score_count)
-                    score_count     = score_count + 1
-                for item in lSel_Items:
-                    for lowitem in lLow:
-                        if item == lowitem:
-                            bShow  = True
+                bShow = participant.bShow_low
             else:
-                lHigh = []
-                for score in lNutri:
-                    if score == 4 or score == 5:
-                        lHigh.append(score_count)
-                    score_count     = score_count + 1
-                for item in lSel_Items:
-                    for highitem in lHigh:
-                        if item == highitem:
-                            bShow  = True
+                bShow = participant.bShow_high
 
         return bShow
 
+    Shuffled_Emotions_2   = random.sample(C.Emotions_2,len(C.Emotions_2))
+
     form_model              = 'player'
-    form_fields             = C.Shuffled_Emotions
+    form_fields             = Shuffled_Emotions_2
 
     def vars_for_template(player):
         participant         = player.participant
@@ -277,18 +299,9 @@ class EQ_2(Page):
         lFoods              = participant.lFoods
         # import low and high risk food list
         lNutri                  = participant.lNutri
-        lLow                = []
-        score_count         = 0
-        for score in lNutri:
-            if score == 1:
-                lLow.append(score_count)
-            score_count     = score_count + 1
-        lHigh               = []
-        score_count         = 0
-        for score in lNutri:
-            if score == 4 or score == 5:
-                lHigh.append(score_count)
-            score_count     = score_count + 1
+        lLow                = participant.lLow
+        lHigh               = participant.lHigh
+
         # choose one item randomly and check whether it applies to the order condition
         if EQ_order == 1:
             randsel         = random.randint(0,len(lSel_Items)-1)

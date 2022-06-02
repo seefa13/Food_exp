@@ -60,14 +60,25 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = [
     # treatment
     'iRisk_treat',
+    # food lists
+    'lFoods','lFoods_A','lFoods_BC','lFoods_DE',
+    # nutri score
+    'lNutri',
+    # taste list
+    'lTastes',
     # working data
-    'lFoods','lTastes','lNutri','lPrevcomb','Foods_sel','practice_item','practice_price1','practice_price2',
-    'practice_price','EQ_order','lTaste_A','lTaste_BC','lTaste_DE','lTaste_A_ind','lTaste_BC_ind','lTaste_DE_ind',
-    'lFoods_A','lFoods_BC','lFoods_DE','bInvalidlen',
+    'randCombs','practice_item','practice_price1','practice_price2','practice_price','EQ_order',
+    ####
+    'lInds_AvBC_small','lInds_AvBC_largeal','lInds_AvBC_largenal',
+    'lInds_AvDE_small','lInds_AvDE_largeal','lInds_AvDE_largenal',
+    'lInds_BCvDE_small','lInds_BCvDE_largeal','lInds_BCvDE_largenal',
+    ####
+    # content checks
+    'bInvalidlen','bShow_low','bShow_high',
     # friendly checks
     'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
-    # selected trial
-    'SelectedTrial','lSel_Items',
+    # selected food items
+    'lSel_Items','Foods_sel','lLow','lHigh',
     # validations and controls
     'validQuestionnaire','validTasteQ','CR_score','EE_score','PA_score'
     ]

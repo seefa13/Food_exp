@@ -101,7 +101,7 @@ const firstQuestions = [
         type: "scale",
     },
     {
-        question: "Taste ratings do not influence your monetary payments. You can rate food items from 1 (I would never like eat that due to moral, allergy or taste reasons) to 5 (I would definitely like to eat that). Food items with the rating 1 will be "+introtxt3_b+". Please note that we have to exclude you from the experiment if you rate too many items with 1. Please select 3 to show that you read these instructions.",
+        question: "Taste ratings do not influence your monetary payments. You can rate food items from 1 (I would never like eat that due to moral, allergy or taste reasons) to 5 (I would definitely like to eat that). Food items with the rating 1 will be "+introtxt3_b+". Please note that we have to exclude you from the experiment if you rate too many items with 1. Please select '3' to show that you read these instructions.",
         name: "V3",
         type: "scale",
     },
@@ -391,6 +391,12 @@ QuestionSlide.prototype.printSlide = function() {
     pQuestion.className = 'question';
     pQuestion.innerHTML = this.Question.question;
     slideQuestion.appendChild(pQuestion);
+    // Create Image
+    function img_create(src) {
+        var img = document.createElement('img');
+        img.src = src;
+        slideQuestion.appendChild(img);
+    }
     // Depending on input type, create inputs accordingly
     if (this.Question.type==='radio' || this.Question.type==='radioH' || this.Question.type==='radioFig') {
         // 1. Radio or RadioHorizontal
@@ -647,6 +653,10 @@ function writeProgBar(slide) {
     return `<div class="pbar-container"> <label> 0% </label>
     <progress class="progress-bar" min="0" max="${maxQ}" value="${slide+1}"></progress>
                         <label> 100% </label> </div>`
+}
+
+function writeImg(src) {
+    return `<img class="img-food" src="{% static ${src} %}" width="150px" height="35px" />`
 }
 
 // *********************************************************************

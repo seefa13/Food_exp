@@ -86,8 +86,10 @@ introtxt1 = "honestly and candidly as you can";
 introtxt1_b = introtxt1.bold();
 introtxt2 = "incentive to state your true preference for a food product";
 introtxt2_b = introtxt2.bold();
-introtxt3 = "excluded from the experiment";
+introtxt3 = "1 (I would never like to eat that due to moral, allergy or taste reasons) to 5 (I would definitely like to eat that)";
 introtxt3_b = introtxt3.bold();
+introtxt4 = "excluded from the experiment";
+introtxt4_b = introtxt4.bold();
 
 
 // *********************************************************************
@@ -96,12 +98,12 @@ introtxt3_b = introtxt3.bold();
 
 const firstQuestions = [
     {
-        question: "For the following questions, please answer each of these questions in terms of the way you generally feel. For each question simply state as "+introtxt1_b+" what you are presently experiencing. Note that you have an "+introtxt2_b+", since you will not see the names of the food products in later decisions. Please Select '2' to show that you read these instructions.",
+        question: "For the following questions, please answer each in terms of the way you generally feel. For each question simply state as "+introtxt1_b+" what you are presently experiencing. Note that you have an "+introtxt2_b+", since you will not see the names of the food products in later decisions. Please Select '2' to show that you read these instructions.",
         name: "V1",
         type: "scale",
     },
     {
-        question: "Taste ratings do not influence your monetary payments. You can rate food items from 1 (I would never like eat that due to moral, allergy or taste reasons) to 5 (I would definitely like to eat that). Food items with the rating 1 will be "+introtxt3_b+". Please note that we have to exclude you from the experiment if you rate too many items with 1. Please select '3' to show that you read these instructions.",
+        question: "Taste ratings do not influence your monetary payments. You can rate food items from "+introtxt3_b+". Food items with the rating 1 will be "+introtxt4_b+". Please note that we have to exclude you from the experiment if you rate too many items with 1. Please select '3' to show that you read these instructions.",
         name: "V3",
         type: "scale",
     },

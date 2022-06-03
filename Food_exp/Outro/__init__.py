@@ -259,7 +259,7 @@ class EQ_1(Page):
             while randItem not in lHigh:
                 randsel     = random.randint(0,len(lSel_Items)-1)
                 randItem    = lSel_Items[randsel]            
-        item1           = lFoods[randItem]
+        item1               = lFoods[randItem]
         if iTreat == 0:
             info1             = C.sImagePath+'Nutri_'+str(lNutri[randItem])+'.png'
         else:

@@ -121,6 +121,9 @@ class Choice(Page):
         lFoods              = participant.lFoods
         lTastes             = participant.lTastes
         lNutri              = participant.lNutri
+        lInds_BvC_largenal  = participant.lInds_BvC_largenal
+        lInds_DvE_largenal  = participant.lInds_DvE_largenal
+
 
         # find product, price and taste combinations, check whether previously used and add to participant field
         rn = player.round_number
@@ -128,8 +131,21 @@ class Choice(Page):
         # randomize
         if rn == 1:
             combinations    = list(C.lCombinations)
-            randCombs       = random.sample(combinations,len(combinations))
-            participant.randCombs = randCombs
+            if len(lInds_BvC_largenal) == 0:
+                for comb in combinations:
+                    if comb[0] == 'BvC':
+                        combinations.remove(comb)
+                randCombs       = random.sample(combinations,len(combinations))
+                participant.randCombs = randCombs
+            elif len(lInds_DvE_largenal) == 0:
+                for comb in combinations:
+                    if comb[0] == 'DvE':
+                        combinations.remove(comb)
+                randCombs       = random.sample(combinations,len(combinations))
+                participant.randCombs = randCombs
+            else:
+                randCombs       = random.sample(combinations,len(combinations))
+                participant.randCombs = randCombs
         else:
             randCombs = participant.randCombs
         

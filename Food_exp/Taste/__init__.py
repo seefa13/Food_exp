@@ -173,17 +173,17 @@ class Taste(Page):
         # aggregating items in A, BC and DE
         lFoods_A            = []
         score_count         = 0
-        for score in lNutri:
-            if score == 1:
+        for itemA in lNutri:
+            if itemA == 1:
                 lFoods_A.append(score_count)
             score_count     = score_count + 1
-        lFoods_B           = []
+        lFoods_B            = []
         score_count         = 0
         for itemB in lNutri:
             if itemB == 2:
                 lFoods_B.append(score_count)
             score_count     = score_count + 1
-        lFoods_C           = []
+        lFoods_C            = []
         score_count         = 0
         for itemC in lNutri:
             if itemC == 3:
@@ -219,14 +219,14 @@ class Taste(Page):
         lTaste_A_ind        = []
         lTaste_BC_ind       = []
         lTaste_DE_ind       = []
-        lTaste_B           = []
-        lTaste_D           = []
-        lTaste_B_ind       = []
-        lTaste_D_ind       = []
-        lTaste_C           = []
-        lTaste_E           = []
-        lTaste_C_ind       = []
-        lTaste_E_ind       = []
+        lTaste_B            = []
+        lTaste_D            = []
+        lTaste_B_ind        = []
+        lTaste_D_ind        = []
+        lTaste_C            = []
+        lTaste_E            = []
+        lTaste_C_ind        = []
+        lTaste_E_ind        = []
         for foodA in lFoods_A:
             lTaste_A.append(lTastes[foodA])
             lTaste_A_ind.append(foodA)
@@ -387,21 +387,15 @@ class Taste(Page):
         participant     = player.participant
         lFoods_A        = participant.lFoods_A
         lFoods_BC       = participant.lFoods_BC
-        lFoods_B       = participant.lFoods_B
-        lFoods_C       = participant.lFoods_C
         lFoods_DE       = participant.lFoods_DE
-        lFoods_D       = participant.lFoods_D
-        lFoods_E       = participant.lFoods_E
 
         iLenAvBC        = len(lFoods_A)*len(lFoods_BC)
         iLenAvDE        = len(lFoods_A)*len(lFoods_DE)
         iLenBCvDE       = len(lFoods_BC)*len(lFoods_DE)
-        iLenBvC         = len(lFoods_B)*len(lFoods_C)
-        iLenDvE         = len(lFoods_D)*len(lFoods_E)
 
         # validate food lists and skip to last page if invalid length is true
         bInvalidlen = False
-        if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9 or iLenBvC < 3 or iLenDvE <3:
+        if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9:
             bInvalidlen = True
         else:
             print("Foodlist is valid.")

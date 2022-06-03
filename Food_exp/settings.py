@@ -61,7 +61,7 @@ PARTICIPANT_FIELDS = [
     # treatment
     'iRisk_treat',
     # food lists
-    'lFoods','lFoods_A','lFoods_BC','lFoods_DE',
+    'lFoods','lFoods_A','lFoods_BC','lFoods_DE','lFoods_B','lFoods_C','lFoods_D','lFoods_E',
     # nutri score
     'lNutri',
     # taste list
@@ -72,6 +72,7 @@ PARTICIPANT_FIELDS = [
     'lInds_AvBC_small','lInds_AvBC_largeal','lInds_AvBC_largenal',
     'lInds_AvDE_small','lInds_AvDE_largeal','lInds_AvDE_largenal',
     'lInds_BCvDE_small','lInds_BCvDE_largeal','lInds_BCvDE_largenal',
+    'lInds_BvC_largenal','lInds_DvE_largenal',
     ####
     # content checks
     'bInvalidlen','bShow_low','bShow_high',

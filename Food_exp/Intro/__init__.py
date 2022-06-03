@@ -35,7 +35,7 @@ class C(BaseConstants):
     AvgDur              = "10-15"                               # average duration
     PaidParts           = "20"                                  # how many participants are being paid out
     Endowment           = "5€"                                  # endowment
-    NumTrials           = "27"                                  # number of trials
+    NumTrials           = "30"                                  # number of trials
 
 
 class Subsession(BaseSubsession):

@@ -12,21 +12,30 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP   = None
     Endowment = 5
     # number of rounds
-    NUM_ROUNDS          = 30
+    NUM_ROUNDS          = 33
     NUM_PROUNDS         = 3
     # image path for taste and health/risk attribute
     sImagePath          = 'global/figures/'
 
     # make cominations
-    lComparisons         = ['AvBC','BCvDE','AvDE']
-    lPricetypes          = ['lowhigh','highlow','eq']
-    lPrices              = [1,2,3]
-    lTypes               = ['largeal','largenal','small'] 
-    lCombinations        = []
+    lComparisons        = ['AvBC','BCvDE','AvDE']
+    lPricetypes         = ['lowhigh','highlow','eq']
+    lTypes              = ['largeal','largenal','small'] 
+    lPrices             = [1,2,3]
+    lCombinations       = []
+    lAddComps           = [
+        ['BvC','lowhigh','largenal'], ['BvC','highlow','largenal'], ['BvC','eq','largenal'],
+        ['DvE', 'lowhigh', 'largenal'], ['DvE', 'highlow', 'largenal'], ['DvE', 'eq', 'largenal']
+    ]
+    lForbidden          = [['AvBC','lowhigh','largeal'],['AvDE','lowhigh','largeal'],['BCvDE','lowhigh','largeal']]
     for comp in lComparisons:
         for pricetype in lPricetypes:
             for type in lTypes:
-                lCombinations.append([comp,pricetype,type])
+                if type not in lForbidden:
+                    lCombinations.append([comp,pricetype,type])
+    for addition in lAddComps:
+        lCombinations.append(addition)
+    
     #print('The combinations are ',combinations)
 
 class Subsession(BaseSubsession):
@@ -144,6 +153,9 @@ class Choice(Page):
         lInds_BCvDE_largeal = participant.lInds_BCvDE_largeal
         lInds_BCvDE_largenal = participant.lInds_BCvDE_largenal
 
+        lInds_BvC_largenal = participant.lInds_BvC_largenal
+        lInds_DvE_largenal = participant.lInds_DvE_largenal
+
         # Choose a list for current indeces
 
         if curcomb[0] == 'AvBC':
@@ -153,20 +165,24 @@ class Choice(Page):
                 lCurInds = lInds_AvBC_largeal 
             else:
                 lCurInds = lInds_AvBC_largenal
-        elif curcomb[0] == 'AvDe':
+        elif curcomb[0] == 'AvDE':
             if curcomb[2] == 'small':
                 lCurInds = lInds_AvDE_small 
             elif curcomb[2] == 'largeal':
                 lCurInds = lInds_AvDE_largeal
             else:
                 lCurInds = lInds_AvDE_largenal
-        else:
+        elif curcomb[0] == 'BCvDE':
             if curcomb[2] == 'small':
                 lCurInds = lInds_BCvDE_small
             elif curcomb[2] == 'largeal':
                 lCurInds = lInds_BCvDE_largeal
             else:
                 lCurInds = lInds_BCvDE_largenal
+        elif curcomb[0] == 'BvC':
+            lCurInds = lInds_BvC_largenal
+        else:
+            lCurInds = lInds_DvE_largenal
 
         # choose one product combination randomly out of the final index list
         if len(lCurInds) == 1:

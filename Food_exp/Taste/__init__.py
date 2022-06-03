@@ -58,7 +58,7 @@ class C(BaseConstants):
     # E: 4
 
     # combinations and types of comparison
-    lComparions = ['AvBC','AvDE','BCvDE']
+    lComparions = ['AvBC','AvDE','BCvDE','BvC','DvE']
     lTypes = ['largeal','largenal','small']
 
 
@@ -177,21 +177,39 @@ class Taste(Page):
             if score == 1:
                 lFoods_A.append(score_count)
             score_count     = score_count + 1
-        lFoods_BC           = []
+        lFoods_B           = []
         score_count         = 0
-        for itemBC in lNutri:
-            if itemBC == 2 or itemBC == 3:
-                lFoods_BC.append(score_count)
+        for itemB in lNutri:
+            if itemB == 2:
+                lFoods_B.append(score_count)
             score_count     = score_count + 1
-        lFoods_DE           = []
+        lFoods_C           = []
         score_count         = 0
-        for itemDE in lNutri:
-            if itemDE == 4 or itemDE == 5:
-                lFoods_DE.append(score_count)
+        for itemC in lNutri:
+            if itemC == 3:
+                lFoods_C.append(score_count)
             score_count     = score_count + 1
+        lFoods_BC = lFoods_B + lFoods_C
+        lFoods_D           = []
+        score_count         = 0
+        for itemD in lNutri:
+            if itemD == 4:
+                lFoods_D.append(score_count)
+            score_count     = score_count + 1
+        lFoods_E           = []
+        score_count         = 0
+        for itemE in lNutri:
+            if itemE == 5:
+                lFoods_E.append(score_count)
+            score_count     = score_count + 1
+        lFoods_DE = lFoods_D + lFoods_E
         
         participant.lFoods_A = lFoods_A
+        participant.lFoods_B = lFoods_B
+        participant.lFoods_C = lFoods_C
         participant.lFoods_BC = lFoods_BC
+        participant.lFoods_D = lFoods_D
+        participant.lFoods_E = lFoods_E
         participant.lFoods_DE = lFoods_DE
         
         # separate taste lists and combine with original indeces
@@ -201,21 +219,33 @@ class Taste(Page):
         lTaste_A_ind        = []
         lTaste_BC_ind       = []
         lTaste_DE_ind       = []
+        lTaste_B           = []
+        lTaste_D           = []
+        lTaste_B_ind       = []
+        lTaste_D_ind       = []
+        lTaste_C           = []
+        lTaste_E           = []
+        lTaste_C_ind       = []
+        lTaste_E_ind       = []
         for foodA in lFoods_A:
             lTaste_A.append(lTastes[foodA])
             lTaste_A_ind.append(foodA)
-        for foodBC in lFoods_BC:
-            lTaste_BC.append(lTastes[foodBC])
-            lTaste_BC_ind.append(foodBC)
-        for foodDE in lFoods_DE:
-            lTaste_DE.append(lTastes[foodDE])
-            lTaste_DE_ind.append(foodDE)
-        print('Taste list A is ',lTaste_A)
-        print('Taste list A indeces are ',lTaste_A_ind)
-        print('Taste list BC is ',lTaste_BC)
-        print('Taste list BC indeces are ',lTaste_BC_ind)
-        print('Taste list DE is ',lTaste_DE)
-        print('Taste list DE indeces are ',lTaste_DE_ind)
+        for foodB in lFoods_B:
+            lTaste_B.append(lTastes[foodB])
+            lTaste_B_ind.append(foodB)
+        for foodC in lFoods_C:
+            lTaste_C.append(lTastes[foodC])
+            lTaste_C_ind.append(foodC)
+        lTaste_BC = lTaste_B + lTaste_C
+        lTaste_BC_ind = lTaste_B_ind + lTaste_C_ind
+        for foodD in lFoods_D:
+            lTaste_D.append(lTastes[foodD])
+            lTaste_D_ind.append(foodD)
+        for foodE in lFoods_E:
+            lTaste_E.append(lTastes[foodE])
+            lTaste_E_ind.append(foodE)
+        lTaste_DE = lTaste_D + lTaste_E
+        lTaste_DE_ind = lTaste_D_ind + lTaste_E_ind
 
         for comp in C.lComparions:
             for iType in C.lTypes:
@@ -224,16 +254,31 @@ class Taste(Page):
                     lTaste2 = lTaste_BC
                     lTaste1_ind = lTaste_A_ind
                     lTaste2_ind = lTaste_BC_ind
+                    print('Comparison is AvBC.')
                 elif comp == 'AvDE':
                     lTaste1 = lTaste_A
                     lTaste2 = lTaste_DE
                     lTaste1_ind = lTaste_A_ind
                     lTaste2_ind = lTaste_DE_ind
-                else:
+                    print('Comparison is AvDE.')
+                elif comp == 'BCvDE':
                     lTaste1 = lTaste_BC
                     lTaste2 = lTaste_DE
                     lTaste1_ind = lTaste_BC_ind
                     lTaste2_ind = lTaste_DE_ind
+                    print('Comparison is BCvDE.')
+                elif comp == 'BvC':
+                    lTaste1 = lTaste_B
+                    lTaste2 = lTaste_C
+                    lTaste1_ind = lTaste_B_ind
+                    lTaste2_ind = lTaste_C_ind
+                    print('Comparison is BvC.')
+                else:
+                    lTaste1 = lTaste_D
+                    lTaste2 = lTaste_E
+                    lTaste1_ind = lTaste_D_ind
+                    lTaste2_ind = lTaste_E_ind
+                    print('Comparison is DvE.')
 
                 # initialize variables and counters
                 lIndeces_out        = []
@@ -244,6 +289,7 @@ class Taste(Page):
                 taste2_ind_count    = 0
                 dif                 = 0
                 lDifs               = []
+                lDifs_neg           = []
                 index1              = 0
                 index2              = 0
                 lIndeces            = []
@@ -255,6 +301,8 @@ class Taste(Page):
                         dif         = taste1-taste2
                         if iType == 'small':
                             lDifs.append(abs(dif))
+                            if dif <= 0:
+                                lDifs_neg.append(dif)
                         else:
                             lDifs.append(dif)
                         index1      = lTaste1_ind[taste1_ind_count]
@@ -267,7 +315,10 @@ class Taste(Page):
                 elif iType == 'largenal':
                     finaldif        = min(lDifs)
                 elif iType == 'small':
-                    finaldif        = min(lDifs)
+                    if len(lDifs_neg)>0:
+                        finaldif        = max(lDifs_neg)
+                    else:
+                        finaldif        = min(lDifs)
                 else:
                     print("You selected the wrong type.")
                 print('The difference list for ',iType,' is ',lDifs)
@@ -277,7 +328,10 @@ class Taste(Page):
                 # find (pairs of) indeces for the differences
                 for d in lDifs:
                     if iType == 'smalldif':
-                        running_dif = abs(d)
+                        if len(lDifs_neg)>0:
+                            finaldif        = max(lDifs_neg)
+                        else:
+                            finaldif        =min(lDifs)
                     else:
                         running_dif = d
                     if running_dif == finaldif:
@@ -302,13 +356,19 @@ class Taste(Page):
                         participant.lInds_AvDE_largeal = lIndeces_out
                     else:
                         participant.lInds_AvDE_largenal = lIndeces_out
-                else:
+                elif comp == 'BCvDE':
                     if iType == 'small':
                         participant.lInds_BCvDE_small = lIndeces_out
                     elif iType == 'largeal':
                         participant.lInds_BCvDE_largeal = lIndeces_out
                     else:
                         participant.lInds_BCvDE_largenal = lIndeces_out
+                elif comp == 'BvC':
+                    if iType == 'largenal':
+                        participant.lInds_BvC_largenal = lIndeces_out
+                else:
+                    if iType == 'largenal':
+                        participant.lInds_DvE_largenal = lIndeces_out
 
         # save final lists to participant fields
         participant.lTastes=lTastes
@@ -327,15 +387,21 @@ class Taste(Page):
         participant     = player.participant
         lFoods_A        = participant.lFoods_A
         lFoods_BC       = participant.lFoods_BC
+        lFoods_B       = participant.lFoods_B
+        lFoods_C       = participant.lFoods_C
         lFoods_DE       = participant.lFoods_DE
+        lFoods_D       = participant.lFoods_D
+        lFoods_E       = participant.lFoods_E
 
-        iLenAvBC = len(lFoods_A)*len(lFoods_BC)
-        iLenAvDE = len(lFoods_A)*len(lFoods_DE)
-        iLenBCvDE = len(lFoods_BC)*len(lFoods_DE)
+        iLenAvBC        = len(lFoods_A)*len(lFoods_BC)
+        iLenAvDE        = len(lFoods_A)*len(lFoods_DE)
+        iLenBCvDE       = len(lFoods_BC)*len(lFoods_DE)
+        iLenBvC         = len(lFoods_B)*len(lFoods_C)
+        iLenDvE         = len(lFoods_D)*len(lFoods_E)
 
         # validate food lists and skip to last page if invalid length is true
         bInvalidlen = False
-        if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9:
+        if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9 or iLenBvC < 3 or iLenDvE <3:
             bInvalidlen = True
         else:
             print("Foodlist is valid.")

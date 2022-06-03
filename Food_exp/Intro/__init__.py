@@ -63,7 +63,7 @@ class Player(BasePlayer):
         choices = [
             [1, (C.Endowment)],
             [2, (C.Endowment+' - the price of the food item + the food item.')],
-            [3, (C.Endowment+' 5€ + the food item.')]
+            [3, (C.Endowment+'+ the food item.')]
     ]
 )
 

@@ -78,101 +78,125 @@ class Player(BasePlayer):
     # EQ_1
     Dull1 = models.BooleanField(
         blank = True,
-        label = "Dull, Bored" 
+        label = "Dull, Bored",
+        initial = 0
     )
     Happy1 = models.BooleanField(
         blank = True,
-        label = "Happy, Satisfied"
+        label = "Happy, Satisfied",
+        initial = 0
     )
     Active1 = models.BooleanField(
         blank = True,
-        label = "Active, Alert"
+        label = "Active, Alert",
+        initial = 0
     )
     Unhappy1 = models.BooleanField(
         blank = True,
-        label = "Unhappy, Dissatisfied"
+        label = "Unhappy, Dissatisfied",
+        initial = 0
     )
     Energetic1 = models.BooleanField(
         blank = True,
-        label = "Energetic, Excited"
+        label = "Energetic, Excited",
+        initial = 0
     )
     Nervous1 = models.BooleanField(
         blank = True,
-        label = "Jittered, Nervous"
+        label = "Jittered, Nervous",
+        initial = 0
     )
     Calm1 = models.BooleanField(
         blank = True,
-        label = "Relaxed, Calm"
+        label = "Relaxed, Calm",
+        initial = 0
     )
     Secure1 = models.BooleanField(
         blank = True,
-        label = "Secure, At ease"
+        label = "Secure, At ease",
+        initial = 0
     )
     Passive1 = models.BooleanField(
         blank = True,
-        label = "Passive, Quiet"
+        label = "Passive, Quiet",
+        initial = 0
     )
     Blue1 = models.BooleanField(
         blank = True,
-        label = "Blue, Uninspired"
+        label = "Blue, Uninspired",
+        initial = 0
     )
     Enthusiastic1 = models.BooleanField(
         blank = True,
-        label = "Enthusiastic, Inspired"
+        label = "Enthusiastic, Inspired",
+        initial = 0
     )
     Tense1 = models.BooleanField(
         blank = True,
-        label = "Tense, Bothered"
+        label = "Tense, Bothered",
+        initial = 0
     )
 
     # EQ_2
     Dull2 = models.BooleanField(
         blank = True,
-        label = "Dull, Bored" 
+        label = "Dull, Bored",
+        initial = 0 
     )
     Happy2 = models.BooleanField(
         blank = True,
-        label = "Happy, Satisfied"
+        label = "Happy, Satisfied",
+        initial = 0
     )
     Active2 = models.BooleanField(
         blank = True,
-        label = "Active, Alert"
+        label = "Active, Alert",
+        initial = 0
     )
     Unhappy2 = models.BooleanField(
         blank = True,
-        label = "Unhappy, Dissatisfied"
+        label = "Unhappy, Dissatisfied",
+        initial = 0
     )
     Energetic2 = models.BooleanField(
         blank = True,
-        label = "Energetic, Excited"
+        label = "Energetic, Excited",
+        initial = 0
     )
     Nervous2 = models.BooleanField(
         blank = True,
-        label = "Jittered, Nervous"
+        label = "Jittered, Nervous",
+        initial = 0
     )
     Calm2 = models.BooleanField(
         blank = True,
-        label = "Relaxed, Calm"
+        label = "Relaxed, Calm",
+        initial = 0
     )
     Secure2 = models.BooleanField(
         blank = True,
-        label = "Secure, At ease"
+        label = "Secure, At ease",
+        initial = 0
     )
     Passive2 = models.BooleanField(
         blank = True,
-        label = "Passive, Quiet"
+        label = "Passive, Quiet",
+        initial = 0
     )
     Blue2 = models.BooleanField(
         blank = True,
-        label = "Blue, Uninspired"
+        label = "Blue, Uninspired",
+        initial = 0
     )
     Enthusiastic2 = models.BooleanField(
         blank = True,
-        label = "Enthusiastic, Inspired"
+        label = "Enthusiastic, Inspired",
+        initial = 0
     )
     Tense2 = models.BooleanField(
         blank = True,
-        label = "Tense, Bothered"
+        label = "Tense, Bothered",
+        initial = 0
     )
 
 # PAGES

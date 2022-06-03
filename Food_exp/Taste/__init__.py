@@ -161,14 +161,17 @@ class Taste(Page):
         # taste counter tracks the counter of the updated taste list (if no item removed, taste_counter and taste_num 
         # are equal)
         taste_counter = 0
-        for taste_num in range(len(lTastes)):
+        for taste_num in range(len(lTastes)): 
             value = lTastes[taste_counter]
             if value == 1:
-                lTastes.remove(lTastes[taste_counter])
-                lFoods.remove(lFoods[taste_counter])
-                lNutri.remove(lNutri[taste_counter])
+                del lTastes[taste_counter]
+                del lFoods[taste_counter]
+                del lNutri[taste_counter]
                 taste_counter = taste_counter - 1
             taste_counter = taste_counter + 1
+        print('Tastes are: ',lTastes)
+        print('The names are: ',lFoods)
+        print('Nutri-Scores are: ',lNutri)
         
         # aggregating items in A, BC and DE
         lFoods_A            = []
@@ -176,31 +179,36 @@ class Taste(Page):
         for itemA in lNutri:
             if itemA == 1:
                 lFoods_A.append(score_count)
+                print('The following item is in Foods A: ',lFoods[score_count])
             score_count     = score_count + 1
         lFoods_B            = []
         score_count         = 0
         for itemB in lNutri:
             if itemB == 2:
                 lFoods_B.append(score_count)
+                print('The following item is in Foods B: ',lFoods[score_count])
             score_count     = score_count + 1
         lFoods_C            = []
         score_count         = 0
         for itemC in lNutri:
             if itemC == 3:
                 lFoods_C.append(score_count)
+                print('The following item is in Foods C: ',lFoods[score_count])
             score_count     = score_count + 1
         lFoods_BC = lFoods_B + lFoods_C
-        lFoods_D           = []
+        lFoods_D            = []
         score_count         = 0
         for itemD in lNutri:
             if itemD == 4:
                 lFoods_D.append(score_count)
+                print('The following item is in Foods D: ',lFoods[score_count])
             score_count     = score_count + 1
-        lFoods_E           = []
+        lFoods_E            = []
         score_count         = 0
         for itemE in lNutri:
             if itemE == 5:
                 lFoods_E.append(score_count)
+                print('The following item is in Foods E: ',lFoods[score_count])
             score_count     = score_count + 1
         lFoods_DE = lFoods_D + lFoods_E
         

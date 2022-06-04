@@ -322,7 +322,7 @@ class EQ_2(Page):
         iTreat              = participant.iRisk_treat
         lFoods              = participant.lFoods
         # import low and high risk food list
-        lNutri                  = participant.lNutri
+        lNutri              = participant.lNutri
         lLow                = participant.lLow
         lHigh               = participant.lHigh
 
@@ -359,7 +359,7 @@ class Outro_Q(Page):
 
     form_model              = 'player'
     form_fields             = [
-        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 
+        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8','D9',
         'QT1', 'QT2', 'QT3', 'QT4', 'QT5', 'QT6', 'QT7','QT8', 'QT9', 'QT10', 'QT11', 'QT12','QT13', 'QT14', 
         'V1','V2'
         ]

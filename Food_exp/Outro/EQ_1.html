@@ -22,9 +22,9 @@
         <img class="img-rating" src="{% static info1 %}" width="150px" height="35px" />
         <p> 
             Consider the level of 
-            {{ if Treatment == 0 }} Health 
+            <b>{{ if Treatment == 0 }} Health 
             {{ else }} Risk
-            {{ endif }}. 
+            {{ endif }}. </b>
             How do you feel? Select <b>all</b> that apply. 
         </p>
         {{ for field in form }}

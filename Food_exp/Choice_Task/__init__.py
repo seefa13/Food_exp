@@ -25,18 +25,19 @@ class C(BaseConstants):
     lCombinations       = []
     lAddComps           = [
         ['BvC','lowhigh','largenal'], ['BvC','highlow','largenal'], ['BvC','eq','largenal'],
-        ['DvE', 'lowhigh', 'largenal'], ['DvE', 'highlow', 'largenal'], ['DvE', 'eq', 'largenal']
+        ['DvE','lowhigh','largenal'], ['DvE','highlow','largenal'], ['DvE','eq','largenal']
     ]
-    lForbidden          = [['AvBC','lowhigh','largeal'],['AvDE','lowhigh','largeal'],['BCvDE','lowhigh','largeal']]
+    lForbidden          = [['AvBC', 'lowhigh', 'largeal'],['AvDE', 'lowhigh', 'largeal'],['BCvDE', 'lowhigh', 'largeal']]
+    
     for comp in lComparisons:
         for pricetype in lPricetypes:
             for type in lTypes:
-                if type not in lForbidden:
+                if pricetype != 'lowhigh' or type != 'largeal':
                     lCombinations.append([comp,pricetype,type])
     for addition in lAddComps:
         lCombinations.append(addition)
-    
-    #print('The combinations are ',combinations)
+
+    print('The combinations are ',lCombinations)
 
 class Subsession(BaseSubsession):
     pass
@@ -53,7 +54,7 @@ class Player(BasePlayer):
     sRowsRevealed       = models.LongStringField()   
     sTimesRows          = models.LongStringField()
     dTime2First         = models.FloatField(blank=True)
-    ## focus Variables
+    # focus Variables
     iFocusLost          = models.IntegerField(blank=True)
     dFocusLostT         = models.FloatField(blank=True)
     iFullscreenChange   = models.IntegerField(blank=True)
@@ -128,6 +129,7 @@ class Choice(Page):
         # find product, price and taste combinations, check whether previously used and add to participant field
         rn = player.round_number
         prn = C.NUM_PROUNDS
+
         # randomize
         if rn == 1:
             combinations    = list(C.lCombinations)
@@ -141,6 +143,7 @@ class Choice(Page):
                 for comb in combinations:
                     if comb[0] == 'DvE':
                         combinations.remove(comb)
+                        print('Combination',comb,'has been removed.')
                 randCombs       = random.sample(combinations,len(combinations))
                 participant.randCombs = randCombs
             else:
@@ -168,9 +171,6 @@ class Choice(Page):
         lInds_BCvDE_small = participant.lInds_BCvDE_small 
         lInds_BCvDE_largeal = participant.lInds_BCvDE_largeal
         lInds_BCvDE_largenal = participant.lInds_BCvDE_largenal
-
-        lInds_BvC_largenal = participant.lInds_BvC_largenal
-        lInds_DvE_largenal = participant.lInds_DvE_largenal
 
         # Choose a list for current indeces
 
@@ -209,12 +209,11 @@ class Choice(Page):
         participant.Foods_sel = Finalinds
         item1 = lFoods[Finalinds[0]]
         item2 = lFoods[Finalinds[1]]
-        print('The food items used are ',item1,' and ',item2)
+        print('The food items used are ',item1,' (Nutri-Score: ',lNutri[Finalinds[0]],') and ',item2,' (Nutri-Score: ',lNutri[Finalinds[1]],')')
 
         ## assign cells for template
         # price
         prices              = list(C.lPrices)
-        print('The price list is',prices)
         if curcomb[1] == 'lowhigh':
             cp1             = prices[0]
             cp2             = prices[2]

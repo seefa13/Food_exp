@@ -1,5 +1,4 @@
 from ast import ListComp
-from itertools import combinations
 from otree.api import *
 
 
@@ -46,7 +45,7 @@ class C(BaseConstants):
         3,4,3,3,2,
         2,3,5,2,4,
         3,3,4,4,1,
-        2, 4
+        2,4
     ]
     ##          A: 13 (v: 9)
     # A: 13 
@@ -262,31 +261,26 @@ class Taste(Page):
                     lTaste2 = lTaste_BC
                     lTaste1_ind = lTaste_A_ind
                     lTaste2_ind = lTaste_BC_ind
-                    print('Comparison is AvBC.')
                 elif comp == 'AvDE':
                     lTaste1 = lTaste_A
                     lTaste2 = lTaste_DE
                     lTaste1_ind = lTaste_A_ind
                     lTaste2_ind = lTaste_DE_ind
-                    print('Comparison is AvDE.')
                 elif comp == 'BCvDE':
                     lTaste1 = lTaste_BC
                     lTaste2 = lTaste_DE
                     lTaste1_ind = lTaste_BC_ind
                     lTaste2_ind = lTaste_DE_ind
-                    print('Comparison is BCvDE.')
                 elif comp == 'BvC':
                     lTaste1 = lTaste_B
                     lTaste2 = lTaste_C
                     lTaste1_ind = lTaste_B_ind
                     lTaste2_ind = lTaste_C_ind
-                    print('Comparison is BvC.')
                 else:
                     lTaste1 = lTaste_D
                     lTaste2 = lTaste_E
                     lTaste1_ind = lTaste_D_ind
                     lTaste2_ind = lTaste_E_ind
-                    print('Comparison is DvE.')
 
                 # initialize variables and counters
                 lIndeces_out        = []
@@ -329,9 +323,9 @@ class Taste(Page):
                         finaldif        = min(lDifs)
                 else:
                     print("You selected the wrong type.")
-                print('The difference list for ',iType,' is ',lDifs)
-                print('The index list is ',lIndeces)        
-                print('The difference is ',finaldif)
+                #print('The difference list for ',iType,' is ',lDifs)
+                #print('The index list is ',lIndeces)        
+                #print('The difference is ',finaldif)
 
                 # find (pairs of) indeces for the differences
                 for d in lDifs:
@@ -347,7 +341,7 @@ class Taste(Page):
                         if [index_out1,index_out2] not in lIndeces_out:
                             lIndeces_out.append([index_out1,index_out2])
                     difindex_count  = difindex_count + 1
-                print('The final index list is ',lIndeces_out)
+                #print('The final index list is ',lIndeces_out)
                 
         # save final index list for every one of the 9 combinations
                 if comp == 'AvBC':

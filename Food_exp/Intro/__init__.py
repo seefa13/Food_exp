@@ -17,6 +17,7 @@ def creating_session(subsession):
             # assign treatments
             participant                     = player.participant
             participant.iRisk_treat         = random.choice(iHealth)
+    print('The treatment is ',participant.iRisk_treat)
 
 
 class C(BaseConstants):
@@ -32,7 +33,7 @@ class C(BaseConstants):
     intro_choose        = 'global/figures/intro_choose.png'
 
     # general variables
-    AvgDur              = "10-15"                               # average duration
+    AvgDur              = "15-20"                               # average duration
     PaidParts           = "20"                                  # how many participants are being paid out
     Endowment           = "5€"                                  # endowment
     NumTrials           = "30"                                  # number of trials

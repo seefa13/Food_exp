@@ -106,14 +106,16 @@ const firstQuestions = [
     {
         question: "What is your highest completed education?",
         name: "D8",
-        type: "autocomplete",
-        list: education,
+        type: "radio",
+        values: [1,2,3,4,5],
+        labels: education,
     },
     {
         question: "What is your current status of employment?",
         name: "D9",
-        type: "autocomplete",
-        list: occupation,
+        type: "radio",
+        values: [1,2,3,4,5],
+        labels: occupation,
     },
     {
         question: "For the following questions, please answer each of these questions in terms of the way you generally feel. For each question simply state as honestly and candidly as you can what you are presently experiencing. Please Select '2' to show that you read these instructions.",

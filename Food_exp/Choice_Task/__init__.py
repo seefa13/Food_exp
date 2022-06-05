@@ -136,7 +136,7 @@ class Choice(Page):
             if len(lInds_BvC_largenal) == 0:
                 for comb in combinations:
                     if comb[0] == 'BvC':
-                        sReplace = random.choice('AvBC','AvDE','BCvDE')
+                        sReplace = random.choice(['AvBC','AvDE','BCvDE'])
                         comb[0] == sReplace
                         print('Combination',comb,'has been replaced.')
                 randCombs       = random.sample(combinations,len(combinations))
@@ -144,14 +144,18 @@ class Choice(Page):
             elif len(lInds_DvE_largenal) == 0:
                 for comb in combinations:
                     if comb[0] == 'DvE':
-                        sReplace = random.choice('AvBC','AvDE','BCvDE')
-                        comb[0] == sReplace
-                        print('Combination',comb,'has been replaced.')
+                        sReplace = random.choice(['AvBC','AvDE','BCvDE'])
+                        print('Will be replaced by ',sReplace)
+                        newcomb = [sReplace,comb[1],comb[2]]
+                        combinations[combinations.index(comb)] = newcomb
+                        print('Combination',comb,'has been replaced and is now ',newcomb)
+                print('Combinations are now: ',combinations)
                 randCombs       = random.sample(combinations,len(combinations))
                 participant.randCombs = randCombs
             else:
                 randCombs       = random.sample(combinations,len(combinations))
                 participant.randCombs = randCombs
+            print('The randomized combinations are: ',randCombs)
         else:
             randCombs = participant.randCombs
         

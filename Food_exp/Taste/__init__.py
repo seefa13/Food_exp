@@ -29,11 +29,11 @@ class C(BaseConstants):
         'a Banana',             'Strawberries',         'Chia seeds',       'Chips',                    'Salmon',
         'a Vegetable mix',      'White Beans',          'Yogurt',           'Whole Grain Bread (vegan)','a Chickenfilet',
         'Chocolate (vegan)',    'a Croissant (vegan)',  'Pork',             'a sugarfree Mueslibar',    'Water',
-        'Cheese (vegan)',       'a Boiled Egg',         'Banana chips',     'a Berrysmoothie (vegan)',  'Vanilla Ice Cream (vegan)',
+        'Cheese (vegan)',       'a Boiled Egg',         'Banana chips',     'a Berrysmoothie (vegan)',  'Ice Cream (vegan)',
         'salted Cashews',       'smoked Salmon',        'Hummus',           'sweetened Cranberries',    'sweetened Yogurt (Soja)',
         'White Bread (vegan)',  'a breaded Chicken filet','Butter (vegan)', 'Milk',                     'a Sausage (Pork)',        
         'a sweetened Mueslibar','Lemonade',             'Cheese',           'Crackers',                 'a Soja-Drink',
-        'Ravioli Funghi',       'salted Popcorn'
+        'Ravioli',       'salted Popcorn'
     ]
 
     # health scores
@@ -297,51 +297,54 @@ class Taste(Page):
                 lIndeces            = []
 
                 # find largest difference aligned and not aligned with health rating and smallest difference
-                for taste1 in lTaste1:
-                    taste2_ind_count=0
-                    for taste2 in lTaste2:
-                        dif         = taste1-taste2
-                        if iType == 'small':
-                            lDifs.append(abs(dif))
-                            if dif <= 0:
-                                lDifs_neg.append(dif)
-                        else:
-                            lDifs.append(dif)
-                        index1      = lTaste1_ind[taste1_ind_count]
-                        index2      = lTaste2_ind[taste2_ind_count]
-                        lIndeces.append([index1,index2])
-                        taste2_ind_count = taste2_ind_count +1
-                    taste1_ind_count = taste1_ind_count +1
-                if iType == 'largeal':
-                    finaldif        = max(lDifs)
-                elif iType == 'largenal':
-                    finaldif        = min(lDifs)
-                elif iType == 'small':
-                    if len(lDifs_neg)>0:
-                        finaldif        = max(lDifs_neg)
-                    else:
+                try: 
+                    for taste1 in lTaste1:
+                        taste2_ind_count=0
+                        for taste2 in lTaste2:
+                            dif         = taste1-taste2
+                            if iType == 'small':
+                                lDifs.append(abs(dif))
+                                if dif <= 0:
+                                    lDifs_neg.append(dif)
+                            else:
+                                lDifs.append(dif)
+                            index1      = lTaste1_ind[taste1_ind_count]
+                            index2      = lTaste2_ind[taste2_ind_count]
+                            lIndeces.append([index1,index2])
+                            taste2_ind_count = taste2_ind_count +1
+                        taste1_ind_count = taste1_ind_count +1
+                    if iType == 'largeal':
+                        finaldif        = max(lDifs)
+                    elif iType == 'largenal':
                         finaldif        = min(lDifs)
-                else:
-                    print("You selected the wrong type.")
-                #print('The difference list for ',iType,' is ',lDifs)
-                #print('The index list is ',lIndeces)        
-                #print('The difference is ',finaldif)
-
-                # find (pairs of) indeces for the differences
-                for d in lDifs:
-                    if iType == 'smalldif':
+                    elif iType == 'small':
                         if len(lDifs_neg)>0:
                             finaldif        = max(lDifs_neg)
                         else:
-                            finaldif        =min(lDifs)
+                            finaldif        = min(lDifs)
                     else:
-                        running_dif = d
-                    if running_dif == finaldif:
-                        index_out1, index_out2 = lIndeces[difindex_count]
-                        if [index_out1,index_out2] not in lIndeces_out:
-                            lIndeces_out.append([index_out1,index_out2])
-                    difindex_count  = difindex_count + 1
-                #print('The final index list is ',lIndeces_out)
+                        print("You selected the wrong type.")
+                    #print('The difference list for ',iType,' is ',lDifs)
+                    #print('The index list is ',lIndeces)        
+                    #print('The difference is ',finaldif)
+
+                    # find (pairs of) indeces for the differences
+                    for d in lDifs:
+                        if iType == 'smalldif':
+                            if len(lDifs_neg)>0:
+                                finaldif        = max(lDifs_neg)
+                            else:
+                                finaldif        =min(lDifs)
+                        else:
+                            running_dif = d
+                        if running_dif == finaldif:
+                            index_out1, index_out2 = lIndeces[difindex_count]
+                            if [index_out1,index_out2] not in lIndeces_out:
+                                lIndeces_out.append([index_out1,index_out2])
+                        difindex_count  = difindex_count + 1
+                    #print('The final index list is ',lIndeces_out)
+                except:
+                    lIndeces_out = []
                 
         # save final index list for every one of the 9 combinations
                 if comp == 'AvBC':
@@ -397,7 +400,7 @@ class Taste(Page):
 
         # validate food lists and skip to last page if invalid length is true
         bInvalidlen = False
-        if iLenAvBC < 9 or iLenAvDE < 9 or iLenBCvDE < 9:
+        if iLenAvBC < 3 or iLenAvDE < 3 or iLenBCvDE < 3:
             bInvalidlen = True
         else:
             print("Foodlist is valid.")

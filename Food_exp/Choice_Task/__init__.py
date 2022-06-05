@@ -132,18 +132,21 @@ class Choice(Page):
 
         # randomize
         if rn == 1:
-            combinations    = list(C.lCombinations)
+            combinations        = list(C.lCombinations)
             if len(lInds_BvC_largenal) == 0:
                 for comb in combinations:
                     if comb[0] == 'BvC':
-                        combinations.remove(comb)
+                        sReplace = random.choice('AvBC','AvDE','BCvDE')
+                        comb[0] == sReplace
+                        print('Combination',comb,'has been replaced.')
                 randCombs       = random.sample(combinations,len(combinations))
                 participant.randCombs = randCombs
             elif len(lInds_DvE_largenal) == 0:
                 for comb in combinations:
                     if comb[0] == 'DvE':
-                        combinations.remove(comb)
-                        print('Combination',comb,'has been removed.')
+                        sReplace = random.choice('AvBC','AvDE','BCvDE')
+                        comb[0] == sReplace
+                        print('Combination',comb,'has been replaced.')
                 randCombs       = random.sample(combinations,len(combinations))
                 participant.randCombs = randCombs
             else:

@@ -47,27 +47,27 @@ function tasteQ() {
     var Fooditem_b = Foodlist.at(indexQ).bold();
     indexF = indexF + 1;
     if (Fooditem == 'Water' || Fooditem == 'Milk' || Fooditem == 'a Soja-Drink' || Fooditem == 'Lemonade' || Fooditem == 'a Berrysmoothie (vegan)') {
-        var Q = "Think only about the taste. On a scale from 1 to 5, how much would you like to drink "+Fooditem_b+". Remember that, 1s will be excluded.";
+        var Q = "Imagine drinking "+Fooditem_b+" and rate only the taste. If you cannot drink that due to other reasons, press '1'.";
     } else {
-        var Q = "Think only about the taste. On a scale from 1 to 5, how much would you like to eat "+Fooditem_b+". Remember that, 1s will be excluded.";   
+        var Q = "Imagine eating "+Fooditem_b+" and rate only the taste. If you cannot eat that due to other reasons, press '1'.";   
     };
     return Q;
 };
 
-const likertScale = [ 'Would never like to eat', 'Would most likely not like to eat', 'Neutral', 'Would most likely not like to eat', 'Would definitely like to eat'];
+const likertScale = [ 'not tasty at all', 'mostly untasty', 'Neutral/Indifferent', 'mostly tasty', 'very tasty'];
 const likertValues = [1,2,3,4,5];
 const warningAutocomplete = 'Please select one item from the list';
 const warningEmpty = 'Please do not leave this question unanswered';
-const likertLimits = ['Would never like to eat','Would definitely like to eat'];
+const likertLimits = ['not tasty at all','very tasty'];
 const Foodlist = [
     'a Banana',             'Strawberries',         'Chia seeds',       'Chips',                    'Salmon',
     'a Vegetable mix',      'White Beans',          'Yogurt',           'Whole Grain Bread (vegan)','a Chickenfilet',
     'Chocolate (vegan)',    'a Croissant (vegan)',  'Pork',             'a sugarfree Mueslibar',    'Water',
-    'Cheese (vegan)',       'a Boiled Egg',         'Banana chips',     'a Berrysmoothie (vegan)',  'Vanilla Ice Cream (vegan)',
+    'Cheese (vegan)',       'a Boiled Egg',         'Banana chips',     'a Berrysmoothie (vegan)',  'Ice Cream (vegan)',
     'salted Cashews',       'smoked Salmon',        'Hummus',           'sweetened Cranberries',    'sweetened Yogurt (Soja)',
     'White Bread (vegan)',  'a breaded Chicken filet','Butter (vegan)', 'Milk',                     'a Sausage (Pork)',        
     'a sweetened Mueslibar','Lemonade',             'Cheese',           'Crackers',                 'a Soja-Drink',
-    'Ravioli Funghi',       'salted Popcorn'
+    'Ravioli',              'salted Popcorn'
 ];
 const Labellist = [
     'iFruit',               'iBerries',             'iSeeds',           'iChips',                   'iFish', 
@@ -86,7 +86,7 @@ introtxt1 = "honestly and candidly as you can";
 introtxt1_b = introtxt1.bold();
 introtxt2 = "incentive to state your true preference for a food product";
 introtxt2_b = introtxt2.bold();
-introtxt3 = "from '1' (I would never like to eat that) to '5' (I would definitely like to eat that)";
+introtxt3 = "from '1' (not tasty at all) to '5' (very tasty)";
 introtxt3_b = introtxt3.bold();
 introtxt4 = "excluded from the experiment";
 introtxt4_b = introtxt4.bold();

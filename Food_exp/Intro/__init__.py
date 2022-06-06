@@ -163,6 +163,7 @@ class Intro_Task(Page):
             'dPixelRatio'       : p.dPixelRatio,
         }
     
+    @staticmethod
     def vars_for_template(player: Player):
         participant = player.participant
         Treatment = participant.iRisk_treat

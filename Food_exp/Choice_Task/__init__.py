@@ -93,6 +93,7 @@ class Practice_FB(Page):
 
 
 class Fixation(Page):
+    @staticmethod
     def js_vars(player):
         bStartleft = int(random.choice([0,1]))
         return dict(
@@ -135,10 +136,13 @@ class Choice(Page):
             combinations        = list(C.lCombinations)
             if len(lInds_BvC_largenal) == 0:
                 for comb in combinations:
-                    if comb[0] == 'BvC':
+                     if comb[0] == 'BvC':
                         sReplace = random.choice(['AvBC','AvDE','BCvDE'])
-                        comb[0] == sReplace
-                        print('Combination',comb,'has been replaced.')
+                        print('Will be replaced by ',sReplace)
+                        newcomb = [sReplace,comb[1],comb[2]]
+                        combinations[combinations.index(comb)] = newcomb
+                        print('Combination',comb,'has been replaced and is now ',newcomb)
+                print('Combinations are now: ',combinations)
                 randCombs       = random.sample(combinations,len(combinations))
                 participant.randCombs = randCombs
             elif len(lInds_DvE_largenal) == 0:

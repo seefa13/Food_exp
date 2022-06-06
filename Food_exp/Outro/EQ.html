@@ -8,30 +8,32 @@
 {{ block content }}
 <div class = "game-body">
     <div class="text-container">
-        <p> One of the food products you chose was <b>{{ item2 }}</b>. </p>
-        <!-- INSERT IMAGE -->
+        <ul>
+            <li>
+                One of the food products you chose had a level of 
+                {{ if Treatment == 0 }} Health 
+                {{ else }} Risk
+                {{ endif }}
+                of 
+            </li>
+            <img class="img-rating" src="{% static info1 %}" width="150px" height="35px" />
+            <li>
+                You see 12 word pairs describing different emotional states. For each decision please select <b>all</b> the word pairs that best represent your emotional state towards that decision.
+            </li>
+        </ul>
 
-        <!-- INFORMATION -->
-        <p> 
-            The level of 
-            {{ if Treatment == 0 }} Health 
-            {{ else }} Risk
-            {{ endif }} 
-            was
-        </p>
-        <img class="img-rating" src="{% static info2 %}" width="150px" height="35px" />
         <p> 
             Consider the level of 
             <b>{{ if Treatment == 0 }} Health 
             {{ else }} Risk
-            {{ endif }}.</b>
+            {{ endif }}. </b>
             How do you feel? Select <b>all</b> that apply. 
         </p>
         {{ for field in form }}
-            <label>
-                <input type="checkbox" name="{{ field.name }}" value="1">
-                {{ field.label }}
-            </label><br>
+        <label>
+            <input type="checkbox" name="{{ field.name }}" value="1">
+            {{ field.label }}
+        </label><br>
         {{ endfor }}
         
         <button id="next" class="button next-button"> Next </button>

@@ -67,7 +67,7 @@ PARTICIPANT_FIELDS = [
     # taste list
     'lTastes',
     # working data
-    'randCombs','practice_item','practice_price1','practice_price2','practice_price','EQ_order',
+    'randCombs','practice_item','practice_price1','practice_price2','practice_price','EQ_lowhigh',
     ####
     'lInds_AvBC_small','lInds_AvBC_largeal','lInds_AvBC_largenal',
     'lInds_AvDE_small','lInds_AvDE_largeal','lInds_AvDE_largenal',
@@ -75,7 +75,7 @@ PARTICIPANT_FIELDS = [
     'lInds_BvC_largenal','lInds_DvE_largenal',
     ####
     # content checks
-    'bInvalidlen','bShow_low','bShow_high',
+    'bInvalidlen',
     # friendly checks
     'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
     # selected food items

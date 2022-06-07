@@ -28,6 +28,10 @@
 li {
     margin-top: 0.5em;
     text-align: left;
+    font-family: 'Work Sans', sans-serif;
+}
+p {
+    font-family: 'Work Sans', sans-serif;
 }
 .text-reveal {
     visibility: hidden;
@@ -70,4 +74,8 @@ li {
     justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
+}
+.symbol {
+    width: 3%;
+    height: auto;
 }

@@ -11,7 +11,7 @@ This app contains a gernal introduction to otree and the task.
 
 # initialize treatments 
 def creating_session(subsession):
-    iHealth = [0, 1] # 0 is baseline, 1 is risk label, 2 is concrete risk
+    iHealth = [0, 1] # 0 is baseline, 1 is risk 
     if subsession.round_number == 1:
         for player in subsession.get_players():
             # assign treatments

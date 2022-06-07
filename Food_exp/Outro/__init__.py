@@ -11,8 +11,10 @@ class C(BaseConstants):
     NAME_IN_URL = 'Outro'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+
     # image path for taste and health/risk attribute
     sImagePath          = 'global/figures/'
+
     # Create list of shuffled emotions for form fields
     Emotions            = ['Dull','Happy','Active','Unhappy','Energetic','Nervous','Calm','Secure','Passive','Blue','Enthusiastic','Tense']
 
@@ -144,41 +146,43 @@ class EQ(Page):
         participant                 = player.participant
         bInvalidlen                 = participant.bInvalidlen
 
-        # import low and high risk food list if length of taste array is valid
-        lNutri                  = participant.lNutri
-        lSel_Items              = participant.lSel_Items
-        bShow                   = False
-        score_count             = 0
-        EQ_lowhigh              = random.choice(['low','high'])
-        print('The participant sees a ',EQ_lowhigh,' risk product.')
-        participant.EQ_lowhigh  = EQ_lowhigh
+        # create low and high risk food list depending on assignment
+        lNutri                      = participant.lNutri
+        lSel_Items                  = participant.lSel_Items
+        bShow                       = False
+        score_count                 = 0
+        sEQ_lowhigh                 = random.choice(['low','high'])
+        participant.sEQ_lowhigh     = sEQ_lowhigh
+        print('The participant sees a ',sEQ_lowhigh,' risk product.')
 
         # aggregate decisions in low (Nutri = 1) and high (Nutri = 4 || Nutri = 5) risk food lists
-        if EQ_lowhigh == 'low':
-            lLow                = []
-            score_count         = 0
+        if sEQ_lowhigh == 'low':
+            lLow                    = []
+            score_count             = 0
             for score in lNutri:
                 if score == 1:
                     lLow.append(score_count)
-                score_count     = score_count + 1
-            participant.lLow    = lLow
+                score_count         = score_count + 1
             for item in lSel_Items:
                 for lowitem in lLow:
                     if item == lowitem:
-                        bShow  = True
+                        bShow       = True
+            participant.lLowHigh    = lLow
+
         else:
             lHigh = []
-            score_count         = 0
+            score_count             = 0
             for score in lNutri:
                 if score == 4 or score == 5:
                     lHigh.append(score_count)
-                score_count     = score_count + 1
-            participant.lHigh    = lHigh
+                score_count         = score_count + 1
             for item in lSel_Items:
                 for highitem in lHigh:
                     if item == highitem:
                             bShow   = True
+            participant.lLowHigh    = lHigh
 
+        # show page if valid length and food items in list
         return bShow and not bInvalidlen
 
     form_model = 'player'
@@ -189,34 +193,23 @@ class EQ(Page):
         participant         = player.participant
         lSel_Items          = participant.lSel_Items
         iTreat              = participant.iRisk_treat
-        lFoods              = participant.lFoods
         lNutri              = participant.lNutri
-        EQ_lowhigh          = participant.EQ_lowhigh
         
-        # choose one item randomly and check whether it applies to the order condition
-        if EQ_lowhigh == 'low':
-            lLow                = participant.lLow
-            randsel         = random.randint(0,len(lSel_Items)-1)
-            randItem        = lSel_Items[randsel]
-            while randItem not in lLow:
-                randsel     = random.randint(0,len(lSel_Items)-1)
-                randItem    = lSel_Items[randsel]
-        else:
-            lHigh               = participant.lHigh
-            randsel         = random.randint(0,len(lSel_Items)-1)
-            randItem        = lSel_Items[randsel]
-            while randItem not in lHigh:
-                randsel     = random.randint(0,len(lSel_Items)-1)
-                randItem    = lSel_Items[randsel]            
-        item1               = lFoods[randItem]
+        # choose one item randomly and check whether it applies to the order condition        
+        lLowHigh                = participant.lLowHigh
+        randsel                 = random.randint(0,len(lSel_Items)-1)
+        randItem                = lSel_Items[randsel]
+        while randItem not in lLowHigh:
+            randsel             = random.randint(0,len(lSel_Items)-1)
+            randItem            = lSel_Items[randsel]
+
         if iTreat == 0:
-            info1             = C.sImagePath+'Nutri_'+str(lNutri[randItem])+'.png'
+            info1               = C.sImagePath+'Nutri_'+str(lNutri[randItem])+'.png'
         else:
-            info1             = C.sImagePath+'Risk_'+str(lNutri[randItem])+'.png'
+            info1               = C.sImagePath+'Risk_'+str(lNutri[randItem])+'.png'
         return dict(
-            item1           = item1,
-            info1           = info1,
-            Treatment       = iTreat
+            info1               = info1,
+            Treatment           = iTreat
         )
 
 
@@ -237,10 +230,12 @@ class Outro_Q(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
         participant         = player.participant
+
         # validate questionnaire
         valid1              = int(int(player.V1)==2)
         valid2              = int(int(player.V2)==1)
         participant.validQuestionnaire = valid1 + valid2
+
         # calculate CR, EE and PA score if nothing went wrong, save NA otherwise
         try:
             CR_score        = (int(player.QT1)+int(player.QT2)+int(player.QT3)+int(player.QT4)+int(player.QT5)+int(player.QT6))/6
@@ -250,11 +245,13 @@ class Outro_Q(Page):
             CR_score        = 'NA'
             EE_score        = 'NA'
             PA_score        = 'NA'
+
         participant.CR_score = CR_score
         participant.EE_score = EE_score
         participant.PA_score = PA_score
 
 
+# last page if not excluded
 class Goodbye(Page):
     @staticmethod
     def is_displayed(player):
@@ -266,6 +263,7 @@ class Goodbye(Page):
     form_fields             = ['mail']
 
 
+# last page if excluded
 class Exclude(Page):
     @staticmethod
     def is_displayed(player):

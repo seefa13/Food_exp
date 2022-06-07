@@ -67,19 +67,18 @@ PARTICIPANT_FIELDS = [
     # taste list
     'lTastes',
     # working data
-    'randCombs','practice_item','practice_price1','practice_price2','practice_price','EQ_lowhigh',
-    ####
+    'randCombs','practice_item','practice_price1','practice_price2','practice_price','sEQ_lowhigh','lLowHigh',
+    # indeces by comparison
     'lInds_AvBC_small','lInds_AvBC_largeal','lInds_AvBC_largenal',
     'lInds_AvDE_small','lInds_AvDE_largeal','lInds_AvDE_largenal',
     'lInds_BCvDE_small','lInds_BCvDE_largeal','lInds_BCvDE_largenal',
     'lInds_BvC_largenal','lInds_DvE_largenal',
-    ####
     # content checks
     'bInvalidlen',
     # friendly checks
     'dTimeOutFocus','iOutFocus','iFullscreenChanges','dPixelRatio','bRequireFS','bCheckFocus','startTime',
     # selected food items
-    'lSel_Items','Foods_sel','lLow','lHigh',
+    'lSel_Items','lFoods_sel','lLow','lHigh',
     # validations and controls
     'validQuestionnaire','validTasteQ','CR_score','EE_score','PA_score'
     ]
